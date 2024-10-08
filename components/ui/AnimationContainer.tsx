@@ -1,7 +1,13 @@
 "use client";
 
-import { AnimationContainerProps } from '@/types';
+import { ReactNode } from 'react';
 import { motion } from 'framer-motion';
+
+interface AnimationContainerProps {
+  children: ReactNode;
+  customClassName?: string;
+  customDelay?: number;
+}
 
 const AnimationContainer = ({ children, customClassName, customDelay = 0.3 }: AnimationContainerProps) => {
     return (
@@ -12,9 +18,7 @@ const AnimationContainer = ({ children, customClassName, customDelay = 0.3 }: An
             viewport={{ once: false }}
             transition={{ delay: customDelay, duration: 0.2, ease: 'easeInOut', type: 'spring', stiffness: 260, damping: 20 }}
         >
-
             {children}
-
         </motion.div>
     )
 };
