@@ -1,0 +1,460 @@
+---
+title: 'Data Sharding'
+date: '2024-07-24'
+lastmod: '2024-07-24'
+tags: ['System Design']
+authors: ['enscribe']
+summary: "Divide and conquer your data for seamless scalability."
+thumbnail: '/static/images/actf-2023/Sharding.png'
+images: ['/static/images/actf-2023/Sharding.webp']
+layout: PostLayout
+---
+
+## Intro
+
+Any application or website that sees significant growth will eventually need to scale in order to accommodate increases in traffic. Imagine you created a product and its now finally started getting some traction and from your active customers. It has features and generating more data everyday.
+For data-driven application and websites, its critical that scaling is done the right way that ensures the security and interity of the data. 
+When your database becomes effectively so large reading out of it is taking time, indicating that the database is becoming a bottleneck for your application. 
+And that's where database sharding comes into play.
+
+---
+
+## What is Database Sharding?
+
+[Database sharding](https://en.wikipedia.org/wiki/Shard_(database_architecture)) is the process of making partition process of partitions of data in database or search engine, such that the data is divided into distinct chunks or logical shards or just shards.
+Sharding is a common scalability strategy used when designing server side system. The server side system architecture uses concepts like sharding to make system more scalable, reliable and performant.
+
+Using this technique we basically split the a large dataset into smaller shards and store these chunks of information in different databases or nodes,reffered to as the physical shards. Each shards has the same database schema as the original database. This means that the shards are autonomous; they don’t share any of the same data or computing resources. In some cases, though, it may make sense to replicate certain tables into each shard to serve as reference tables. For example, let’s say there’s a database for an application that depends on fixed conversion rates for weight measurements. By replicating a table containing the necessary conversion rate data into each shard, it would help to ensure that all of the data required for queries is held in every shard. Exemplifying [shared-nothing architecture.](https://en.wikipedia.org/wiki/Shared-nothing_architecture)
+
+The data is distributed in such a way that each row appears in exactly one shard. By using sharding the database, allows our application to make less queries. For example,  When it recieves a request, the application knows where to route the request and thus it has to look through less data , rather going through the whole database. Therefore, making your application performant and lets you rest easier and also not having to worry about the scalabilty.
+
+Lets understand this concept with an analogy,  
+
+Here we have partitioned the data according to each different servers, which will thereby be taking the load of the request which are being sent by our customer to our database. So for that we assign server a request-id, so that each server works in its own proximity of ids assigned to them, beforehand. Here we've partioned the data and indexed along a keyID. This kind of the partioning which uses index or a key to break the data into pieces and allocate them towards different servers is known as Horizontal Partioning. 
+
+Horizontal sharding- When each new table has the same schema but unique rows, it is known as horizontal sharding. In this type of sharding, more machines are added to an existing stack to spread out the load, increase processing speed and support more traffic. This method is most effective when queries return a subset of rows that are often grouped together. Horizontal Partioning depends on one key, which is the attribute of the data that you're storing to partion the data. In contrast, there is vertical partioning as well which uses columns of the data to partion the data.
+
+Vertical sharding- When each new table has a schema that is a faithful subset of the original table's schema, it is known as vertical sharding. It is effective when queries usually return only a subset of columns of the data.
+
+<Box
+    text="**Warning**: After a database is sharded, the data in the new tables is spread across multiple systems, but with partitioning, that is not the case. Partitioning groups data subsets within a single database instance."
+    type="warning"
+/>
+
+It can be helpful to think of horizontal partitioning in terms of how it relates to vertical partitioning. In a vertically-partitioned table, entire columns are separated out and put into new, distinct tables. The data held within one vertical partition is independent from the data in all the others, and each holds both distinct rows and columns. The following diagram illustrates how a table could be partitioned both horizontally and vertically:
+
+
+<Box
+    text="**Note**:Please keep in mind that the servers, we're talking about here are database servers."
+    type="summary"
+/>
+
+You can contrast it with application servers, platform servers which do deal with data but they try to be stateless as possible. Here consistency is really important, it is the key attributes for any database data you persit in it, is what you can read out if it later on. There should be some sort of synchronization that if a user makes an update the request is going to read that update.
+
+We should also look into the availablity of the database, meaning that the database should not crash and stay down. As enterprise, we want our database should be up running.
+Consistency trumps availabilty, in most cases. 
+
+There are few things to think about, like what should you shard your data on? Suppose we shard on userID or in the case of any application that are working with geolocation databases like Tinder, Uber. Any company that is trying to solve travelling salesman problem like the grocery or food delivery business like Zepto. We can shard data on  'location', then if a query comes thats asks for all the users or warehouses nearby in city_X. The city_X will fall in specific shard and the algorithm will read route itself. The shard is going to be smaller in size, also its going to be easier to maintain giving us an optimal solution to the problem.
+
+## Pros and Cons
+Sharding is a horizontal scaling strategy. This approach is more robust and effective than vertical scaling. Vertical scaling is much more easier to execute, since it consist of only hardware upgrades. It might be a correct approach for a mid-sized company database that is slowly reaching its limit. However, it is impossible to scale a system that has an
+so it has both upsides and also the downside to it:
+
+-   It improves the performance and increases the information retrival. Based on the sharding key, the database system immmediately knows which shard contains the data. It quickly route itself to the right server.
+-   It can be cost effective to run multiple-server rather than one big monolith.
+-   Sharding can simplify upgrades, allowing one server to be upgraded at a time.
+-   A sharded approach is more resilient. If one of the servers is offline, the remaining shards are still accessible. Sharding can be combined with high availability techniques for even higher reliability.
+
+Unfortunately, sharding also has drawbacks. Some of the downsides include:
+-   Sharding greatly increases the complexity of a software development project. Additional logic is required to shard the database and properly direct queries to the correct shard. This increases development time and cost. A more elaborate network mesh is often necessary, which leads to an increase in lab and infrastructure costs.
+-   Sharding requires a lot of tuning and tweaking as the database grows. This sometimes requires a reconsideration of the entire sharding strategy and database design. Uneven shard distribution can happen even with proper planning, causing the distribution to unexpectedly become lopsided.
+-   It is not always obvious how many shards and servers to use, or how to choose the sharding key. Poor sharding keys can adversely affect performance or data distribution. This causes some shards to be overloaded while others are almost empty, leading to hotspots and inefficiencies
+-   It is more challenging to change the database schema after sharding is implemented. It is also difficult to convert the database back to its pre-sharded state.
+-   Sharding increases the complexity of a database and increases the difficulty of joins and schema changes.
+-   Backups are more difficult with a sharded database.
+
+## Sharding Strategies
+While creating Database on should keep in mind that how many shards to use and how to distribute the data to the various server. The designer decides what queries to optimize and how to handle joins and the bulk data reterival. A system in which the data frequently changes requires a different architecture than one that mainly handles the read request. Then Reliablity, replication and maintenace strategy becomes important. The choice of sharding architecture becomes a critical decision, since it can affect many other consideration. Some common architectures are:
+    -   Range Sharding.
+    -   Hashed Sharding.
+    -   Directory-Based Sharding.
+    -   Geographic-Based Sharding.
+
+### Range Sharding
+Range sharding work on the value of the key and try to find the range it falls into. Each range directly maps to a different. The sharding range should ideally be immutable. If the key changes, the shard is recalculated and the data is copied to a new shard. If it changes then, mapping is destroyed and ther location can be lost. Range Shard is also known as dynamic sharding. 
+
+As an example, if the userID field is the sharding key, then records having IDs between 1 to 10000 could be stored in one shard. IDs between 10001 and 20000 map to a second shard, and those between 20001 and 30000 to a third.
+
+This approach is easy to implement and less programming time is required. The database application only has to compare the value of the sharding key to the predefined ranges using a lookup table. Range sharding is a good choice if records with similar keys are frequently viewed together.
+
+### Hash Sharding 
+This type of sharding is also known as algorithmic sharding. It maps the shard key directly to a shard by applying a hash function to the shard key. The hash function transforms one or more data points to a unique value that lies in a fixed range. Here, the size of range and number of shards are equal. The database takes input from the hash function to allocate the record to shard. In in return, results in a more evenly distributed records to different shards. 
+
+More complex hashing algorithms apply mathematically advanced equations to multiple inputs. However, it is important to use the same hash function on the same keys for each hashing operation. As with range sharding, the key value should be immutable. If it changes, the hash value must be recalculated and the database entry remapped.
+
+Key-Based Sharding is more efficient than range sharding because the lookup table isn't required. The hash is computed in real time for each query. Hash sharding is more advantageous for applications that read or write one record at a time. But the downside to Hash sharding is that, it complicates the tasks of rebalancing and rebuilding the shards and to if you want to add more shards, it becomes necessary to re-merge all the data, recalculate the hashes, and reassign all the records.
+
+### Directory-Based Sharding
+Directory-based sharding groups related items together on the same shard. This is known as entity-based sharding. IIn this method, we create and maintain a lookup service or lookup table for the original database. Basically we use a shard key for lookup table and we do mapping for each entity that exists in the database. This way we keep track of which database shards hold which data. 
+
+The lookup table holds a static set of information about where specific data can be found. In the above image, you can see that we have used the delivery zone as a shard key. Firstly the client application queries the lookup service to find out the shard (database partition) on which the data is placed. When the lookup service returns the shard it queries/updates that shard.  
+
+Directory-based sharding is much more flexible than range based and key-based sharding. In range-based sharding, you’re bound to specify the ranges of values. In key-based, you are bound to use a fixed hash function which is difficult to change later. In this approach, you’re free to use any algorithm you want to assign to data entries to shards. Also, it’s easy to add shards dynamically in this approach. 
+
+The major drawback of this approach is the single point of failure of the lookup table. If it will be corrupted or failed then it will impact writing new data or accessing existing data from the table. 
+
+This architecture is very helpful if the shard key can only be assigned a small number of possible values. Unfortunately, it is highly prone to clustering and imbalanced tables, and the overhead of accessing the lookup table degrades performance.
+
+### Geographic-Based Sharding
+
+Geographic-based sharding, or Geo-sharding, is a specific type of directory-based sharding. Data is divided amongst the shards based on the location of the entry, which relates to the location of the server hosting the shard. The sharding key is typically a city, state, region, country, or continent. This groups geographically similar data on the same shard. It works the same way directory-based sharding does.
+
+A good example of geo-sharding relates to geographically dispersed customer data. The customer’s home state is used as a sharding key. The lookup table maps customers living in states in the same sales region to the same shard. Each shard is located on a server located in the same region as the customer data it contains. This makes it very quick and efficient for a regional sales team to access customer data.
+
+## When Should I Shard?
+Whether or not one should implement a sharded database is always a matter of debate. Sharding is only performed when dealing with very large amount of data. It is beneficial to shard a database when:-
+    - The amount of data exceed to the storage capacity of a single database node.
+    - The net volume of writes and reads to a database surpasses what a single node or its read replicas can handle, resulting in slow response time.
+    -The network bandwidth  required by the application outspaces the bandwidth available to single database node, resulting in slow response time.
+
+Before sharding, one should exhaust all other options before optimising the database. Here are some tips:
+    - If you are working with a monolith in which all of it's components reside over the same server, then what you can do is by moving data over to its own machine. This will allow you to scale your database vertically from the rest of your infrastructure . 
+    - Implement Caching. If your application read performance is causing the trouble, then caching can help you improve and remove this roadblock.
+    - Creating one or more read replicas. Another strategy that can help to improve read performance, this involves copying the data from one database server (the primary server) over to one or more secondary servers. Following this, every new write goes to the primary before being copied over to the secondaries, while reads are made exclusively to the secondary servers. Distributing reads and writes like this keeps any one machine from taking on too much of the load, helping to prevent slowdowns and crashes. By creating read replicas involves more computing resources and thus costs more money, which could be a significant constraint for some.
+
+Please keep in mind that if your application or website grows past a certain point, none of these strategies will be enough to improve performance on their own. In such cases, sharding may indeed be the best option for you.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div className="invisible !h-0">
+
+## gcd-query-v1
+
+</div>
+
+<Challenge
+    title="gcd-query-v1"
+    authors="skittles1412"
+    solvers="jktrn"
+    category="algo"
+    points="475"
+    solves="43"
+    description="I wonder if this program leaks enough information for you to get the flag with less than 2048 queries... It probably does. I'm sure you can figure out how.  
+    `nc amt.rs 31692`"
+/>
+
+We're initially provided with an attachment `main.py` and a remote server `amt.rs:31692`. The server component contains the following:
+
+<CodeBlock
+    src="actf-2023/v1-attachment"
+    language="python"
+    fileName="main.py"
+    title="v1 Attachment"
+/>
+
+Let's go over step-by-step what this server is up to:
+
+-   For ten iterations, a long `x` is created by pycrypto's [`getRandomInteger(n)`](https://pythonhosted.org/pycrypto/Crypto.Util.number-module.html#getRandomInteger), which returns a random integer with up to $$n$$ bits in length. $$n = 2048$$; this is an absolutely mindbendingly large number — up to 617 digits long! You absolutely do not want to see what 617 digits looks like in decmimal:
+
+![2048-bit Visual](/static/images/actf-2023/2048.svg)
+
+-   For each iteration of `x`, the user gets prompted to enter two integers `n` and `m`. Once the assertion that `m > 0` is passed, `n` and `m` are passed into a function `gcd(x + n, m)`, which returns the **greatest common divisor** of `x + n` and `m`. This occurs for 1412 iterations.
+-   After the iterations have completed, the user is then prompted to guess the value of `x`. If the guess is correct, the next iteration of `x` begins. This process is repeated nine more times until the flag is printed.
+
+Here is a quick visual depicting what's going on:
+
+![Source Code Graphical Visualization](/static/images/actf-2023/visualization.svg)
+
+Paying close attention to the right side of this graphic, we can see that there's only a couple specific points at which we can interact with the server: when we pick the `n` and `m` to send, and when we guess the value of `x`. The question now is: what values should we be picking for `n` and `m` which reveal the most information about `x`, and how do we use this information to obtain its actual value?
+
+### The Chinese Remainder Theorem
+
+<Box
+    text="**Recall**: The *modulus* is the remainder of [Euclidian division](https://en.wikipedia.org/wiki/Euclidean_division) (division with remainder) of one number by another. For example, $$2 = 12 \pmod{5}$$.  
+    However, this is different from the **congruence modulo** relation, represented by the congruence symbol $$\equiv$$ and often expressed as $$a \equiv b \pmod{m}$$. When two numbers $$a$$ and $$b$$ are congruent modulo $$m$$, it means that:
+    
+    1. $$a$$ and $$b$$ have the same remainder when divided by $$m$$
+    2. $$a - b$$ is divisible by $$m$$ (i.e. $$m \mid (a - b)$$)
+    3. There is an integer $$k$$ such that $$a = km + b$$
+
+    As such, $$12 \equiv 2 \pmod{5}$$ is true, but $$12 = 2 \pmod{5}$$ is obviously false."
+    type="info"
+
+/>
+
+We start with a concept called a "system of congruences." A system of congruences is a set of equations of the form $$x \equiv a_i \pmod{m_i}$$, where $$a_i$$, $$b_i$$, and $$m_i$$ are integers. The $$m_i$$ values are called the **moduli** of the system. Here's a quick example of this:
+
+$$
+\begin{cases}
+x &\equiv 1 \pmod{2} \\
+x &\equiv 2 \pmod{3} \\
+x &\equiv 3 \pmod{5}
+\end{cases}
+$$
+
+In this system, we have three congruences with moduli $$2$$, $$3$$, and $$5$$. The goal is to find a value for $$x$$ that satisfies all three congruences simultaneously.
+
+Thus, we can apply the Chinese Remainder Theorem:
+
+<Box
+    text="**Chinese Remainder Theorem**: Given pairwise coprime integers $$n_1, n_2, \ldots, n_k$$ and arbitrary integers $$a_1, a_2, \ldots, a_k$$, the system of simultaneous congruences
+    
+    $$
+    \begin{cases}
+    x &\equiv a_1 \pmod{n_1} \\
+    x &\equiv a_2 \pmod{n_2} \\
+    \vdots \\
+    x &\equiv a_k \pmod{n_k}
+    \end{cases}
+    $$
+    
+    has a solution, and the solution is unique modulo $$N = n_1 n_2 \cdots n_k$$."
+    type="theorem"
+/>
+
+<Box
+    text="**Note**: Although the Chinese Remainder Theorem is often stated with pairwise coprime moduli (meaning that for a set of moduli $$M = \{n_1, n_2, \ldots, n_k\}$$, $$\gcd(n_i, n_j) = 1$$ for all $$i \neq j$$), it can be extended to non-coprime moduli. However, doing so does not guarantee a solution — this will become increasingly relevant as we get towards our implementation process."
+    type="info"
+/>
+
+You may be asking: what the hell does this have to do with guessing the giant integer that we've been given? Well, I've concocted a little example here to demonstrate how we can use this theorem to our advantage.
+
+### Tne Modular Arithmetic Nerd's Favorite Carnival Game
+
+![Carnival Game](/static/images/actf-2023/carnival-visual.svg)
+
+Let's say little Bob over at the bottom right goes to a carnival game booth and is asked to guess a number on a ball behind the operator. Obviously, since we're omnipotent observers in this fantastical 2D universe of cute little cartoon circle people, we know that the number is $$x = 727$$. However, Bob doesn't know shit. He's really good at modular arithmetic though, so he'll have a lot of fun with this one.
+
+Bob's told that he can give the operator a piece of paper with two integers of his arbitrary choice: `n` and `m`. As long as `m` is above 0, the operator will always give him back a piece of paper with `n` and `m` passed into `gcd(x + n, m)`. However, the operator's shift is about to end soon, and he estimates that he'll probably accept only about three pieces of paper from Bob until he closes shop.
+
+Bob goes back to his table. He's flabbergasted. How in the world is he going to guess that number with only three pieces of information?
+
+He rummages around his little noggin and recollects himself. Let's see what he's thinking:
+
+![Bob Thinking](/static/images/actf-2023/bob-thinking.svg)
+
+Uh... thanks, I guess? Well, he has a good point, but since I guarantee that nobody read it (because it's too long for the average CTF player's attention span) I'll give a brief TL;DR here.
+
+Bob's saying that per the definition of a "greatest common divisor," in the scenario $$d = \gcd(a, b)$$, both $$a \pmod{d} = 0$$ and $$b \pmod{d} = 0$$ is true. Since we're given the function `d = gcd(x + n, m)`, we can therefore say that $$(x + n) \pmod{d} = 0$$ and $$m \pmod{d} = 0$$.
+
+We can introduce an integer $$k$$ into the mix and rewrite $$(x + n) \pmod{d} = 0$$ as $$\frac{(x + n)}{d} = k$$. Let's algebraify this up to get to the state that we want it to:
+
+$$
+\frac{(x + n)}{d} = k \\
+(x + n) = kd \\
+x \equiv kd - n \pmod{d} \\
+x \equiv -n \pmod{d}
+$$
+
+Replacing $d$ with the `gcd()` function:
+
+$$
+x \equiv -n \pmod{\gcd(x + n, m)}
+$$
+
+Doesn't that look very, very familiar to the system of congruences that we were talking about earlier? Now, all we need to do is decide what values of $n$ and $m$ to pick.
+
+Bob's decided that his three attempts is nowhere near enough attempts to do anything reasonable with a fixed offset $$n$$. He's discovered something a bit more clever: **what if you changed the value of $$n$$ every time?** In doing so, it provides information about the offset from 0 modulo that GCD. He's selected the following values for $$n$$:
+
+$$
+\begin{cases}
+n_1 &= 0 \\
+n_2 &= -1 \\
+n_3 &= -2
+\end{cases}
+$$
+
+<Box
+    text="Note: Bob's chosen negative values for $$n_2$$ and $$n_3$$ because of the earlier relation established, $$x \equiv -n \pmod{\gcd(x + n, m)}$$. Making $$n$$ negative creates positive remainders."
+    type="info"
+/>
+
+For $$m$$, Bob chooses a very large **primorial**:
+
+<Box
+    text="**Primorial**: For the $$n$$th prime number $$p_n$$, the primorial $$p_n\#$$ is defined as the product of the first $$n$$ primes:
+    
+    $$
+    p_n\# = \prod_{k=1}^n p_k
+    $$
+
+    where $$p_k$$ is the prime number.
+    "
+    type="definition"
+
+/>
+
+Primorials have the special property in that since they're the product of the first $$n$$ primes, they're guaranteed to have a lot of prime factors. When thrown into the `gcd()` function, this will give us tons of information about the prime factors of $$x$$ since we're a lot more likely to get a hit (a miss would be if $$\gcd(x + n, m) = 1$$).
+
+Bob's ended up deciding on $$m = p_{11}\#$$. He pulls out his laptop and calculates it with Python:
+
+<CodeBlock
+    src="actf-2023/v1-primorial"
+    language="python"
+    fileName="primorial.py"
+    title="Calculating Primorials"
+/>
+
+<CodeBlock src="actf-2023/v1-primorial-run" rawHTML terminal />
+
+Bob's now ready to go! He walks up to the operator and hands him his pieces of paper. The operator hastily hands him back three pieces of paper with the resulting GCDs:
+
+![Bob Handing Papers](/static/images/actf-2023/handing-papers.svg)
+
+Now he knows that:
+
+$$
+\begin{cases}
+x \equiv 0 \pmod{1} \\
+x \equiv 1 \pmod{66} \\
+x \equiv 2 \pmod{145}
+\end{cases}
+$$
+
+and he can apply the Chinese Remainder Theorem to solve for $$x$$. Bob opens back up his laptop and runs the following code:
+
+<CodeBlock
+    src="actf-2023/v1-crt"
+    language="python"
+    fileName="crt.py"
+    title="Solving the Carnival Puzzle"
+/>
+
+<CodeBlock src="actf-2023/v1-crt-run" rawHTML terminal />
+
+Bob's got the number! Congratulations, Bob!
+
+![Congrats, Bob!](/static/images/actf-2023/congrats-bob.svg)
+
+### Implementation
+
+Hopefully through this example, you've gained a bit of intuition on where CRT is derived from, why we chose those particular values, and why it works. Now, let's apply this to the actual challenge.
+
+Here is the script that I used to solve this challenge. It's very straightforward and readable in comparison to other scripts I've seen, so I felt it was redundant to go through the step-by-step process. I've added comments to explain what's going on.
+
+<CodeBlock
+    src="actf-2023/v1-solve"
+    language="python"
+    fileName="gcd-query-v1.py"
+    title="gcd-query-v1 Solve"
+/>
+
+Let's run the script on the remote server:
+
+<CodeBlock src="actf-2023/v1-run" rawHTML terminal scrollable wrapLongLines />
+
+We've solved `gcd-query-v1`!
+
+<Box text="**gcd-query-v1**: `amateursCTF{probabilistic_binary_search_ftw}`" type="flag" />
+
+---
+
+<div className="invisible !h-0">
+
+## gcd-query-v2
+
+</div>
+
+<Challenge
+    title="gcd-query-v2"
+    authors="hellopir"
+    solvers="jktrn"
+    category="algo"
+    points="481"
+    solves="34"
+    description="I thought that skittles1412's querying system wasn't optimized enough, so I created my own. My system is so much more optimized than his!  
+    `nc amt.rs 31693`"
+/>
+
+Of course there's a continuation. Let's see what attachment we're given now:
+
+<CodeBlock
+    src="actf-2023/v2-attachment"
+    language="python"
+    fileName="main.py"
+    title="v2 Attachment"
+/>
+
+It seems that they haven't changed much. The only things that are different are:
+
+-   `getRandomInteger()`'s `n` value has been reduced from 2048 to 128 bits (~39 digits)
+-   We no longer need to complete ten iterations of different random integers; now it's only one iteration of a single random integer
+-   We only get 16 iterations of `gcd()` instead of 1412
+
+Well, first step is to try and rerun the same script that we used for `gcd-query-v1` with some minor edits:
+
+<CodeBlock
+    src="actf-2023/v2-edit"
+    language="python"
+    fileName="gcd-query-v2.py"
+    title="gcd-query-v2 Solve Attempt"
+    removedLines={[
+        [10, 10],
+        [13, 13],
+        [17, 17],
+    ]}
+    addedLines={[
+        [11, 11],
+        [18, 18],
+    ]}
+/>
+
+<CodeBlock src="actf-2023/v2-edit-run" rawHTML terminal />
+
+Well, that didn't work. We're correctly parsing input and a number is being generated, but for some reason the server is telling us to "get better lol".
+
+I added some print statements to see what we were getting in our moduli and remainder arrays:
+
+<CodeBlock src="actf-2023/v2-print" rawHTML terminal />
+
+Wow, check out that moduli array... that's not even nearly enough prime factors to accurately apply CRT. Let's increase the primorial then for increased chances:
+
+<CodeBlock
+    src="actf-2023/v2-primorial-edit"
+    language="python"
+    fileName="gcd-query-v2.py"
+    title="Changing Primorial"
+    range={[[6, 10]]}
+    addedLines={[[8, 9]]}
+    removedLines={[[6, 7]]}
+/>
+
+Let's try running the script again:
+
+<CodeBlock src="actf-2023/v2-run" rawHTML terminal />
+
+We've managed to solve the entire challenge with only 16 queries!
+
+<Box
+    text="**gcd-query-v2**: `amateursCTF{crt_really_is_too_op...wtf??!??!?!?must_be_cheating!!...i_shouldn't've_removed_query_number_cap.}`"
+    type="flag"
+/>
+
+---
+
+## Afterword
+
+Thanks to everyone from les amateurs for hosting this CTF! I had a lot of fun solving these challenges and I hope to see more from you guys in the future. I'd also like to credit Quasar, [SuperBeetleGamer](https://www.cryptohack.org/user/SuperBeetleGamer/), and [flocto](https://ctftime.org/user/121085) for helping me wrap my head around CRT in general throughout the process of writing this (because I almost always learn along the way). I hope you learned something like I did!
+
+Sources:
+
+-   [Wikipedia: Chinese Remainder Theorem](https://en.wikipedia.org/wiki/Chinese_remainder_theorem)
+-   [Wikipedia: Primorial](https://en.wikipedia.org/wiki/Primorial)
+-   [Brilliant: Chinese Remainder Theorem](https://brilliant.org/wiki/chinese-remainder-theorem/)

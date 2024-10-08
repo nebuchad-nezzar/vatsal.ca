@@ -1,0 +1,262 @@
+---
+title: 'Fenwick Tree'
+date: '2024-07-24'
+lastmod: '2024-07-24'
+tags: ['System Design']
+authors: ['enscribe']
+summary: "For lightning-fast cumulative frequency queries."
+thumbnail: '/static/images/actf-2023/Fenwick.png'
+images: ['/static/images/actf-2023/Fenwick.webp']
+layout: PostLayout
+---
+
+## Intro
+
+Let’s say you’re managing a global esports tournament for a popular game like Fortnite. Players from around the world are competing in multiple rounds, and their scores are changing constantly as they eliminate opponents and complete objectives. Your job is to keep a leaderboard updated, while also being able to quickly answer questions like: “What’s the total score of the top players at any point in the tournament?” or “How much did a particular player’s score change after this round?”
+
+Normally, tracking scores in real-time for thousands of players would be a nightmare. You’d have to recalculate the total scores every time something changes, which could take a lot of time—especially when the stakes are high, and every millisecond counts. But with the Fenwick Tree, it’s a whole different story.
+
+Let’s imagine each player’s score is updated frequently throughout the rounds. Instead of recalculating the entire score from scratch every time a player’s score changes, the Fenwick Tree allows you to update and retrieve scores in logarithmic time. For example, if Player 3 scores a massive 50-point kill streak, you can quickly update their total without impacting the leaderboard for the thousands of other players. Want to know how much the top 100 players have scored so far? The Fenwick Tree lets you compute that in no time, as it breaks the leaderboard into manageable pieces that overlap just enough to handle frequent changes smoothly.
+
+By breaking down the score updates into smaller chunks, much like monitoring the game’s evolving battle zones, the Fenwick Tree ensures you’re always ready for real-time updates. Whether you need to broadcast live stats to a massive audience or analyze how the game is evolving round-by-round, this powerful data structure helps you stay on top of everything.
+
+In the fast-paced world of esports, where every second matters, the Fenwick Tree ensures your tournament scores are as real-time and dynamic as the game itself!
+
+---
+## Fenwick Tree
+Fenwick Tree was first introduced for data compression by [Peter M. Fenwick](https://en.wikipedia.org/wiki/Fenwick_tree). This is a really elegant and powerful data structure in competitve programming rounds. It often used for storing and maintaining frequent manipulative tables. This data structure calculate the prefix sum of a series (array) of numbers efficiently.
+To start off, we are basically given an array a[ ], and we are required to two main operations on it.
+1. Update the value stored at index i                 (Point Update)
+2. Finding the sum of an array from left to right.     (Range queries)
+
+
+## Aproach  
+### Naive
+A naive appproach would look like this:
+When addressing a problem that has a flavour of multiple prefix sum array, the first thought that comes to our minds is to use prefix_sum array. For instance, 
+A simple solution is to run a loop from 0 to i-1 and calculate the sum of the elements. To update a value, simply do arr[i] = x. The first operation takes O(n) time and the second operation takes O(1) time. Another simple solution is to create an extra array and store the sum of the first i-th elements at the i-th index in this new array. The sum of a given range can now be calculated in O(1) time, but the update operation takes O(n) time now. This works well if there are a large number of query operations but a very few number of update operations.
+
+Here's an implementation:
+
+```cpp
+int a[] = {3,12-1,6,8,4,10};
+void update (int i , int j)
+{
+    a[i] = j;
+}
+int prefix_sum(int x)
+{
+    int sum = 0;
+    for (int i=0; i<k; i++>)
+    {
+        sum += a[i]
+    }
+    return sum;
+    
+}
+```
+A Naive solution would have a time complexity of O(1) for the point update query and O(n) for the range query and will give TLE during contests, since the time required to calculate the prefix sum of is propostional to lenght of an array. So this approach will not work with big numbers. Fenwick Trees can do both operation in O(1) for point update and O(n) for range queries.
+
+The next question that would be coming to your minds that how can I make it better? Well, we can use Segment Trees that can perform both operation in O(logN) time. I'll explain this when in my next blog on segment trees itself.
+Fenwick trees are also known as Binary index trees, why it is better you may ask, because it requires less space and ease of implementation during a contest with respect to segment trees implementation.
+
+Before diving down into the topic, we need to get familiar with one bit manipulation trickery.
+
+##Approach 
+### Isolating the last bit 
+
+Before heading towards BIT , we need to understand one bit manipulation trick
+Lets suppose a binary number,
+```python
+x= 110110100
+
+```
+Now, Find the position of the right most significant set bit ?
+```python
+x= 110110100
+         ^
+
+```
+So any $\mathbf{x>0}$ we can express any binary number $\mathbf{a1b}$ string. Where $\mathbf{a}$ is any arbitrary binary stringconsisiting of both $\mathbf{0's}$ and $\mathbf{1's}$, $\mathbf{1}$ will be the last set bit required, $\mathbf{b}$ is the binary string for all zeros.
+
+Therefore,
+$$
+\begin{aligned}
+\mathbf{x} &= \mathbf{a1b}\\
+\mathbf{-x} &= 2's (\mathbf{x})\\
+\mathbf{-x} &= \mathbf{(x)'} + \mathbf{1}\\
+\mathbf{-x} &= \mathbf{(a1b)'} + \mathbf{1}\\
+\mathbf{-x} &= \mathbf{(a'0 (11...111))} + \mathbf{1}\\
+\mathbf{-x} &= \mathbf{(a'1 (00...000))}\\
+\mathbf{-x} &= \mathbf{(a'1 b)}\\
+
+% \mathbf{-x} = \mathbf{2's complement} \mathbf{(x)} 
+\end{aligned}
+$$
+
+Now, adding $$\mathbf{x}$$  and $$\mathbf{-x}$$
+$$
+\begin{aligned}
+\mathbf{x} &= \mathbf{a1b}\\
+\mathbf{-x} &= \mathbf{(a'1 b)}\\
+\mathbf{(x)}  + \mathbf{(-x)} &= \mathbf{((00...000)1 (00...000))}
+\end{aligned}
+$$
+So,  $\mathbf{(x) + (-x)} $, will give us out a number that has the right most bit set.
+
+And $\mathbf{x-((x) + (-x))} $ will extract the right most set bit.
+
+Lets take an example to understand this,
+``` notepad
+x = 110    (6)
+-x =  001 + 1
+-x = 010
+(x) + (-x) = 010  
+x - ((x) + (-x)) = 100   
+```
+But why do we need to isolate this weird last set bit in any number? Well we will be seeing that as you proceed further. For this we nedd to understand the Binary Indexed Tree.
+Fenwick Trees are a bit difficult to understand if we see them as 'tree data structure', so for ease i'll represent it as an array of size n+1 for any given value of 'n' and maintaining index starting from '1', for simplicity. 
+
+The core idea behind the Binary Index tree is to store the sum of particular range of elements at an index in a seperate array, which later will be used to compute  the prefix_sum in the minimum iteration possible. The aim is that since each integer can be represented as sum of power of 2. For a given array of N, we can maintain an array BIT[] such that, we can store the  prefix-sum of numbers of a given array. This can also be known as partial sum tree. This implies that each index in the array is storing sum.
+
+Lets understand through an example that how BIT[] stores partial sum.
+``` cpp
+//intialising an array 'a'
+int a[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}; 
+```
+Lets say we want to find out what would be storing in BIT[i]
+``` notepad
+1. Convert 13 into binary
+   13 = 1101
+2.Remove the last significant bit
+  So we'll have
+   BIT[i] = sum (j+1 --> i)
+   13 = 1100 --> 9 --> 12
+```
+This means that BIt[13] will be storing the prefix sum of 13 itself 
+
+Now lets check for '12',
+``` notepad
+1. Convert 12 into binary
+   12 = 1100
+2.Remove the last significant bit
+  So we'll have
+   BIT[i] = sum (j+1 --> i)
+   12 = 1000 --> 8 --> 9
+```
+BIT[12] will store the sum from 9 to 12. 
+
+``` notepad
+1. Convert 8 into binary
+   12 = 1000
+2.Remove the last significant bit
+  So we'll have
+   BIT[i] = sum (j+1 --> i)
+   8 = 0000 --> 0 --> 1
+```
+
+Similarly, BIT[8] will store prefix-sum from 1 to 8. 
+
+So if you want to find BIT(13) then sum of first 13 numbers in array a[] = BIT[13] + BIT[12] + BIT[8] = (a[13]) + (a[12] + … + a[9]) + (a[8] + … + a[1]).
+
+Lets look at the code:
+``` cpp
+int sum(int i){
+	int ans = 0;
+	for(; i > 0; i -= (i&-i))
+		ans += bit[i];
+	return ans;
+}
+```
+Coming down to how to construct a tree for prefix sums. BIT[] is an array size of $\mathbf{N+1}$ to maintain 1-based indexing. Initially all the elements in thee BIT[] will set to 0. After that we'll use update() for the operation for each element in the array to construct the tree. Down Below is the update function.
+``` cpp
+void update(int i, int x){
+	for(; i < N; i += (i&-i))
+		BIT[i] += x;
+}
+```
+What is happening in the above code is that, we're taking two counter i and x, where 'x' is thew amount that we want add to 'ith' element, ie, $\mathbf{i += ((i) + (-i))} $ .We'll extract the last bit as discussed above, and we'll add the last set bit to the ith element and then we are updating the BIT[] array. 
+Example update(13, 2):
+``` notepad
+      
+13-1101
+   0001
+---------
+   1110       we update BIT[14]
+---------
+14-1110
+   0010
+---------
+   10000      we update BIT[16]
+---------
+```
+In this way, when an update() operation is performed on index x we update all the indices of BIT[] which cover index x and maintain the BIT[].
+
+<Box
+    text="**Note**:Indexing starting from 1 is used for simplicty."
+    type="info"
+/>
+
+Fenwick tree is mostly used when we have been given an array and we need to answer multiple sum() queries. When finding the sum of first X elements many times or we need sum of range of the elements number of times.
+
+Here's the implementation in C++:
+``` cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+const int N = 1e5+10;
+int bit[N];
+
+void update(int i, int x){
+	for(; i < N; i += (i&-i))
+		bit[i] += x;
+}
+
+int sum(int i){
+	int ans = 0;
+	for(; i > 0; i -= (i&-i))
+		ans += bit[i];
+	return ans;
+}
+
+int main(){
+	scanf("%d",&n);
+	int i, x, y, v;
+	for(i = 1; i <= n ; i++)
+	{
+		scanf("%d",&a[i]);
+		update(i, a[i]);
+		update(i+1, -a[i]);
+	}
+
+	printf("Enter update query range[x..y]>>");
+	scanf("%d %d",&x, &y);
+	printf("Enter value v to update by>>");
+	scanf("%d",&v);
+	update(x, v);
+	update(y+1, -v);
+	for(i = x ; i <= y; i++)
+		printf("updated %dth element is %d\n",i,query(i));
+	
+	return 0;
+}
+```
+## Applications of Fenwick Trees
+-   Range Sum Queries
+-   Count inversions 
+
+
+<Box
+    text="**summary**:
+     -   Binary Indexed Tree (Fenwick Tree) is an efficient data structure that can be used to quickly calculate the prefix sum of an array.
+    -   If the values present in the array are mutable i.e values can be changed using the Fenwick tree is of great use.
+    -   Subtracting $$x-((x) + (-x)) $$ from $$(x)$$, is the efficient way to remove the least significant set-bit from $$(x)$$.
+    Time Complexity to calculate prefix sum or range sum of the array of size n is O(log(n)) and O(n) extra space is required to store the bit array."
+    type="summary"
+/>
+
+References:
+-  (https://en.wikipedia.org/wiki/Fenwick_tree)
+-  (https://onlinelibrary.wiley.com/doi/10.1002/spe.4380240306)
+-  (https://www.topcoder.com/thrive/articles/Binary%20Indexed%20Trees#introduction)
+-  (https://www.geeksforgeeks.org/binary-indexed-tree-or-fenwick-tree-2/)

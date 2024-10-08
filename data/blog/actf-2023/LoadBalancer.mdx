@@ -1,0 +1,92 @@
+---
+title: 'Load Balancer'
+date: '2024-07-24'
+lastmod: '2024-07-24'
+tags: ['System Design']
+authors: ['enscribe']
+summary: "The unsung heroes ensuring your apps never skip a beat!"
+thumbnail: '/static/images/actf-2023/LoadBalancer.webp'
+images: ['/static/images/actf-2023/LoadBalancer.png']
+layout: PostLayout
+---
+
+## Intro
+
+Lets say you created an algorithm/product and bunch of VCs or investors like your built, and after some rounds of negotiation, decides to fund you.
+The basic idea is that, there is an user X has a phone and wants you to fetch your algorithm, get a result and everytime they do that they give you money on a monthly subscription based model.
+Now keeping the money matter aside and the sales-marketing shenanigans everything asides. Now the question raises is that, what as a Software Engineer you do to create a facility that is fit enough serve for 100 million users?
+
+---
+
+The algorithm needs to run for your customers happy and you to be happy in turn, without any latency issues, being the operative word. 
+
+Now, suppose you're getting thousand and thousand of request each day and as a startup. A single server will not able serve your increasing customer base. So to scale-up, you bring another server,but doing so will give you a roadblock,
+that where should the request should go, to the first or to your new server.
+At the bare minimum level, if you have 'N' servers, we want to balance the load on all the servers to process the requests seamlessly. This processing is known as Load Balancing.
+
+A Load Balancer acts as a 'traffic manager' or reverse proxy as it acts between the application server layer and the in turn and distributes network or application traffic across servers. By sitting in front of servers and routing client requests all across the servers
+are capable of fulfilling those requests in way such that it maximises the speed and capacity and ensures that there's no deadlock in the system, which could degrade the performance the overall system, basically achieving low-latency and increase in performance.
+Load balancers are used to increase the capacity of concurrent users. So, If a server goes down, then the load balancer redirects the traffic to the remaining servers.
+
+It works on server load balancing or SLB for short. It is design for pool of application servers within a single site or local network area (LAN).Load Balancers are used to provide availablilty and scalability to the application.
+It presents a virtual IP addess representing the application to the client. The client connects to the vIP and the load balancer makes a determination through the algorithms to send the connnection to a specific application
+instance in a server.The Load balancer performs content switching, it also provide content-based security like web-based application firewalls (WAF) and authentication enhancements like two factor authentication (2FA).
+
+In contrast, software load balancing runs on virtual machines (VMs) or white box servers, most likely as a function of an application delivery controller (ADC).
+ADCs typically offer additional features, like caching, compression, traffic shaping, etc. Popular in cloud environments, virtual load balancing can offer a high degree of flexibility -- for example, enabling users to automatically scale up or down to mirror traffic spikes or decreased network activity.
+
+The Load balancers generally operate on diiferent layers of the OSI network layer model, mostly at Layer 4 and Layer 7.
+
+## Layer 4
+
+The 4th layer is the transport layer, that has user datagram protocol (UDP) and transmission control protocol (TCP). For the internet traffic specifically, it makes decision onthe source and destination of IP address and ports recorded in the packet header, without considering the contents of the packet.
+
+Today the 'layer 4 balancers' most commonly refers to a deployment where the load balancer's IP address is the one advertised to the clients for website service, via DNS. As a result , clients record the load balancers address as the destination Ip in other requests.
+
+When the layer 4 load gets a request and make a decision, it also performs Network Address Translation (NAT) on the request packet, changing the recorded destination IP address from its own to that of the content serverit has chosen on the internal network. Similarly, before forwarding server responses to the clients, the load balancers changes the source address recorded in the packet header from the servers IP to its own. 
+The destination and source TCP port numbers recorded in the packets are sometomes also gets changed in a similar manner. 
+
+Layer-4 load balancing manages traffic based on network information such as protocols and application ports without requiring visibility into actual content of messages.
+This approach is effective for simple load balancing at the packet level. Messages can be forwarded efficiently, quickly, and securely because they are neither decrypted nor inspected. However, it’s not possible to route traffic based on localization rules, media type, or other more complex criteria; layer 4 load balancing cannot make content-based decisions, so it relies upon simple industry-grade algorithms such as round-robin routing.
+
+Here the load balancers make their routing decision based on the address that has been extracted for the first few packets in the TCP stream, and do not inspect the packet content. Layer 4 balancers is mostly a hardware centric, which commonly provided by a vendor who runs a proprietary software on it. 
+
+The layer-4 balancing is popular because of its architectural approach of handling the traffic when commercial hardware were not that powerful at the time as the are right now, and the interaction between the client and application server was much less complex. 
+
+Moreover, it requires less computation power than more sophisticated load balancering method like at layer-7.
+But as the circuit industry has done expectionally well in the past 10 years that CPU and memory are sufficiently fast and cheap that the performance advantage for layer-4 load balancing has become negligible or relevant in most of the situation.   
+
+However, to meet a broader variety of application needs, an ADC is offer to load balancing capabilities across both layer-4 and layer-7, even though layer-7 load balancers allow more intelligent routing decisions and offer more extensive functionality. In other words, layer 4 load balancing capacity remains important, even for users with sophisticated architectures.
+
+## Layer 7
+
+Layer 7 load balancer operates on the highest layer of OSI model, the Application layer. DNS, FTP, HTTP, and SMTP protocols are all at the application layer level. It manages and manipulate traffic based on a full understanding of the transaction between the client and the application server. This balancer based its routing decision on various aspects of the HTTP header and on the actual contents of the message, such as URL, the differnt form of data (like text, graphic, video).
+Taking so many dimension of information being transfered makes it expensive in terms of time and computing power.  
+
+Messages can be forwarded efficiently, quickly, and securely because they are neither decrypted nor inspected. However, it’s not possible to route traffic based on localization rules, media type, or other more complex criteria; layer 4 load balancing cannot make content-based decisions,
+Layer 7 load balancers terminate and distribute network traffic; decrypt and inspect messages as needed; make routing decisions that are content-based; select an appropriate upstream server based on the right criteria and initiate new TCP connections to it; and write those requests to the server—rather than merely forwarding unread traffic.
+
+Its processing incurs a performance penalty for encryption, but SSL offload functionality can largely reduce this problem. Layer 7 load balancing allows application-aware networking, enabling smarter content optimizations and load balancing decisions.
+
+layer 7 load balancer can provide “sticky sessions” or server persistence by identifying unique client sessions viewing or actively injecting cookies. This enhances efficiency by sending all client requests to the same server. It can also use content caching, more easily retrieving frequently accessed items held in memory, thanks to visibility at the packet level. 
+A layer 7 load balancer can also manage protocols that reduce overhead and optimize traffic by multiplexing many requests onto a single connection—an important load balancing feature for modern organizations.
+
+Products like NGINX genreally operate at Layer 7 serve as full reverse-proxies. Rather than manage traffic on packet-by-packet basis like in Layer-4 load balancers, but here in Layer 7, it can read the request and the proxies and responses as a whole.
+
+There are appropriate use cases for layer 4 or layer 7 load balancing, despite the enhanced intelligence of routing decisions and functionality layer 7 load balancers offer. To meet an enterprise level demand for compliance, content localization, and efficiency and meet a variety of application needs while providing the best possible experience for any device, user, and location, application delivery controllers (ADCs) will ideally provide load balancing and manage traffic across layers.
+
+From securty standpoint, the ability to work with and inspect, layer 7 network packets also allows load balancers to become a key component of the network security infrastructure. Packets can be inspected for malicious content. Load balancers are a very important piece of modern network security for other reasons too. They provide another layer of defense on your network between the outside world and your business systems. As such they operate with your standard border security firewalls and provide strength in depth against attacks. This includes protection against DDOS flooding of the servers. The incorporation of Kemp Web Application Firewall functionality into the load balancer network inspection systems, allows common security threats associated with web page code hijacks and injections to be detected and neutralized.
+
+
+
+## Session Persistence
+
+Information about a user’s session is often stored locally in the browser. For example, in a shopping cart application the items in a user’s cart might be stored at the browser level until the user is ready to purchase them. Changing which server receives requests from that client in the middle of the shopping session can cause performance issues or outright transaction failure. In such cases, it is essential that all requests from a client are sent to the same server for the duration of the session. This is known as session persistence.
+
+The best load balancers can handle session persistence as needed. Another use case for session persistence is when an upstream server stores information requested by a user in its cache to boost performance. Switching servers would cause that information to be fetched for the second time, creating performance inefficiencies.
+
+References:
+
+-   [Wikipedia: Chinese Remainder Theorem](https://en.wikipedia.org/wiki/Chinese_remainder_theorem)
+-   [Wikipedia: Primorial](https://en.wikipedia.org/wiki/Primorial)
+-   [Brilliant: Chinese Remainder Theorem](https://brilliant.org/wiki/chinese-remainder-theorem/)
