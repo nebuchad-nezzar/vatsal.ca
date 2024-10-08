@@ -9,7 +9,7 @@ import { GlobeDemo } from '@/components/globe';
 import { EmailSignUp } from '@/components/email-signup';
 import { Card } from '@/components/ui/card';
 import { StickyScrollRevealDemo } from '@/components/sticky-scroll';
-import { CardHoverEffectDemo } from '@/components/hovercard';
+
 import { TimelineDemo } from '@/components/timeline';
 import { TextRevealDemo } from '@/components/text-reveal';
 import { LayoutGridDemo } from '@/components/layout-grid';
