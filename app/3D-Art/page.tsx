@@ -12,7 +12,7 @@ export default function Guestbook({}) {
                         3D Designs
                     </h1>
                     <p className="text-muted-foreground">
-                    Sign my guestbook and share your idea or tell me about your experience. You can tell me anything here!
+                    These are some designs that are made using ThreeJS. I'll be writing up blogs for some of them in the upcoming days, explaining my approach. Feel free to explore and play with them.
                     </p>
                 </div>
 
