@@ -115,10 +115,20 @@ export function Globe({ globeConfig, data }: WorldProps) {
 
   const _buildData = () => {
     const arcs = data;
-    let points = [];
+    
+    // Explicitly typing the points array
+    let points: {
+      size: number;
+      order: number;
+      color: (t: number) => string;
+      lat: number;
+      lng: number;
+    }[] = []; 
+  
     for (let i = 0; i < arcs.length; i++) {
       const arc = arcs[i];
       const rgb = hexToRgb(arc.color) as { r: number; g: number; b: number };
+  
       points.push({
         size: defaultProps.pointSize,
         order: arc.order,
@@ -126,6 +136,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
         lat: arc.startLat,
         lng: arc.startLng,
       });
+  
       points.push({
         size: defaultProps.pointSize,
         order: arc.order,
@@ -295,11 +306,10 @@ export function hexToRgb(hex: string) {
 }
 
 export function genRandomNumbers(min: number, max: number, count: number) {
-  const arr = [];
+  const arr: number[] = []; // Initialize arr with a type
   while (arr.length < count) {
     const r = Math.floor(Math.random() * (max - min)) + min;
     if (arr.indexOf(r) === -1) arr.push(r);
   }
-
-  return arr;
+  return arr; // Return the array of random numbers
 }
