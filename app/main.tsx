@@ -11,7 +11,7 @@ import { Card } from '@/components/ui/card';
 import { StickyScrollRevealDemo } from '@/components/sticky-scroll';
 
 import { TimelineDemo } from '@/components/timeline';
-import { TextRevealDemo } from '@/components/text-reveal';
+// import { TextRevealDemo } from '@/components/text-reveal';
 import { LayoutGridDemo } from '@/components/layout-grid';
 import { AnimatedShinyTextDemo} from '@/components/animatedshiny-text';
 // import ShortcutHome from '@/components/ShortcutHome'
@@ -84,7 +84,7 @@ export default function Home({posts}) {
         {/* <ShortcutHome/> */}
         <br></br>
         <br></br>
-        <TextRevealDemo/>
+        {/* <TextRevealDemo/> */}
  
       </div>
             {/* <BoxRevealDemo/> */}
