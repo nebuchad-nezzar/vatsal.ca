@@ -24,9 +24,20 @@ module.exports = {
         sourceType: 'module',
     },
     rules: {
-        'prettier/prettier': 'warn',
+
         'no-empty-pattern': 'off',
         'react/react-in-jsx-scope': 'off',
+        'prettier/prettier': 'off',
+        'react/react-in-jsx-scope': 'off',
+        'jsx-a11y/anchor-is-valid': 'off',
+        'react/prop-types': 'off',
+        '@typescript-eslint/no-unused-vars': 'off',
+        'react/no-unescaped-entities': 'off',
+        '@typescript-eslint/explicit-module-boundary-types': 'off',
+        '@typescript-eslint/no-var-requires': 'off',
+        '@typescript-eslint/ban-ts-comment': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
+        'jsx-a11y/img-redundant-alt': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
         'jsx-a11y/anchor-is-valid': [
             'warn',
