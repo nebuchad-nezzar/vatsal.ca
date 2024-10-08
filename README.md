@@ -2,14 +2,14 @@
 
 <div align="center">
 
-## enscribe.dev
+## vatsal.ca
 
 [![CodeFactor]](https://www.codefactor.io/repository/github/jktrn/enscribe.dev)
 ![Stargazers]
 [![License]](LICENSE)
 [![Non-Code License]](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 
-[enscribe.dev](https://enscribe.dev) is my personal information security blog—built with [Next.js](https://nextjs.org/), [Tailwind CSS](https://tailwindcss.com/), TypeScript, and deployed on [Vercel](https://vercel.com/). Based on the [timlrx/tailwind-nextjs-starter-blog](https://github.com/timlrx/tailwind-nextjs-starter-blog/) blogging template.
+[vatsal.ca](https://vatsal.ca) is my personal portfolio with [Next.js](https://nextjs.org/), [Tailwind CSS](https://tailwindcss.com/), TypeScript. Based on the [timlrx/tailwind-nextjs-starter-blog](https://github.com/timlrx/tailwind-nextjs-starter-blog/) blogging template.
 
 </div>
 
@@ -29,7 +29,7 @@ This is a list of the various technologies used to build this website:
 | Styling             | [Tailwind](https://tailwindcss.com)                                       |
 | Syntax Highlighting | [Prism](https://prismjs.com/)                                             |
 | Analytics           | [Vercel Analytics](https://vercel.com/docs/analytics)                     |
-| Graphics            | [Figma](https://www.figma.com/)                                           |
+| Graphics            | [Canva](https://www.canva.com/)                                           |
 
 ---
 
@@ -51,7 +51,7 @@ For the purposes of this license, "code" refers to the software components, conf
 
 All such code in this repository is licensed under the **Apache License 2.0**:
 
-> [enscribe.dev](https://vatsal.ca) © 2024 by Vatsal 
+> [vatsal.ca](https://vatsal.ca) © 2024 by Vatsal 
 >
 > Licensed under the Apache License, Version 2.0 (the "License");
 > you may not use this file except in compliance with the License.
