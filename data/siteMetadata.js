@@ -11,7 +11,7 @@ const siteMetadata = {
     theme: 'dark', // system, dark or light
     siteUrl: 'https://vatsal.ca',
     siteRepo: 'https://github.com/nebuchad-nezzar',
-    siteLogo: '/data/logo.png',
+    siteLogo: '/static/images/logo.png',
     // image: '/static/images/avatar3.jpeg',
     socialBanner: '/static/images/twittercard.png',
     email: 'vatswork10@gmail.com',
