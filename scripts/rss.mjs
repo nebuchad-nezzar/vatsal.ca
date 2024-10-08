@@ -36,11 +36,7 @@ const generateRss = (config, posts, page = 'feed.xml') => `
 
 async function generateRSS(config, allBlogs, page = 'feed.xml') {
     const publishPosts = allBlogs.filter((post) => post.draft !== true)
-
-    // Instantiate GithubSlugger
-    const slugger = new GithubSlugger()
-
-    // RSS for blog posts
+    // RSS for blog post
     if (publishPosts.length > 0) {
         const rss = generateRss(config, publishPosts)
         writeFileSync(`./public/${page}`, rss)
@@ -49,7 +45,7 @@ async function generateRSS(config, allBlogs, page = 'feed.xml') {
     if (publishPosts.length > 0) {
         for (const tag of Object.keys(tagData)) {
             const filteredPosts = allBlogs.filter((post) =>
-                post.tags.map((t) => slugger.slug(t)).includes(tag)
+                post.tags.map((t) => GithubSlugger.slug(t)).includes(tag)
             )
             const rss = generateRss(config, filteredPosts, `tags/${tag}/${page}`)
             const rssPath = path.join('public', 'tags', tag)
