@@ -3,7 +3,6 @@ import type { MDXComponents } from 'mdx/types'
 import Pre from 'pliny/ui/Pre'
 
 import Box from './Box'
-import Challenge from './Challenge'
 import CodeBlock from './CodeBlock'
 import CountryFlag from './CountryFlag'
 import Image from './Image'
@@ -18,7 +17,6 @@ export const components: MDXComponents = {
     pre: Pre,
     CodeBlock,
     CountryFlag,
-    Challenge,
     StaticTweet,
     Box,
     YouTube,
