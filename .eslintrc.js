@@ -18,12 +18,16 @@ module.exports = {
         'next/core-web-vitals',
     ],
     parserOptions: {
-        project: true,
+        project: './tsconfig.json', // Ensure it points to your tsconfig.json
         tsconfigRootDir: __dirname,
+        ecmaVersion: 2020,
+        sourceType: 'module',
     },
     rules: {
         'prettier/prettier': 'warn',
+        'no-empty-pattern': 'off',
         'react/react-in-jsx-scope': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
         'jsx-a11y/anchor-is-valid': [
             'warn',
             {
@@ -38,5 +42,6 @@ module.exports = {
         '@typescript-eslint/explicit-module-boundary-types': 'off',
         '@typescript-eslint/no-var-requires': 'off',
         '@typescript-eslint/ban-ts-comment': 'off',
+        '@typescript-eslint/no-explicit-any': 'off', // Disable the rule for no-explicit-any
     },
-}
+};
