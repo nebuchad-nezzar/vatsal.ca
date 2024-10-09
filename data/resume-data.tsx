@@ -70,8 +70,8 @@ export const RESUME_DATA = {
 	  ],
 	work: [
 		{
-		  company: "Hexaware",
-		  href: "https://atomic.finance",
+		  company: "HexaWind",
+		  href: "",
 		  badges: [],
 		  location: "Remote",
 		  title: "Backend Engineer",
@@ -79,19 +79,31 @@ export const RESUME_DATA = {
 		  start: "May 2021",
 		  end: "Oct 2022",
 		  description:
-			"Implemented the Bitcoin discreet log contract (DLC) protocol specifications as an open source Typescript SDK. Dockerized all microservices and setup production kubernetes cluster. Architected a data lake using AWS S3 and Athena for historical backtesting of bitcoin trading strategies. Built a mobile app using react native and typescript.",
+			"As an cryptocurrency systems architect, I was able to successfully designed and implemented a scalable multi-wallet system that supports six major cryptocurrencies and manages over 120,000 active wallets. My expertise lies in developing high-performance transaction management systems, optimizing APIs with blockchain functionality, and ensuring seamless integration across multiple platforms. I have a proven track record of enhancing system efficiency, reducing onboarding time by 25%, and increasing transaction processing speed by 75%. My collaborative approach with cross-functional teams has resulted in user-centric features that comply with regulatory requirements and mitigate legal risks. I am adept at conducting comprehensive performance testing and optimization, improving system throughput by 55%, and ensuring scalability for future growth. My skills and experience make me an ideal candidate for organizations looking to innovate and excel in the cryptocurrency and blockchain domain.",
+		},
+		{
+		  company: "HexaForce",
+		  href: "",
+		  badges: [],
+		  location: "Remote",
+		  title: "Backend Engineer",
+		  logoUrl: "/hexaware.png",
+		  start: "May 2021",
+		  end: "Oct 2022",
+		  description:
+			"I successfully contributed to the development of both e-commerce and ride-sharing platforms, demonstrating my versatility and technical expertise. In the e-commerce domain, I designed and implemented critical systems including an EMI/Loan Management System, a Reward Management System that increased repeat purchases by 55%, and a secure multi-environment user authentication system. I also deployed an Email Verification System using OTP for enhanced security. For the ride-sharing platform, I developed advanced alerts and notification systems for smart electric vehicles, optimized vehicle and battery analytics resulting in a 45% improvement in predictive maintenance, integrated MQTT protocols for real-time telemetry data gathering, and scaled a live vehicle tracking application that reduced latency by 40% and increased system throughput by 50%. My experience in handling complex systems, large datasets, and real-time applications makes me a valuable asset for organizations seeking to innovate and optimize their digital platforms.",
 		},
 		{
 		  company: "Aindra Labs",
 		  badges: [],
-		  href: "https://shopify.com",
+		  href: "",
 		  location: "Remote",
 		  title: "R&D Intern",
 		  logoUrl: "/Aindra.png",
 		  start: "January 2021",
 		  end: "April 2021",
 		  description:
-			"Implemented a custom Kubernetes controller in Go to automate the deployment of MySQL and ProxySQL custom resources in order to enable 2,000+ internal developers to instantly deploy their app databases to production. Wrote several scripts in Go to automate MySQL database failovers while maintaining master-slave replication topologies and keeping Zookeeper nodes consistent with changes.",
+			"Developed and implemented advanced algorithms and software solutions tailored for industrial applications, with a strong focus on enhancing efficiency and precision in automated systems. I designed a robust color detection algorithm that significantly improved the accuracy of color sorting processes, even under varying lighting conditions. Additionally, I created a custom log counting algorithm that streamlined data processing, reducing processing time by 90% and eliminating labor costs. Leveraging machine learning and computer vision techniques, I built a pattern recognition model that achieved a 96% improvement in detection and classification accuracy. I also engineered standalone software deployable on NVIDIA GPUs, such as Jetson, and Intel NCS, enabling advanced computational tasks and integrating with drones for enhanced functionality. These experiences demonstrate my ability to deliver innovative technical solutions that address real-world industrial challenges and drive operational efficiency.",
 		},
 		{
 		  company: "LTIMindtree",
@@ -103,7 +115,8 @@ export const RESUME_DATA = {
 		  start: "January 2021",
 		  end: "April 2021",
 		  description:
-			"Implemented a custom Kubernetes controller in Go to automate the deployment of MySQL and ProxySQL custom resources in order to enable 2,000+ internal developers to instantly deploy their app databases to production. Wrote several scripts in Go to automate MySQL database failovers while maintaining master-slave replication topologies and keeping Zookeeper nodes consistent with changes.",
+		    "I designed an NLP model for sentiment analysis as part of a joint initiative between the Government of Karnataka and Mindtree, aimed at supporting local farmers. This project involved building a 5-layered neural network with LSTM, utilizing a dataset of 100,000 entries. The model was able to achieve an accuracy of 93%, showcasing its effectiveness in analyzing sentiment trends. Through this initiative, I contributed to the development of a robust tool that aids in understanding and addressing farmers' concerns, furthering the impact of technology in agricultural support systems.",
+
 		},
 		{
 		  company: "Exzeo",
@@ -115,7 +128,7 @@ export const RESUME_DATA = {
 		  start: "January 2021",
 		  end: "April 2021",
 		  description:
-			"Implemented a custom Kubernetes controller in Go to automate the deployment of MySQL and ProxySQL custom resources in order to enable 2,000+ internal developers to instantly deploy their app databases to production. Wrote several scripts in Go to automate MySQL database failovers while maintaining master-slave replication topologies and keeping Zookeeper nodes consistent with changes.",
+			"I secured my first internship before my sophomore year, where I played a key role in developing end-to-end pipelines for insurance use cases, specifically in Risk Management and Claims Intelligence. Notably, the model I contributed to was stress-tested during Hurricane Irma in 2017, providing valuable insights into its performance under extreme conditions. I gained hands-on experience in risk assessment and insurance, performing feature engineering and cleaning raw data to improve model accuracy. Leveraging tools such as NumPy, pandas, Plotly, and scikit-learn, I developed algorithms and created insightful data visualizations using Python, further enhancing decision-making capabilities within the team.",
 		},
 	  ],
 	  publication: [

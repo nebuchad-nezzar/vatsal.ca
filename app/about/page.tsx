@@ -16,10 +16,7 @@ import { AnimatedPinDemo } from '@/components/3d-pin';
 
 
 
-export const metadata: Metadata = genPageMetadata({
-  title: `${RESUME_DATA.name} | ${RESUME_DATA.about}`,
-  description: RESUME_DATA.summary,
-});
+export const metadata = genPageMetadata({ title: 'About'})
 
 //https://postimg.cc/  --> To make avatars from your photos
 	 

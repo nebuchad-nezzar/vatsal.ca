@@ -40,9 +40,6 @@ import { AnimatedShinyTextDemo} from '@/components/animatedshiny-text';
 
 
 
-
-
-
 export default function Home({posts}) {
     return (
         <div>

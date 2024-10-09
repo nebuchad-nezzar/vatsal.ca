@@ -11,7 +11,7 @@
 import Pinned from '@/components/Pin'
 import { genPageMetadata } from 'app/seo'
 
-export const metadata = genPageMetadata({ title: 'Projects' })
+export const metadata = genPageMetadata({ title: 'Guestbook' })
 
 export default function Guestbook({}) {
     return (

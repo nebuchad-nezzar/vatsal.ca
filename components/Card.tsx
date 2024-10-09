@@ -64,7 +64,7 @@ const Card = ({ title, description, imgSrc, href, tags = [] }: CardProps) => (
                         className="text-base font-medium leading-6 text-primary hover:brightness-125 dark:hover:brightness-125"
                         aria-label={`Link to ${title}`}
                     >
-                        Learn more &rarr;
+                        &rarr;
                     </Link>
                 )}
             </div>

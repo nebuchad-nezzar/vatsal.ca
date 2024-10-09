@@ -4,48 +4,40 @@ const projectsData = [
         tags: ['Web Development', 'Next.js', 'TypeScript', 'Tailwind CSS'],
         description:
             'Built with Next.js, TypeScript, Tailwind CSS, and deployed through Vercel, this bleeding-edge website is both an information security blog and a personal website for my cybersecurity shenanigans and web development ramblings.',
-        imgSrc: '/static/images/twitter-card.png',
+        imgSrc: '/static/images/showcase-card.png',
         href: 'https://vatsal.ca',
     },
     {
         title: 'Video Analytics',
         tags: ['Machine Learning', 'Python', 'SSD-Architecture', 'YOLO', 'OpenCV'],
         description:
-        'A Shopify-based e-commerce platform for Eleven Percent, a media company creating shareable videography/photography content for social media. Responsible for full frontend development and multi-vendor marketplace integration.',
+        'Built a video surveillance system based on the SSD MobileNet architecture, utilizing centroid tracking for object detection. The system logs all data into a separate Excel file and includes IP camera configuration capabilities. I deployed various algorithms, including RCNN, YOLOv4, DeepSort, and RetinaNet, and compared their performance during the research phase. The system provides real-time alerts via email, ensuring timely notifications. Notably, I achieved a frame rate of 51-64 FPS on the CPU, showcasing the efficiency of the implementation. This project highlights my ability to integrate advanced computer vision techniques for effective surveillance solutions.',
         imgSrc: '/videoana.webp',
-        href: 'https://elevenpercent.net',
-    },
-    {
-        title: 'Catenary Maps',
-        tags: ['Web Development', 'Next.js', 'TypeScript', 'Tailwind'],
-        description:
-        'An ad-free, open-source tool for seamless public transport navigation, ingesting millions of realtime data points to streamline the public transit experience. Currently contributing frontend/UX!',
-        imgSrc: '/static/images/misc/catenary-maps.png',
-        href: 'https://github.com/CatenaryTransit',
+        href: '',
     },
     {
         title: 'Customer Behavior of NYC Taxi Ride Prediction',
-        tags: ['Game Development', 'Unity', 'C#', 'Reverse Engineering', 'CTF'],
+        tags: ['Data Science', 'Feature Engineering', 'Machine Learning', 'Time Series Analysis'],
         description:
-            'A fully functional gacha system themed around the popular mobile rhythm game “Project Sekai”, this Unity game was designed to be a reverse-engineering/game-hacking challenge for the SekaiCTF 2023 capture-the-flag competition.',
+            'I analyzed historical taxi ride data to predict customer behavior and ride demand across New York City. Using machine learning models, I identified key factors like peak hours, high-demand areas, and weather effects, optimizing resource allocation for taxi services and improving overall customer experience by ensuring better availability during high-demand periods',
             imgSrc: '/taxi.jpg',
-            href: 'https://github.com/jktrn/azusawas-gacha-world',
+            href: '',
         },
         {
             title: 'Detecting Parkinson Disease using ML Techniques ',
-            tags: ['Web Development', 'Next.js', 'TypeScript', 'Tailwind'],
+            tags: ['Machine Learning', 'EDA', 'Feature Engineering', 'React',],
             description:
-            'Currently contributing frontend work for wanderer.moe, a centralized database of game assets and references serving over 100k monthly active users.',
+            'An in-depth Data science project on the Validity of Parkinson disease via voiced data and handwritten data. Performed data cleaning, EDA, and Feature Engineering, and deployed various Machine learning algorithms along with data visualizations. Achieved accuracy of 96%. Also built an application for the same, that tests and alerts you if you have the disease or not based on the handwritten test, it also prescribes a list of doctors.',
             imgSrc: '/MRI.png',
-            href: 'https://github.com/wanderer-moe',
+            href: '',
         },
         {
             title: 'Meetings',
-            tags: ['Web Development', 'Next.js', 'TypeScript', 'Tailwind'],
+            tags: ['WebRTC', 'Next.js', 'TypeScript', 'TailwindCSS'],
             description:
-            'Currently contributing frontend work for wanderer.moe, a centralized database of game assets and references serving over 100k monthly active users.',
+            'Built a Video Conferencing application for 1: N users, using WebRTC framework written in ReactJS and deployed using ngrok. Demonstrated manual exchange of SDP and ICE Candidate between Peer Connections works in between two Browsers from two different devices.',
             imgSrc: '/videoconf.jpg',
-            href: 'https://github.com/wanderer-moe',
+            href: '',
         },
         {
             title: 'Personal Portfolio v1.0',
