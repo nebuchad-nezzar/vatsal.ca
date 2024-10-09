@@ -5,15 +5,15 @@
 const siteMetadata = {
     title: 'Vatsal Sharma',
     author: 'Vatsal Sharma',
-    headerTitle: 'Vatsal',
+    headerTitle: 'Vatsal Sharma',
     description: 'My online place for thoughts',
     language: 'en-us',
     theme: 'dark', // system, dark or light
     siteUrl: 'https://vatsal.ca',
     siteRepo: 'https://github.com/nebuchad-nezzar',
-    siteLogo: '/static/images/logo.png',
+    siteLogo: './static/images/logo.webp',
     // image: '/static/images/avatar3.jpeg',
-    socialBanner: '/static/images/twittercard.png',
+    // socialBanner: '/static/images/twittercard.png',
     email: 'vatswork10@gmail.com',
     github: 'https://github.com/nebuchad-nezzar',
     twitter: 'https://twitter.com/vats360',
