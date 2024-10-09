@@ -11,8 +11,7 @@ import { Card } from '@/components/ui/card';
 import { StickyScrollRevealDemo } from '@/components/sticky-scroll';
 import { TimelineDemo } from '@/components/timeline';
 import { TextRevealDemo } from '@/components/text-reveal';
-import { genPageMetadata } from 'app/seo';
-import { LayoutGridDemo } from '@/components/layout-grid';
+// import { LayoutGridDemo } from '@/components/layout-grid';
 import { AnimatedShinyTextDemo} from '@/components/animatedshiny-text';
 // import ShortcutHome from '@/components/ShortcutHome'
 
@@ -39,7 +38,7 @@ import { AnimatedShinyTextDemo} from '@/components/animatedshiny-text';
 // TODO for this page //
 
 
-export const metadata = genPageMetadata({ title: 'Vatsal Sharma'})
+
 
 export default function Home({posts}) {
     return (
