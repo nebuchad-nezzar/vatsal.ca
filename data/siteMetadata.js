@@ -13,7 +13,7 @@ const siteMetadata = {
     siteRepo: 'https://github.com/nebuchad-nezzar',
     siteLogo: '/static/images/logo.png',
     // image: '/static/images/avatar3.jpeg',
-    // socialBanner: '/static/images/twittercard.png',
+    socialBanner: '/static/images/twittercard.png',
     email: 'vatswork10@gmail.com',
     github: 'https://github.com/nebuchad-nezzar',
     twitter: 'https://twitter.com/vats360',
