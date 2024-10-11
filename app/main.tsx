@@ -168,7 +168,7 @@ export default function Home({posts}) {
         </h4>
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-    {posts.slice(1, 2).map((post, index) => (
+    {posts.slice(1, 1).map((post, index) => (
         <div
             key={index} // Ensure each item has a unique key
             className="grid-item-e has-overlay relative flex aspect-[6/5] items-start overflow-hidden p-4 hover:bg-none sm:aspect-[2.1/1] sm:items-center xl:aspect-auto"
