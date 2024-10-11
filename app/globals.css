@@ -4,6 +4,7 @@
 
 @layer base {
     :root {
+        /* Light mode colors */
         --background: hsl(0, 0%, 100%);
         --foreground: hsl(0, 0%, 3.9%);
 
@@ -39,6 +40,7 @@
     }
 
     .dark {
+        /* Dark mode colors */
         --background: hsl(0, 0%, 3.9%);
         --foreground: hsl(0, 0%, 98%);
 
@@ -81,6 +83,7 @@
         @apply border-[var(--border)];
     }
 
+    /* Selection styling */
     ::-moz-selection {
         background: rgba(233, 211, 182, 0.5);
         color: white;
