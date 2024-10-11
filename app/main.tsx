@@ -8,10 +8,9 @@ import { LinkPreviewDemo } from '@/components/linkpreview';
 import { GlobeDemo } from '@/components/globe';
 import { EmailSignUp } from '@/components/email-signup';
 import { Card } from '@/components/ui/card';
-import { StickyScrollRevealDemo } from '@/components/sticky-scroll';
 import { TimelineDemo } from '@/components/timeline';
 import { TextRevealDemo } from '@/components/text-reveal';
-// import { LayoutGridDemo } from '@/components/layout-grid';
+import { LayoutGridDemo } from '@/components/layout-grid';
 import { AnimatedShinyTextDemo} from '@/components/animatedshiny-text';
 // import ShortcutHome from '@/components/ShortcutHome'
 
@@ -19,6 +18,7 @@ import { AnimatedShinyTextDemo} from '@/components/animatedshiny-text';
 
 
 
+// import { StickyScrollRevealDemo } from '@/components/sticky-scroll';
 // import { CompareDemo } from '@/components/compare';
 // import { AnimatedBeamDemo } from '@/components/animatedbeams';
 // import { TextGenerateEffectDemo } from '@/components/textgen';
@@ -36,6 +36,9 @@ import { AnimatedShinyTextDemo} from '@/components/animatedshiny-text';
 // import { HoverBorderGradientDemo } from '@/components/gradient-button';k
 
 // TODO for this page //
+
+
+
 
 
 
