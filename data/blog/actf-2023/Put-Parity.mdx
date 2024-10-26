@@ -1,5 +1,5 @@
 ---
-title: 'Option pricing - Put Call Parity'
+title: 'Intro to Option'
 date: '2024-07-24'
 lastmod: '2024-07-24'
 tags: ['Options', 'Quant']
@@ -10,17 +10,38 @@ images: ['/static/images/actf-2023/Admonitions.webp']
 layout: PostLayout
 ---
 
+## Pretext
+See, technical analysis attempts to predict the future price changes in a single stock or the overall equity market by analyzing the past price movements. Technical analysis is extremely popular among the certain market participants although there is considerable controversy attached to it. Nevertheless, if you subscribe to yourself to a school of thought that equity markets are efficient then there is no place for technical analysis.
+Whichever approach you prefer, it is irrefutable to the fact that the stock prices are determined by supply and demand. For example, when a company is scaling up and wishing to raise capital for fixed investment, stock prices ar the overall equity market levels are likely to change fro day to day becasue the demand is changing constantly rather than the net supply of equity is increasing. So, if the investors are feeling particularly confident, then they may well allocate
+more capital to the stocks to push up the prices.
+
+But what about the passive investors? Those who judge the that the future direction of price movements is in predictable in all but the long run?
+
+Empherically, single equity price and the stock market tend to follow a pattern that closely resembles to what math nerds call it as the random walk. The random walk hypothesis is a statistical hypothesis that the price of a stock or a stock market index follows(usually). 
+Predicting future price changes over anything but the medium to long-run insuch a world that is likely to be unfulfilling. Investors can "see" that they will earn a long term average and return above the risk free rate(since the equities are subjected to market risk) but the intermediate path is far from predictable.
+What I'm really trying to say is that the investor can get systematically can get incredibly lucky. This is tip of the iceberg in the world of quant analyst.
+
+In this series I'll be explaining you the basics to get started.
+
+## Hello World!
+To start off, these firms attempts to model the returns from the assets rather than their fair value prices, since price movements appears to be random and whereas the returns, ove r time, seem to follow something akin to a normal distribution.
+The returns are usually calculated as the logarithmic returns, which is the natural logarithm of the price. That's one the ways. Also, the equity prices are more closely resembles the first order autoregressive process than a random walk, such process allows for mean reversion to the trend.
+If so, then there may be opportunities, to beat the market.
+
+Neither the random-walk nor the autoregressive model seems to be an entirely accurate description of the process for equity pricing. However, the market is much more volatile than such model seems to get imply. In particular they are dont capable to explain the prevalance of stock market crashes. And, the model do not explain why the technical analysis has so many fans, no offense intended. If the equity prices behaves statistical stand point then we dont need the read the colorful charts and beg for mercy. As Simon Beninga suggested in his book "Financial Modelling", "if you are going to be a technician, you have to learn to say these things with a straight face".  
+
 ## Intro
-The concept of the underlying asset is fundamental to understanding derivative markets. An underlying asset is the financial instrument upon which derivatives such as options and futures contracts are based. This can include a wide range of assets, from stocks and bonds to commodities and currencies. The value and performance of these derivatives are directly linked to their underlying assets, making them crucial for traders and investors alike. In this blog, we will examine the role of underlying assets in financial markets, their impact on trading strategies, and how they contribute to effective risk management. By gaining a deeper understanding of underlying assets, investors can enhance their decision-making processes and better navigate the complexities of the market.
-The equities are perphaps the most familiar of the asset class. The shareholder capital or stock of a comapny represents the capital paid into ot invested in business by the shareholders for instance. The capital have different type of classes of equity.
+The concept of the underlying asset is fundamental to understanding derivative markets. An underlying asset is a financial instrument upon which derivatives such as options and futures contracts are based. This can include a wide range of assets, from stocks and bonds to commodities and currencies. The value and performance of these derivatives are directly linked to their underlying assets, making them crucial for traders and investors alike. In this blog, we will examine the role of underlying assets in financial markets, their impact on trading strategies, and how they contribute to effective risk management. By gaining a deeper understanding of underlying assets, investors can enhance their decision-making processes and better navigate the complexities of the market.
+The equities are perphaps the most familiar of the asset class. The shareholder capital or stock of a company represents the capital paid into ot invested in business by the shareholders for instance. The capital have different type of classes of equity.
+
 
 ## What is a Commodity?
 Any marketable item produce to satisfy wants or needs and this can include goods and services.
-Commodities are generally have high traded derivaitve market while the spot market tend to be less liquid. The most active derivative market are commodity futures exchanges in the USA and UK, although the first real future marketwas probably the rice market that began in the seventeenth-century Osaka, Japan. Spot market provide for the the immediate delivery of the relevant commodity while derivative market provide for or accomadate deliveryat some point in the future.
+Commodities are generally have high traded derivaitve market while the spot market tend to be less liquid. The most active derivative market are commodity futures exchanges in the USA and UK, although the first real future market was probably the rice market that began in the seventeenth-century Osaka, Japan. Spot market provide for the the immediate delivery of the relevant commodity while derivative market provide for or accomadate deliveryat some point in the future.
 These market help to determine the 'world' prices although most transaction in commodities dont actually takes place 'on market'. Instead bilateral arrangements undertaken directly between the buyer and the and a seller. The prices at which these trades takes place are generally not made in public, since they are private transactions, but they tend to be determine to some extent in the reference to the prices traded on the market.
 
-The main participants in the commodity marketare producers (mining companies, farmers, refiners, oil companies etc.), manufacturers. Other commodities that are traded on the market are the ones who have gone through some refining before they are traded includes gasoline and fuel oil(both are derived from crude oil), sugar, corn etc. In the case of crude oil, goverments sometime are also involved in the maniplation of the price in the case of OPEC.
-Although they are lumped together into one single header, but their prices behave differentlyand they are influnced by commodity-specific factors. Gold prices will be impacted by the festive season in India, oil prices by the driving season in the USA. Point is, as the global economy expands, we can assume that prices of the will rise but the path of prices will be heavily dependent on the forces of nature.
+The main participants in the commodity market are producers(mining companies, farmers, refiners, oil companies etc.), manufacturers. Other commodities that are traded on the market are the ones who have gone through some refining before they are traded includes gasoline and fuel oil(both are derived from crude oil), sugar, corn etc. In the case of crude oil, goverments sometime are also involved in the maniplation of the price in the case of OPEC.
+Although they are lumped together into one single header, but their prices behave differently and they are influnced by commodity-specific factors. Gold prices will be impacted by the festive season in India, oil prices by the driving season in the USA. Point is, as the global economy expands, we can assume that prices of the will rise but the path of prices will be heavily dependent on the forces of nature.
 
 ## What is Hedging?
 Producers and consumers of commodities will use derivatives markets to hedge their future production or consumption. Producers will want to lock in their pricesof their future output so that they have certainity of revenue. This certainity is required since their capital spending requirements are enormous and spread out over many years. Likewise, consumers will look into to lock in the supply of raw materials over time since they will not risk bot being able to find the materials they need to manufacture their goods. This is hedging.
