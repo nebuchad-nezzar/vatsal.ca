@@ -4,65 +4,150 @@ date: '2024-07-24'
 lastmod: '2024-07-24'
 tags: ['Options', 'Quant']
 authors: ['enscribe']
-summary: "Testing Admonitions for my blogs."
+summary: 'Testing Admonitions for my blogs.'
 thumbnail: '/static/images/actf-2023/Admonitions.png'
 images: ['/static/images/actf-2023/Admonitions.webp']
 layout: PostLayout
 ---
 
 ## Pretext
-See, technical analysis attempts to predict the future price changes in a single stock or the overall equity market by analyzing the past price movements. Technical analysis is extremely popular among the certain market participants although there is considerable controversy attached to it. Nevertheless, if you subscribe to yourself to a school of thought that equity markets are efficient then there is no place for technical analysis.
-Whichever approach you prefer, it is irrefutable to the fact that the stock prices are determined by supply and demand. For example, when a company is scaling up and wishing to raise capital for fixed investment, stock prices are the overall equity market levels are likely to change from day to day because the demand is changing constantly rather than the net supply of equity is increasing. So, if the investors are feeling particularly confident, then they may well allocate
-more capital to the stocks to push up the prices.
 
-But what about the passive investors? Those who judge the that the future direction of price movements is in predictable in all but the long run?
+When it comes to investing, understanding the various analytical methods can significantly influence your decision-making process and
+ overall success. Among the most prominent techniques are technical analysis, and fundamental analysis. Each of these approaches offers
+  unique insights and strategies, and knowing the differences can help you choose the right path for your investment journey.
 
-Empirically, single equity price and the stock market tend to follow a pattern that closely resembles to what math nerds call it as the random walk. The random walk hypothesis is a statistical hypothesis that the price of a stock or a stock market index follows(usually). 
-Predicting future price changes over anything but the medium to long-run in such a world that is likely to be unfulfilling. Investors can "see" that they will earn a long term average and return above the risk free rate(since the equities are subjected to market risk) but the intermediate path is far from predictable.
-By that i mean that the investor can get systematically can get incredibly lucky. This is tip of the iceberg in the world of quant analyst.
+While many traders swear by technical analysis, it does have its critics—particularly those who subscribe to the efficient market
+hypothesis (EMH), which suggests that all available information is already reflected in stock prices. Nonetheless, technical indicators
+like moving averages (MA), Bollinger Bands, and the Relative Strength Index (RSI) continue to be essential tools for many in the trading
+ community, helping them navigate the often volatile markets.
+
+Technical analysis attempts to predict the future price changes in a single stock or the overall equity market by analyzing the past
+price movements. Technical analysis is extremely popular among the certain market participants although there is considerable
+controversy attached to it. Nevertheless, if you subscribe to yourself to a school of thought that equity markets are efficient then
+ there is no place for technical analysis. Whichever approach you prefer, it is irrefutable to the fact that the stock prices are
+determined by supply and demand. For example, when a company is scaling up and wishing to raise capital for fixed investment, stock
+prices are the overall equity market levels are likely to change from day to day because the demand is changing constantly rather than
+the net supply of equity is increasing. So, if the investors are feeling particularly confident, then they may well allocate more
+ capital to the stocks to push up the prices.
+
+Fundamental analysis stands in contrast to the previous two methods by focusing on the intrinsic value of a company. Fundamental
+analysts delve into a company’s financial statements—like its income statement, balance sheet, and cash flow statement—to evaluate its
+ overall health and growth potential. They also consider macroeconomic factors, industry trends, and competitive positioning to
+ determine whether a stock is undervalued or overvalued.
+
+This method is particularly appealing to long-term investors who seek to build wealth gradually by identifying solid companies that
+ have strong fundamentals. By understanding a company’s true value, investors can make more informed decisions about their investments
+ and minimize risks associated with market volatility.
+
+But what about the passive investors? Those who judge the that the future direction of price movements is in predictable in all but the
+ long run?
+
+Empirically, single equity price and the stock market tend to follow a pattern that closely resembles to what math nerds call it as the
+random walk. The random walk hypothesis is a statistical hypothesis that the price of a stock or a stock market index follows(usually).
+Predicting future price changes over anything but the medium to long-run in such a world that is likely to be unfulfilling. Investors
+can "see" that they will earn a long term average and return above the risk free rate(since the equities are subjected to market risk)
+ but the intermediate path is far from predictable. By that i mean that the investor can get systematically can get incredibly lucky.
+This is tip of the iceberg in the world of quant analyst.
 
 In this series I'll be explaining you the basics to get started.
 
 ## Hello World!
-To start off, these firms attempts to model the returns from the assets rather than their fair value prices, since price movements appears to be random and whereas the returns, over time, seem to follow something akin to a normal distribution.
-The returns are usually calculated as the logarithmic returns, which is the natural logarithm of the price. That's one the ways. Also, the equity prices are more closely resembles the first order autoregressive process than a random walk, such process allows for mean reversion to the trend.
-If so, then there may be opportunities, to beat the market.
 
-Neither the random-walk nor the autoregressive model seems to be an entirely accurate description of the process for equity pricing. However, the market is much more volatile than such model seems to get imply. In particular they are dont capable to explain the prevalance of stock market crashes. And, the model do not explain why the technical analysis has so many fans, no offense intended. If the equity prices behaves statistical stand point then we dont need the read the colorful charts and beg for mercy. As Simon Beninga suggested in his book "Financial Modelling", "if you are going to be a technician, you have to learn to say these things with a straight face".  
+Derivatives are sophisticated financial instruments whose value is intrinsically linked to a specific financial asset, index, or
+ commodity. These instruments facilitate the trading of particular financial risks in the markets, allowing them to be regarded as
+ independent transactions rather than mere extensions of the underlying financial activities they are associated with. The value of a
+ financial derivative is determined by the performance of an underlying entity, such as a security or market index.
+
+Unlike traditional debt instruments, derivatives do not involve the disbursement of a principal amount that must be repaid, nor do they
+ generate investment income in the conventional sense. Instead, financial derivatives serve various strategic purposes, including risk
+ management, hedging against potential losses, arbitrage opportunities across different markets, and speculative trading aimed at
+ capitalizing on market fluctuations.
+
+It is essential to recognize that the landscape of financial derivatives is dynamic, with ongoing developments influencing their
+ application and regulatory framework. As such, practitioners must stay informed about the evolving nature of these instruments to
+ effectively leverage them in their financial strategies.
+
+Firms attempts to model the returns from the assets rather than their fair value prices, since price movements appears to
+ be random and whereas the returns, over time, seem to follow something akin to a normal distribution. The returns are usually
+calculated as the logarithmic returns, which is the natural logarithm of the price. That's just one of the ways. Also, the equity
+prices are more closely resembles the first order autoregressive process than a random walk, such process allows for mean reversion to
+ the trend. If so, then there may be opportunities, to beat the market.
+
+Neither the random-walk nor the autoregressive model seems to be an entirely accurate description of the process for equity pricing.
+However, the market is much more volatile than such model seems to get imply. In particular they are dont capable to explain the
+ prevalance of stock market crashes. And, the model do not explain why the technical analysis has so many fans, no offense intended. If
+ the equity prices behaves statistical stand point then we dont need the read the colorful charts and beg for mercy. As Simon Beninga
+ suggested in his book "Financial Modelling", "if you are going to be a technician, you have to learn to say these things with a
+ straight face".
 
 ## Intro
-The concept of the underlying asset is fundamental to understanding derivative markets. An underlying asset is a financial instrument upon which derivatives such as options and futures contracts are based. This can include a wide range of assets, from stocks and bonds to commodities and currencies. The value and performance of these derivatives are directly linked to their underlying assets, making them crucial for traders and investors alike. In this blog, we will examine the role of underlying assets in financial markets, their impact on trading strategies, and how they contribute to effective risk management. By gaining a deeper understanding of underlying assets, investors can enhance their decision-making processes and better navigate the complexities of the market.
-The equities are perphaps the most familiar of the asset class. The shareholder capital or stock of a company represents the capital paid into ot invested in business by the shareholders for instance. The capital have different type of classes of equity.
 
+The concept of the underlying asset is fundamental to understanding derivative markets. An underlying asset is a financial instrument
+ upon which derivatives such as options and futures contracts are based. This can include a wide range of assets, from stocks and bonds
+  to commodities and currencies. The value and performance of these derivatives are directly linked to their underlying assets, making
+  them crucial for traders and investors alike. In this blog, we will examine the role of underlying assets in financial markets, their
+  impact on trading strategies, and how they contribute to effective risk management. By gaining a deeper understanding of underlying
+  assets, investors can enhance their decision-making processes and better navigate the complexities of the market. The equities are
+perphaps the most familiar of the asset class. The shareholder capital or stock of a company represents the capital paid into ot
+invested in business by the shareholders for instance. The capital have different type of classes of equity.
 
 ## What is a Commodity?
-Any marketable item produce to satisfy wants or needs and this can include goods and services.
-Commodities generally have highly traded derivative markets, while the spot market tend to be less liquid. The most active derivative market are commodity futures exchanges in the USA and UK, although the first real future market was probably the rice market that began in the seventeenth-century Osaka, Japan. Spot market provide for the the immediate delivery of the relevant commodity while derivative market provide for or accommodate delivery at some point in the future.
-These market help to determine the 'world' prices although most transaction in commodities dont actually takes place 'on market'. Instead bilateral arrangements undertaken directly between the buyer and the and a seller. The prices at which these trades takes place are generally not made in public, since they are private transactions, but they tend to be determine to some extent in the reference to the prices traded on the market.
 
-The main participants in the commodity market are producers(mining companies, farmers, refiners, oil companies etc.) and the manufacturers. Other commodities that are traded on the market are the ones who have gone through some refining before they are traded includes gasoline and fuel oil(both are derived from crude oil), sugar, corn etc. In the case of crude oil, governments sometime are also involved in the manipulationsof the price in the case of OPEC.
-Although they are lumped together into one single header, but their prices behave differently and they are influenced by commodity-specific factors. Gold prices will be impacted by the festive season in India, oil prices by the driving season in the USA. Point is, as the global economy expands, we can assume that prices of the will rise but the path of prices will be heavily dependent on the forces of nature.
+Any marketable item produce to satisfy wants or needs and this can include goods and services. Commodities generally have highly traded
+derivative markets, while the spot market tend to be less liquid. The most active derivative market are commodity futures exchanges in
+the USA and UK, although the first real future market was probably the rice market that began in the seventeenth-century Osaka, Japan.
+Spot market provide for the the immediate delivery of the relevant commodity while derivative market provide for or accommodate
+delivery at some point in the future. These market help to determine the 'world' prices although most transaction in commodities dont
+actually takes place 'on market'. Instead bilateral arrangements undertaken directly between the buyer and the and a seller. The prices
+at which these trades takes place are generally not made in public, since they are private transactions, but they tend to be determine
+ to some extent in the reference to the prices traded on the market.
+
+The main participants in the commodity market are producers(mining companies, farmers, refiners, oil companies etc.) and the
+ manufacturers. Other commodities that are traded on the market are the ones who have gone through some refining before they are traded
+  includes gasoline and fuel oil(both are derived from crude oil), sugar, corn etc. In the case of crude oil, governments sometime are
+   also involved in the manipulations of the price in the case of OPEC. Although they are lumped together into one single header, but
+their prices behave differently and they are influenced by commodity-specific factors. Gold prices will be impacted by the festive
+ season in India, oil prices by the driving season in the USA. Point is, as the global economy expands, we can assume that prices of
+ the will rise but the path of prices will be heavily dependent on the forces of nature.
 
 ## What is Hedging?
-Producers and consumers of commodities will use derivatives markets to hedge their future production or consumption. Producers will want to lock in their pricesof their future output so that they have certainity of revenue. This certainity is required since their capital spending requirements are enormous and spread out over many years. Likewise, consumers will look into to lock in the supply of raw materials over time since they will not risk bot being able to find the materials they need to manufacture their goods. This is hedging.
 
-## Option Pricing 
-Options time preimum 
+Producers and consumers of commodities will use derivatives markets to hedge their future production or consumption. Producers will
+want to lock in their pricesof their future output so that they have certainity of revenue. This certainity is required since their
+capital spending requirements are enormous and spread out over many years. Likewise, consumers will look into to lock in the supply of
+raw materials over time since they will not risk bot being able to find the materials they need to manufacture their goods. This is
+hedging.
+
+## Option Pricing
+
+Options time preimum
 In the money (ITM)-
 
 Out the money (OTM)-
-An option price is made out of 2 parts, ie intrinsic and extrinsic 
+An option price is made out of 2 parts, ie intrinsic and extrinsic
 
 ## Put-call Parity and Synthetics
-Let's first take a step back and look at payoff diagrams and construct a portfolio made up of a long call option at 100 and a short put option on the same 100 dollar strike. If we look at the payoffs at expiry, they are exactly the same as buying the underlying asset. No matter where the underlying finishes at expiry, we will be buying a future at price 100. For example, if the future finishes at  105, our long call will be worth 5, since it's 5 in the money, and we will exercise the right to buy the future for a price of 100, which is equivalent to buying the future at price 100 and realizing that 5 profit from it now being at 105. 
-Since we can construct a position from a call and a put that behaves like an underlying asset, there must be a mathematical link between the prices of the call and the put such that when combined to create the synthetic asset, their prices are equivalent to that of purchasing the underlying. Otherwise, someone could take advantage of a price discrepancy between these three instruments, call, put, and underlying, and trade all three to lock in some risk-free profit. We call this arbitrage.
 
-The idea here is to show how the combination of a long call and a short put at the same strike price can mimic the payoff of owning the underlying asset directly. This concept is crucial in options pricing and leads us to the put-call parity relationship, which helps ensure that arbitrage opportunities are minimized in the market, aka Synthetic Asset Arbitrage Strategy.
+Let's first take a step back and look at payoff diagrams and construct a portfolio made up of a long call option at 100 and a
+short put option on the same 100 dollar strike. If we look at the payoffs at expiry, they are exactly the same as buying the
+underlying asset. No matter where the underlying finishes at expiry, we will be buying a future at price 100. For example,
+if the future finishes at 105, our long call will be worth 5, since it's 5 in the money, and we will exercise the right to
+buy the future for a price of 100, which is equivalent to buying the future at price 100 and realizing that 5 profit from it
+now being at 105.
+
+Since we can construct a position from a call and a put that behaves like an underlying asset, there must be a mathematical link
+between the prices of the call and the put such that when combined to create the synthetic asset, their prices are equivalent to that
+of purchasing the underlying. Otherwise, someone could take advantage of a price discrepancy between these three instruments, call,
+put, and underlying, and trade all three to lock in some risk-free profit. We call this arbitrage.
+
+The idea here is to show how the combination of a long call and a short put at the same strike price can mimic the payoff of owning the
+underlying asset directly. This concept is crucial in options pricing and leads us to the put-call parity relationship, which helps ensure
+that arbitrage opportunities are minimized in the market, aka Synthetic Asset Arbitrage Strategy.
 
 <iframe
-	title="polymarket-market-iframe"
-	src="https://embed.polymarket.com/market.html?market=will-donald-trump-win-the-2024-us-presidential-election&features=volume&theme=dark"
-	width="400"
-	height="180"
-	frameBorder="0"
+    title="polymarket-market-iframe"
+    src="https://embed.polymarket.com/market.html?market=will-donald-trump-win-the-2024-us-presidential-election&features=volume&theme=dark"
+    width="400"
+    height="180"
+    frameBorder="0"
 />
