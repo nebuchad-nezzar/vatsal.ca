@@ -53,8 +53,16 @@ In the money (ITM)-
 Out the money (OTM)-
 An option price is made out of 2 parts, ie intrinsic and extrinsic 
 
-
+## Put-call Parity and Synthetics
 Let's first take a step back and look at payoff diagrams and construct a portfolio made up of a long call option at 100 and a short put option on the same 100 dollar strike. If we look at the payoffs at expiry, they are exactly the same as buying the underlying asset. No matter where the underlying finishes at expiry, we will be buying a future at price 100. For example, if the future finishes at  105, our long call will be worth 5, since it's 5 in the money, and we will exercise the right to buy the future for a price of 100, which is equivalent to buying the future at price 100 and realizing that 5 profit from it now being at 105. 
 Since we can construct a position from a call and a put that behaves like an underlying asset, there must be a mathematical link between the prices of the call and the put such that when combined to create the synthetic asset, their prices are equivalent to that of purchasing the underlying. Otherwise, someone could take advantage of a price discrepancy between these three instruments, call, put, and underlying, and trade all three to lock in some risk-free profit. We call this arbitrage.
 
 The idea here is to show how the combination of a long call and a short put at the same strike price can mimic the payoff of owning the underlying asset directly. This concept is crucial in options pricing and leads us to the put-call parity relationship, which helps ensure that arbitrage opportunities are minimized in the market, aka Synthetic Asset Arbitrage Strategy.
+
+<iframe
+	title="polymarket-market-iframe"
+	src="https://embed.polymarket.com/market.html?market=will-donald-trump-win-the-2024-us-presidential-election&features=volume&theme=dark"
+	width="400"
+	height="180"
+	frameBorder="0"
+/>

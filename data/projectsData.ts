@@ -8,7 +8,7 @@ const projectsData = [
         href: 'https://vatsal.ca',
     },
     {
-        title: 'InvestLens" ',
+        title: 'InvestLens ',
         tags: ['R', 'RShiny', 'Analytics', 'Data Science', 'Dashboard'],
         description:
             'InvestLens is a sophisticated real estate market analytics dashboard built with RShiny, the dashboard enables data-driven investment decisions through comprehensive market analysis. Users can identify trends, compare markets across multiple Canadian cities, calculate mortgage scenarios, and visualize complex market patterns through heat maps and interactive charts. The applications intuitive interface and responsive design make it an invaluable tool for real estate market analysis, investment planning, and mortgage comparison shopping. project demonstrates proficiency in full-stack data analysis, from data processing and statistical analysis to interactive visualization and web application development.',
