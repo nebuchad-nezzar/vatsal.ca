@@ -31,7 +31,7 @@ export default function PostLayout({
     prev,
     children,
 }: LayoutProps) {
-    const { path, slug, tags, date, title, thumbnail } = content
+    const { path, slug, tags, date, title, thumbnail, readingTime } = content
     const displayThumbnail = thumbnail || '/static/images/twitter-card.png'
     const [pageViews, setPageViews] = useState({
         isLoading: true,
@@ -95,6 +95,8 @@ export default function PostLayout({
                                         <time dateTime={date}>
                                             {formatDate(date, siteMetadata.locale)}
                                         </time>
+                                        <span className="mx-2">・</span>
+                                        <span>{readingTime.text} mins read</span>
                                     </dd>
                                 </div>
                             </dl>
