@@ -96,7 +96,7 @@ export default function PostLayout({
                                             {formatDate(date, siteMetadata.locale)}
                                         </time>
                                         <span className="mx-2">・</span>
-                                        <span>{readingTime.text} mins read</span>
+                                        <span>{readingTime.text}</span>
                                     </dd>
                                 </div>
                             </dl>
