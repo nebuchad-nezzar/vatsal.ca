@@ -1,0 +1,18 @@
+---
+title: 'Consistent Hashing'
+date: '2024-07-24'
+lastmod: '2024-07-24'
+tags: ['System Design']
+authors: ['enscribe']
+summary: "Scale your infrastructure smoothly"
+thumbnail: '/static/images/actf-2023/Admonitions.png'
+images: ['/static/images/actf-2023/Admonitions.webp']
+layout: PostLayout
+---
+
+What do DynamoDB, Apache Cassandra, Discord, Akamai CDN and Amazon Web Services have in common. They all use consistent Hashing.  We'll
+undersand why do they use it and why is it needed.
+
+In large scale distributed system, data doesn't fit on a single server. They are distributed across many machine, which you may know as
+horizontal scaling. To build such a system with a predictable performance, it is important to distribute the data evenly across those
+server.
