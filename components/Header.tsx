@@ -42,10 +42,10 @@ const Header = () => {
                             <div className="flex items-center justify-between rounded-full">
                                 <NextImage
                                     src="/static/images/logo.webp"
-                                    alt="Logo"
+                                    alt="Vatsal Sharma"
                                     width="50"
                                     height="50"
-                                    title="Logo"
+                                    title="Vatsal Sharma"
                                 />
                             </div>
                         </Link>

@@ -260,7 +260,7 @@ const cards = [
     },
   },
   {
-    description: "Video conferencing Application",
+    description: "Video Conferencing Application",
     title: "Meetings",
     src: "/videoconf.jpg",
     ctaText: "Visit",
