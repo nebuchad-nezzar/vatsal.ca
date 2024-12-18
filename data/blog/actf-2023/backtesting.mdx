@@ -16,14 +16,55 @@ Backtesting is the process of creating the historical trades, given the historic
 
 ---
 
+## Survivorship bias?
 
+Survivorship bias is a form of selection bias that occurs when you only analyze the data of the assets that have survived a certain
+period, while ignoring or discarding the data of the assets that have disappeared or dropped out. For example, if you backtest a
+strategy that invests in the S&P 500 index, you might be using a different set of stocks than the ones that were actually in the index
+10 years ago, because some of them have been replaced, merged, or delisted due to poor performance or other reasons. This can inflate
+your backtest results and make your strategy look more profitable or less risky than it really is.
 
+### Why is survivorship bias a problem?
 
+Survivorship bias can lead to overestimating the returns, underestimating the volatility, and misrepresenting the risk-reward profile
+of a trading strategy. It can also distort the correlation, diversification, and factor exposure of a portfolio. For example, if you
+backtest a strategy that picks stocks based on momentum, you might be missing out on the stocks that had negative momentum and crashed
+or went bankrupt, which would affect your drawdowns, Sharpe ratio, and alpha. Survivorship bias can also make your strategy less robust
+and adaptable to changing market conditions, because you are not testing it on the full range of possible scenarios and outcomes.
 
+Survivorship bias skews backtesting results in several ways:
 
+  -  Overestimating Returns: Ignoring companies removed due to poor performance inflates historical performance.
 
+  -  Underestimating Risk: Failing to account for companies that went bankrupt or underperformed leads to artificially low risk levels.
 
+  -  Unrealistic Strategy Evaluation: Trading signals based on incomplete constituent data can lead to false conclusions about strategy
+     robustness.
 
+### How to detect survivorship bias?
 
+One way to detect survivorship bias is to compare your backtest results with a benchmark or a peer group that has similar
+characteristics and objectives. For example, if you backtest a strategy that invests in US large-cap stocks, you can compare it with an
+index fund or an ETF that tracks the same market segment. If your backtest results are significantly better than the benchmark or the
+peer group, you might have survivorship bias in your data or your methodology. Another way to detect survivorship bias is to look for
+gaps, inconsistencies, or anomalies in your data or your performance metrics. For example, if you see sudden jumps or drops in your
+returns, volatility, or turnover, you might have survivorship bias due to missing or inaccurate data.
 
+### How to avoid survivorship bias?
+
+The best way to avoid survivorship bias is to use high-quality data that includes all the assets that were available and tradable in
+your target market and time period, regardless of whether they survived or not. You can also use point-in-time data, which reflects the
+information and prices that were known and observable at each point in time, rather than adjusted or updated data, which incorporates
+hindsight and revisions. For example, if you use point-in-time data, you will see the stocks that were delisted or suspended from
+trading in your data set, rather than having them disappear or replaced by other stocks. You can also use survivorship-bias-free
+databases, which are designed to eliminate or minimize survivorship bias by providing comprehensive and consistent data.
+
+### How to adjust for survivorship bias?
+
+If you cannot avoid survivorship bias completely, you can try to adjust for it by applying some corrections or modifications to your
+data or your methodology. For example, you can use delisting returns, which are the returns that you would have earned or lost if you
+held a stock until it was delisted or stopped trading. You can also use imputation methods, which are techniques for filling in the
+missing or incomplete data with reasonable estimates or assumptions. For example, you can use the average or median return of the
+market or the sector as an imputed return for a missing or delisted stock. You can also use sensitivity analysis, which is a method for
+testing how your results change when you vary your inputs or parameters.
 
