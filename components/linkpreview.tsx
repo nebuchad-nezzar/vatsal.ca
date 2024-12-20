@@ -11,7 +11,7 @@ export function LinkPreviewDemo() {
         <LinkPreview 
         url="https://volatilty-visualizer-v1.vercel.app/" 
         className="font-bold bg-clip-text text-transparent bg-gradient-to-br from-purple-500 to-pink-500">
-            Volatility Analyzer
+            Options Volatility Analyzer
         </LinkPreview>.{" "}
         {/* and{" "}
         <LinkPreview url="https://framer.com/motion" className="font-bold">
