@@ -4,20 +4,17 @@ import {BentoDemo} from '@/components/bento-grid1'
 import Image from '@/components/Image'
 import ExternalLink from '@/components/bento/ExternalLink'
 import { ExpandableCardDemo } from '@/components/outsideclick';
-import { LinkPreviewDemo } from '@/components/linkpreview';
+// import { LinkPreviewDemo } from '@/components/linkpreview';
 import { GlobeDemo } from '@/components/globe';
 import { EmailSignUp } from '@/components/email-signup';
 import { Card } from '@/components/ui/card';
 import { TimelineDemo } from '@/components/timeline';
 import { TextRevealDemo } from '@/components/text-reveal';
-import { LayoutGridDemo } from '@/components/layout-grid';
 import { AnimatedShinyTextDemo} from '@/components/animatedshiny-text';
+
+
+// import { LayoutGridDemo } from '@/components/layout-grid';
 // import ShortcutHome from '@/components/ShortcutHome'
-
-
-
-
-
 // import { StickyScrollRevealDemo } from '@/components/sticky-scroll';
 // import { CompareDemo } from '@/components/compare';
 // import { AnimatedBeamDemo } from '@/components/animatedbeams';
@@ -269,7 +266,7 @@ export default function Home({posts}) {
 
 </div>
 
-                <LinkPreviewDemo/>
+                {/* <LinkPreviewDemo/> */}
                 {/* <LayoutGridDemo/> */}
                 <br></br>   
                 <div>
