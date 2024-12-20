@@ -42,7 +42,7 @@ module.exports = {
             },
             colors: {
                 'custom-beige': '#E9D3B6',
-                black: colors.gray[950],
+                gray: colors.gray,
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',
                 ring: 'hsl(var(--ring))',
@@ -50,7 +50,7 @@ module.exports = {
                 foreground: 'hsl(var(--foreground))',
                 primary: {
                     DEFAULT: 'hsl(var(--primary))',
-                    400: 'hsl(var(--primary))',
+                    900: 'hsl(var(--primary))',
                     500: 'hsl(var(--primary))',
                     600: 'hsl(var(--primary))',
                     foreground: 'hsl(var(--primary-foreground))',
