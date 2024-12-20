@@ -1,7 +1,6 @@
 // @ts-check
 const { fontFamily } = require('tailwindcss/defaultTheme')
 const colors = require('tailwindcss/colors')
-const { default: flattenColorPalette } = require("tailwindcss/lib/util/flattenColorPalette");
 
 /** @type {import("tailwindcss/types").Config } */
 module.exports = {
@@ -40,52 +39,52 @@ module.exports = {
       },
       colors: {
         'custom-beige': '#E9D3B6',
-        black: colors.black,
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
+        black: '#000000',
+        border: '#333333',
+        input: '#262626',
+        ring: '#404040',
+        background: '#000000',
+        foreground: '#FFFFFF',
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          900: 'hsl(var(--primary))',
-          500: 'hsl(var(--primary))',
-          600: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
+          DEFAULT: '#000000',
+          900: '#000000',
+          500: '#0A0A0A',
+          600: '#050505',
+          foreground: '#FFFFFF',
         },
         secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
+          DEFAULT: '#000000',
+          foreground: '#FFFFFF',
         },
         tertiary: {
-          DEFAULT: 'hsl(var(--tertiary))',
-          foreground: 'hsl(var(--tertiary-foreground))',
+          DEFAULT: '#000000',
+          foreground: '#FFFFFF',
         },
         destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
+          DEFAULT: '#FF0000',
+          foreground: '#FFFFFF',
         },
         muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
+          DEFAULT: '#1A1A1A',
+          foreground: '#A3A3A3',
         },
         accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
+          DEFAULT: '#000000',
+          foreground: '#FFFFFF',
         },
         popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
+          DEFAULT: '#000000',
+          foreground: '#FFFFFF',
         },
         card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
+          DEFAULT: '#000000',
+          foreground: '#FFFFFF',
         },
       },
       borderRadius: {
-        lg: `var(--radius)`,
-        md: `calc(var(--radius) - 2px)`,
-        sm: 'calc(var(--radius) - 4px)',
+        lg: '0.5rem',
+        md: '0.375rem',
+        sm: '0.25rem',
       },
       keyframes: {
         'accordion-down': {
@@ -199,25 +198,8 @@ module.exports = {
     },
   },
   plugins: [
-    addVariablesForColors,
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
     require('tailwindcss-animate'),
   ],
-}
-
-/**
- * Adds CSS variables for custom colors.
- * This is done to enhance flexibility and allow runtime manipulation of theme variables.
- * @param {object} param0 Tailwind's addBase and theme utilities
- */
-function addVariablesForColors({ addBase, theme }) {
-  let allColors = flattenColorPalette(theme("colors"));
-  let newVars = Object.fromEntries(
-    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
-  );
-
-  addBase({
-    ":root": newVars,
-  });
 }
