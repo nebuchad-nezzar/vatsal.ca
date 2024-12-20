@@ -1,6 +1,7 @@
 // @ts-check
 const { fontFamily } = require('tailwindcss/defaultTheme')
 const colors = require('tailwindcss/colors')
+const flattenColorPalette = require('tailwindcss/lib/util/flattenColorPalette');
 
 /** @type {import("tailwindcss/types").Config } */
 module.exports = {
@@ -194,3 +195,16 @@ module.exports = {
         require('tailwindcss-animate'),
     ],
 }
+
+
+
+function addVariablesForColors({ addBase, theme }) {
+    let allColors = flattenColorPalette(theme("colors"));
+    let newVars = Object.fromEntries(
+      Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+    );
+   
+    addBase({
+      ":root": newVars,
+    });
+  }
