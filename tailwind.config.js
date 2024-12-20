@@ -70,7 +70,7 @@ module.exports = {
                     foreground: '#FFFFFF', // White
                 },
                 accent: {
-                    DEFAULT: '#222222', // Gold
+                    DEFAULT: '#FFD700', // Gold
                     foreground: '#000000', // Black
                 },
                 popover: {
