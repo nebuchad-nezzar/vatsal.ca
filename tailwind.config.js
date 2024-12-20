@@ -1,9 +1,7 @@
 // @ts-check
-const { fontFamily } = require('tailwindcss/defaultTheme')
-const colors = require('tailwindcss/colors')
-const {
-    default: flattenColorPalette,
-  } = require("tailwindcss/lib/util/flattenColorPalette");
+const { fontFamily } = require('tailwindcss/defaultTheme');
+const colors = require('tailwindcss/colors');
+const { default: flattenColorPalette } = require("tailwindcss/lib/util/flattenColorPalette");
 
 /** @type {import("tailwindcss/types").Config } */
 module.exports = {
@@ -42,7 +40,7 @@ module.exports = {
             },
             colors: {
                 'custom-beige': '#E9D3B6',
-                black:colors.black,
+                gray: colors.gray,
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',
                 ring: 'hsl(var(--ring))',
@@ -50,7 +48,7 @@ module.exports = {
                 foreground: 'hsl(var(--foreground))',
                 primary: {
                     DEFAULT: 'hsl(var(--primary))',
-                    900: 'hsl(var(--primary))',
+                    400: 'hsl(var(--primary))',
                     500: 'hsl(var(--primary))',
                     600: 'hsl(var(--primary))',
                     foreground: 'hsl(var(--primary-foreground))',
@@ -208,16 +206,13 @@ module.exports = {
     ],
 }
 
-
 function addVariablesForColors({ addBase, theme }) {
     let allColors = flattenColorPalette(theme("colors"));
     let newVars = Object.fromEntries(
       Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
     );
-   
+
     addBase({
       ":root": newVars,
     });
-  }
-
-  
+}
