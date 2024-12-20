@@ -1,7 +1,6 @@
 // @ts-check
-const { fontFamily } = require('tailwindcss/defaultTheme');
-const colors = require('tailwindcss/colors');
-const { default: flattenColorPalette } = require("tailwindcss/lib/util/flattenColorPalette");
+const { fontFamily } = require('tailwindcss/defaultTheme')
+const colors = require('tailwindcss/colors')
 
 /** @type {import("tailwindcss/types").Config } */
 module.exports = {
@@ -25,7 +24,6 @@ module.exports = {
         extend: {
             screens: {
                 'bento-sm': '374px',
-                xs: '475px',
                 'bento-md': '799px',
                 'bento-lg': '1199px',
             },
@@ -36,10 +34,10 @@ module.exports = {
                 14: '3.5rem',
             },
             fontFamily: {
-                sans: ['var(--font-space-jetbrains-mono)', ...fontFamily.mono],
+                sans: ['var(--font-space-jetbrains-mono)', ...fontFamily.sans],
             },
             colors: {
-                'custom-beige': '#E9D3B6',
+                // primary: colors.pink,
                 gray: colors.gray,
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',
@@ -47,39 +45,40 @@ module.exports = {
                 background: 'hsl(var(--background))',
                 foreground: 'hsl(var(--foreground))',
                 primary: {
-                    DEFAULT: '#000000', // Black
-                    400: '#000000',
-                    500: '#000000',
-                    600: '#000000',
-                    foreground: '#FFFFFF', // White
+                    DEFAULT: 'hsl(var(--primary))',
+                    // DocSearch colors
+                    400: 'hsl(var(--primary))',
+                    500: 'hsl(var(--primary))',
+                    600: 'hsl(var(--primary))',
+                    foreground: 'hsl(var(--primary-foreground))',
                 },
                 secondary: {
-                    DEFAULT: '#1A1A1A', // Dark Gray
-                    foreground: '#FFFFFF', // White
+                    DEFAULT: 'hsl(var(--secondary))',
+                    foreground: 'hsl(var(--secondary-foreground))',
                 },
                 tertiary: {
-                    DEFAULT: '#333333', // Medium Gray
-                    foreground: '#FFFFFF', // White
+                    DEFAULT: 'hsl(var(--tertiary))',
+                    foreground: 'hsl(var(--tertiary-foreground))',
                 },
                 destructive: {
-                    DEFAULT: '#FF0000', // Red
-                    foreground: '#FFFFFF', // White
+                    DEFAULT: 'hsl(var(--destructive))',
+                    foreground: 'hsl(var(--destructive-foreground))',
                 },
                 muted: {
-                    DEFAULT: '#555555', // Light Gray
-                    foreground: '#FFFFFF', // White
+                    DEFAULT: 'hsl(var(--muted))',
+                    foreground: 'hsl(var(--muted-foreground))',
                 },
                 accent: {
-                    DEFAULT: '#FFD700', // Gold
-                    foreground: '#000000', // Black
+                    DEFAULT: 'hsl(var(--accent))',
+                    foreground: 'hsl(var(--accent-foreground))',
                 },
                 popover: {
-                    DEFAULT: '#222222', // Very Dark Gray
-                    foreground: '#FFFFFF', // White
+                    DEFAULT: 'hsl(var(--popover))',
+                    foreground: 'hsl(var(--popover-foreground))',
                 },
                 card: {
-                    DEFAULT: '#111111', // Almost Black
-                    foreground: '#FFFFFF', // White
+                    DEFAULT: 'hsl(var(--card))',
+                    foreground: 'hsl(var(--card-foreground))',
                 },
             },
             borderRadius: {
@@ -96,20 +95,11 @@ module.exports = {
                     from: { height: 'var(--radix-accordion-content-height)' },
                     to: { height: 0 },
                 },
-                shimmer: {
-                    '0%, 90%, 100%': {
-                        'background-position': 'calc(-100% - var(--shimmer-width)) 0',
-                    },
-                    '30%, 60%': {
-                        'background-position': 'calc(100% + var(--shimmer-width)) 0',
-                    },
-                },
             },
             animation: {
                 'accordion-down': 'accordion-down 0.2s ease-out',
                 'accordion-up': 'accordion-up 0.2s ease-out',
                 skeleton: 'skeleton 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                shimmer: 'shimmer 8s infinite',
             },
             typography: ({ theme }) => ({
                 DEFAULT: {
@@ -199,20 +189,8 @@ module.exports = {
         },
     },
     plugins: [
-        addVariablesForColors,
         require('@tailwindcss/forms'),
         require('@tailwindcss/typography'),
         require('tailwindcss-animate'),
     ],
-}
-
-function addVariablesForColors({ addBase, theme }) {
-    let allColors = flattenColorPalette(theme("colors"));
-    let newVars = Object.fromEntries(
-      Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
-    );
-
-    addBase({
-      ":root": newVars,
-    });
 }
