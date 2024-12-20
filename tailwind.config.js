@@ -47,39 +47,39 @@ module.exports = {
                 background: 'hsl(var(--background))',
                 foreground: 'hsl(var(--foreground))',
                 primary: {
-                    DEFAULT: 'hsl(var(--primary))',
-                    400: 'hsl(var(--primary))',
-                    500: 'hsl(var(--primary))',
-                    600: 'hsl(var(--primary))',
-                    foreground: 'hsl(var(--primary-foreground))',
+                    DEFAULT: '#000000', // Black
+                    400: '#000000',
+                    500: '#000000',
+                    600: '#000000',
+                    foreground: '#FFFFFF', // White
                 },
                 secondary: {
-                    DEFAULT: 'hsl(var(--secondary))',
-                    foreground: 'hsl(var(--secondary-foreground))',
+                    DEFAULT: '#1A1A1A', // Dark Gray
+                    foreground: '#FFFFFF', // White
                 },
                 tertiary: {
-                    DEFAULT: 'hsl(var(--tertiary))',
-                    foreground: 'hsl(var(--tertiary-foreground))',
+                    DEFAULT: '#333333', // Medium Gray
+                    foreground: '#FFFFFF', // White
                 },
                 destructive: {
-                    DEFAULT: 'hsl(var(--destructive))',
-                    foreground: 'hsl(var(--destructive-foreground))',
+                    DEFAULT: '#FF0000', // Red
+                    foreground: '#FFFFFF', // White
                 },
                 muted: {
-                    DEFAULT: 'hsl(var(--muted))',
-                    foreground: 'hsl(var(--muted-foreground))',
+                    DEFAULT: '#555555', // Light Gray
+                    foreground: '#FFFFFF', // White
                 },
                 accent: {
-                    DEFAULT: 'hsl(var(--accent))',
-                    foreground: 'hsl(var(--accent-foreground))',
+                    DEFAULT: '#222222', // Gold
+                    foreground: '#000000', // Black
                 },
                 popover: {
-                    DEFAULT: 'hsl(var(--popover))',
-                    foreground: 'hsl(var(--popover-foreground))',
+                    DEFAULT: '#222222', // Very Dark Gray
+                    foreground: '#FFFFFF', // White
                 },
                 card: {
-                    DEFAULT: 'hsl(var(--card))',
-                    foreground: 'hsl(var(--card-foreground))',
+                    DEFAULT: '#111111', // Almost Black
+                    foreground: '#FFFFFF', // White
                 },
             },
             borderRadius: {
