@@ -4,7 +4,7 @@ import {BentoDemo} from '@/components/bento-grid1'
 import Image from '@/components/Image'
 import ExternalLink from '@/components/bento/ExternalLink'
 import { ExpandableCardDemo } from '@/components/outsideclick';
-// import { LinkPreviewDemo } from '@/components/linkpreview';
+import { LinkPreviewDemo } from '@/components/linkpreview';
 import { GlobeDemo } from '@/components/globe';
 import { EmailSignUp } from '@/components/email-signup';
 import { Card } from '@/components/ui/card';
@@ -266,7 +266,7 @@ export default function Home({posts}) {
 
 </div>
 
-                {/* <LinkPreviewDemo/> */}
+                <LinkPreviewDemo/>
                 {/* <LayoutGridDemo/> */}
                 <br></br>   
                 <div>
