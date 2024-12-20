@@ -1,12 +1,5 @@
 const projectsData = [
-    {
-        title: 'Volatilty Analyzer',
-        tags: ['Quant', 'Next.js', 'TypeScript', 'API'],
-        description:
-        'In the complex landscape of modern financial markets, understanding and visualizing options volatility remains a critical challenge for traders, analysts, and financial institutions. This article explores an innovative solution: a comprehensive options volatility analyzer that combines sophisticated mathematical modeling with intuitive visual representations, offering powerful insights into market dynamics and risk assessment.',
-        imgSrc: '/static/images/Volatility.png',
-        href: 'https://volatilty-visualizer-v1.vercel.app/',
-    },
+    
     {
         title: 'InvestLens ',
         tags: ['R', 'RShiny', 'Analytics', 'Data Science', 'Dashboard'],
