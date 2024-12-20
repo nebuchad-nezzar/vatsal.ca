@@ -42,7 +42,9 @@ module.exports = {
             },
             colors: {
                 'custom-beige': '#E9D3B6',
-                black: colors.black,
+                gray: {
+                    500: colors.black, // Map gray.500 to black
+                  },
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',
                 ring: 'hsl(var(--ring))',
