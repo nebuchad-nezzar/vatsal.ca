@@ -4,7 +4,7 @@ const projectsData = [
         tags: ['Quant', 'Options'],
         description:
         'The Options Volatility Visualizer is a sophisticated tool designed for advanced options traders, institutional investors, and quantitative analysts. It provides in-depth insights into market volatility through interactive 3D/4D volatility surfaces, Monte Carlo simulations, and historical implied volatility analysis. The platform also offers robust Greeks analysis, multi-asset support, and VIX integration (in development), empowering users to model options, assess risks, and interpret volatility trends. With its data-driven approach, the tool helps traders optimize strategies, manage risk, and make informed, precise decisions in dynamic markets.',
-        imgSrc: '/static/image/Volatility.png',
+        imgSrc: '/Volatility.png',
         href: 'https://volatilty-visualizer-v1.vercel.app/',
     },
     {

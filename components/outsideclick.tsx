@@ -208,7 +208,7 @@ const cards = [
   {
     description: "Options Volatility Analyser",
     title: "Advanced tool for volatility analysis for options traders.",
-    src: "Volatility.png'",
+    src: "/Volatility.png'",
     ctaText: "Visit",
     ctaLink: "https://volatilty-visualizer-v1.vercel.app/",
     content: () => {
@@ -236,7 +236,7 @@ Thanks!
         <p>
           InvestLens is a sophisticated real estate market analytics dashboard built with RShiny, the dashboard enables data-driven 
           investment decisions through comprehensive market analysis. Users can identify trends, compare markets across multiple 
-          Canadian cities, calculate mortgage scenarios, and visualize complex market patterns through heat maps and interactive charts. 
+          citiesin Texas, calculate mortgage scenarios, and visualize complex market patterns through heat maps and interactive charts. 
           The applications intuitive interface and responsive design make it an invaluable tool for real estate market analysis, investment 
           planning, and mortgage comparison shopping. project demonstrates proficiency in full-stack data analysis, from data processing and 
           statistical analysis to interactive visualization and web application development.
