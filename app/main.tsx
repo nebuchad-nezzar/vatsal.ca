@@ -89,14 +89,7 @@ export default function Home({posts}) {
             <p className="mt-4 font-normal text-base text-neutral-300  ">
             {/* Use '&apos;' apostrophe  */}
             I’m driven by a deep curiosity to understand the core principles behind how things work. This passion fuels my exploration of 
-            diverse fields, from {' '} 
-            <RoughNotation
-              type="underline"
-              show={true}
-              color="#ADD8E6"
-              animationDelay={1400}
-              animationDuration={1200}
-            >first principles{' '}</RoughNotation> 
+            diverse fields, from first principles.
             <p>Currently, I’m focused on mastering Quantitative Finance and Large Language Models (LLMs), exploring how these transformative areas can be 
                 harnessed to create innovative solutions and products.</p>
             <p>With 2 years of experience designing scalable backend systems and building enterprise-level software, I’ve developed a
