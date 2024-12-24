@@ -96,7 +96,7 @@ export default function Home({posts}) {
               color="#ADD8E6"
               animationDelay={1400}
               animationDuration={1200}
-            >first principles{' '}</RoughNotation> to emerging technologies.
+            >first principles{' '}</RoughNotation> 
             <p>Currently, I’m focused on mastering Quantitative Finance and Large Language Models (LLMs), exploring how these transformative areas can be 
                 harnessed to create innovative solutions and products.</p>
             <p>With 2 years of experience designing scalable backend systems and building enterprise-level software, I’ve developed a

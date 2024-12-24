@@ -207,29 +207,20 @@ export const CloseIcon = () => {
 const cards = [
   {
     description: "Options Volatility Analyser",
-    title: "A cutting-edge tool for options traders, delivering interactive volatility analysis, advanced risk metrics, and real-time market insights.",
-    src: "/static/image/Volatility.png'",
+    title: "Advanced tool for volatility analysis for options traders.",
+    src: "Volatility.png'",
     ctaText: "Visit",
     ctaLink: "https://volatilty-visualizer-v1.vercel.app/",
     content: () => {
       return (
         <p>
-           Designed for advanced traders, institutional investors, and quants, this cutting-edge platform revolutionizes how you analyze, predict, and manage market volatility. 
-           With interactive 3D/4D volatility surfaces, visualize the intricate dynamics of options pricing like never before. 
-           Dive deeper with Monte Carlo simulations and uncover potential market scenarios while leveraging historical implied volatility 
-           trends to anticipate market movements. Stay ahead with real-time VIX integration, giving you the pulse of market sentiment at your 
-           fingertips. Gain a competitive edge with robust Greeks analysis, helping you understand price sensitivities and manage risks across 
-           multi-asset and multi-exchange portfolios. 
-           Volatility Analyser simplifies complex data into intuitive visualizations, empowering you to optimize strategies, reduce risk, 
-           and make data-driven decisions with confidence. Whether you're hedging risk, crafting advanced options strategies, or exploring new
-            market opportunities, Volatility Analyser is your partner in navigating dynamic trading environments. Its user-friendly interface, 
-            actionable insights, and unparalleled analytics make it an indispensable tool for any serious trader.
+           Designed for advanced traders, institutional investors, and quants, this cutting-edge platform revolutionizes how you analyze, predict, and manage market volatility. With interactive 3D/4D volatility surfaces, visualize complex dynamics of options pricing like never before. Dive deeper into market scenarios using Monte Carlo simulations, while leveraging historical implied volatility trends to anticipate market movements. Stay ahead of the curve with real-time VIX integration, offering insights into market sentiment at your fingertips. Gain a competitive advantage with comprehensive Greeks analysis, enabling better understanding of price sensitivities and risk management across multi-asset, multi-exchange portfolios.
 
-            We are constantly working to improve and expand the platform and would love to hear from you. If you're interested in contributing or collaborating on the project, please feel free to reach out via email.
+Volatility Analyser simplifies complex data into intuitive visualizations, empowering you to optimize strategies, reduce risk, and make informed decisions. Whether you're hedging risk, crafting advanced options strategies, or exploring new opportunities, Volatility Analyser is your trusted partner in navigating dynamic trading environments. Its user-friendly interface and actionable insights make it indispensable for serious traders.
 
-            Thanks!
+We are constantly improving the platform. If you'd like to contribute, feel free to reach out via email.
 
-            Feel
+Thanks!
         </p>
       );
     },
