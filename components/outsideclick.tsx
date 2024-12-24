@@ -205,21 +205,50 @@ export const CloseIcon = () => {
 };
 
 const cards = [
- 
   {
-    description: "Validity of Dysphonia and Bradykinesia and measurements of Diagnosis of Parkinsons Disease",
-    title: "Detecting Parkinson Disease using ML Techniques.",
-    src: "/MRI.png",
+    description: "Options Volatility Analyser",
+    title: "A cutting-edge tool for options traders, delivering interactive volatility analysis, advanced risk metrics, and real-time market insights.",
+    src: "/static/image/Volatility.png'",
     ctaText: "Visit",
-    ctaLink: "https://ui.aceternity.com/templates",
+    ctaLink: "https://volatilty-visualizer-v1.vercel.app/",
     content: () => {
       return (
         <p>
-          An in-depth Data science project on Validity of Parkinson disease via voiced data and handwritten data. 
-          Performed data cleaning, EDA, Feature Engineering, deployed various Machine learning algorithms along with data visualizations. 
-          Achieved accuracy of 98%. Also built an application for the same, 
-          that test and alerts you if you have the disease or not based on handwritten test, 
-          it also prescribes a list of doctors.
+           Designed for advanced traders, institutional investors, and quants, this cutting-edge platform revolutionizes how you analyze, predict, and manage market volatility. 
+           With interactive 3D/4D volatility surfaces, visualize the intricate dynamics of options pricing like never before. 
+           Dive deeper with Monte Carlo simulations and uncover potential market scenarios while leveraging historical implied volatility 
+           trends to anticipate market movements. Stay ahead with real-time VIX integration, giving you the pulse of market sentiment at your 
+           fingertips. Gain a competitive edge with robust Greeks analysis, helping you understand price sensitivities and manage risks across 
+           multi-asset and multi-exchange portfolios. 
+           Volatility Analyser simplifies complex data into intuitive visualizations, empowering you to optimize strategies, reduce risk, 
+           and make data-driven decisions with confidence. Whether you're hedging risk, crafting advanced options strategies, or exploring new
+            market opportunities, Volatility Analyser is your partner in navigating dynamic trading environments. Its user-friendly interface, 
+            actionable insights, and unparalleled analytics make it an indispensable tool for any serious trader.
+
+            We are constantly working to improve and expand the platform and would love to hear from you. If you're interested in contributing or collaborating on the project, please feel free to reach out via email.
+
+            Thanks!
+
+            Feel
+        </p>
+      );
+    },
+  },
+  {
+    description: "InvestLens",
+    title: "Real Estate Market Analytics ",
+    src: "/static/images/realestate.jpg",
+    ctaText: "Visit",
+    ctaLink: "https://vatsal1910.shinyapps.io/Real-Estate-Dashboard-Texas/",
+    content: () => {
+      return (
+        <p>
+          InvestLens is a sophisticated real estate market analytics dashboard built with RShiny, the dashboard enables data-driven 
+          investment decisions through comprehensive market analysis. Users can identify trends, compare markets across multiple 
+          Canadian cities, calculate mortgage scenarios, and visualize complex market patterns through heat maps and interactive charts. 
+          The applications intuitive interface and responsive design make it an invaluable tool for real estate market analysis, investment 
+          planning, and mortgage comparison shopping. project demonstrates proficiency in full-stack data analysis, from data processing and 
+          statistical analysis to interactive visualization and web application development.
         </p>
       );
     },
@@ -229,7 +258,7 @@ const cards = [
     title: "Video Surveillance",
     src: "/videoana.webp",
     ctaText: "Visit",
-    ctaLink: "https://ui.aceternity.com/templates",
+    ctaLink: "https://github.com/nebuchad-nezzar",
     content: () => {
       return (
         <p>
@@ -248,7 +277,7 @@ const cards = [
     title: "NYC Taxi Trip Duration Prediction",
     src: "/taxi.jpg",
     ctaText: "Visit",
-    ctaLink: "https://ui.aceternity.com/templates",
+    ctaLink: "https://github.com/nebuchad-nezzar",
     content: () => {
       return (
         <p>
@@ -264,29 +293,13 @@ const cards = [
     title: "Meetings",
     src: "/videoconf.jpg",
     ctaText: "Visit",
-    ctaLink: "https://ui.aceternity.com/templates",
+    ctaLink: "https://github.com/nebuchad-nezzar",
     content: () => {
       return (
         <p>
           Built a Video Conferencing application for 1: N users, using WebRTC framework written in ReactJS and deployed using Ngrok. 
           Demonstrated manual exchange of SDP and ICE Candidate between Peer Connections in two browsers within the same computer
           as well as between two Browsers from two different devices.
-        </p>
-      );
-    },
-  },
-  {
-    description: "Personal Website v1.0",
-    title: "My website ",
-    src: "/v1.png",
-    ctaText: "Visit",
-    ctaLink: "https://vatsal.ca",
-    content: () => {
-      return (
-        <p>
-          My first home on the internet, built with tailwind.
-          Intergrated Mailchimp, Spotify, Umami, giscus API and had reading time and views for the blog selction .
-          Currently Deprecated.
         </p>
       );
     },

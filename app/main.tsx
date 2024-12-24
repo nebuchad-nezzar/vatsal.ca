@@ -86,31 +86,23 @@ export default function Home({posts}) {
             {/* <BoxRevealDemo/> */}
             {/* <FlipWordsDemo/> */}
             
-
-    
-
             <p className="mt-4 font-normal text-base text-neutral-300  ">
-            <p>Hi! there I'm {' '}
-            <RoughNotation
-              type="underline"
-              show={true}
-              color="#fff176"
-              animationDelay={800}
-              animationDuration={1200}
-            >Vatsal{' '}.
-            </RoughNotation>
-            </p>
-            I'm driven by a passion for understanding how things work at their core. This curiosity leads me to explore a wide range of 
-            interests, from deep-diving into{' '} 
+            {/* Use '&apos;' apostrophe  */}
+            I’m driven by a deep curiosity to understand the core principles behind how things work. This passion fuels my exploration of 
+            diverse fields, from {' '} 
             <RoughNotation
               type="underline"
               show={true}
               color="#ADD8E6"
               animationDelay={1400}
               animationDuration={1200}
-            >first principles{' '}</RoughNotation>. Right now, I’m focused on learning about 
-            Large Language Models (LLMs) and also navigating its blue ocean, 
-            to build innovative products that harness its transformative potential.
+            >first principles{' '}</RoughNotation> to emerging technologies.
+            <p>Currently, I’m focused on mastering Quantitative Finance and Large Language Models (LLMs), exploring how these transformative areas can be 
+                harnessed to create innovative solutions and products.</p>
+            <p>With 2 years of experience designing scalable backend systems and building enterprise-level software, I’ve developed a
+                 strong foundation in delivering reliable and high-performance solutions. Additionally, I authored a technical paper that proposed 
+                 a novel solution for concurrency control in E-wallets, tackling a critical challenge in digital finance.</p>
+            <p></p>
 
             <br></br>
             <br></br>

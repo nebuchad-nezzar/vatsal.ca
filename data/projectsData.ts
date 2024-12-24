@@ -1,11 +1,11 @@
 const projectsData = [
     {
-        title: 'InvestLens ',
+        title: 'Volatilty Analyzer',
         tags: ['Quant', 'Options'],
         description:
-        'InvestLens is a sophisticated real estate market analytics dashboard built with RShiny, the dashboard enables data-driven investment decisions through comprehensive market analysis. Users can identify trends, compare markets across multiple Canadian cities, calculate mortgage scenarios, and visualize complex market patterns through heat maps and interactive charts. The applications intuitive interface and responsive design make it an invaluable tool for real estate market analysis, investment planning, and mortgage comparison shopping. project demonstrates proficiency in full-stack data analysis, from data processing and statistical analysis to interactive visualization and web application development.',
-        imgSrc: '/static/images/realestate.jpg',
-        href: 'volatilty-visualizer-v1.vercel.app/',
+        'The Options Volatility Visualizer is a sophisticated tool designed for advanced options traders, institutional investors, and quantitative analysts. It provides in-depth insights into market volatility through interactive 3D/4D volatility surfaces, Monte Carlo simulations, and historical implied volatility analysis. The platform also offers robust Greeks analysis, multi-asset support, and VIX integration (in development), empowering users to model options, assess risks, and interpret volatility trends. With its data-driven approach, the tool helps traders optimize strategies, manage risk, and make informed, precise decisions in dynamic markets.',
+        imgSrc: '/static/image/Volatility.png',
+        href: 'https://volatilty-visualizer-v1.vercel.app/',
     },
     {
         title: 'InvestLens ',
