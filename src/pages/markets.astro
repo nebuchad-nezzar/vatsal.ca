@@ -1,0 +1,126 @@
+---
+import PageHead from '@/components/PageHead.astro'
+import Layout from '@/layouts/Layout.astro'
+import MarketTreemap from '@/components/react/MarketTreemap'
+import AdvancedChart from '@/components/react/AdvancedChart'
+import TopMovers from '@/components/react/TopMovers'
+import VolumeLeaders from '@/components/react/VolumeLeaders'
+import HighsLows from '@/components/react/HighsLows'
+import EconomicCalendar from '@/components/react/EconomicCalendar'
+import MarketDataTable from '@/components/react/MarketDataTable'
+import EconomicMap from '@/components/react/EconomicMap'
+import ForexHeatmap from '@/components/react/ForexHeatmap'
+import CryptoHeatmap from '@/components/react/CryptoHeatmap'
+---
+
+<Layout class="px-2">
+  <PageHead slot="head" title="Markets" />
+
+  <div class="max-w-7xl mx-auto pt-4 pb-6 space-y-12">
+    <!-- Page Header -->
+    <div class="text-center space-y-4">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
+        Financial Markets
+      </h1>
+      <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+        Real-time market data, interactive charts, and comprehensive analysis
+      </p>
+    </div>
+
+    <!-- Quick Analysis Section -->
+    <div class="bg-card border border-border p-4 rounded-xl flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
+      <span class="text-sm font-medium">Please find quick analysis for:</span>
+      <div class="flex gap-4">
+        <a href="#" class="text-sm text-primary hover:underline font-semibold">Forex</a>
+        <a href="#" class="text-sm text-primary hover:underline font-semibold">Stocks</a>
+        <a href="#" class="text-sm text-primary hover:underline font-semibold">Crypto</a>
+      </div>
+    </div>
+
+    <!-- Economic Map Section -->
+    <section>
+      <EconomicMap client:load />
+    </section>
+
+    <!-- Market Data Tables Section (Stacked) -->
+    <section class="space-y-16">
+      <MarketDataTable category="indices" client:load />
+      <MarketDataTable category="stocks" client:load />
+      <MarketDataTable category="currencies" client:load />
+      <MarketDataTable category="crypto" client:load />
+    </section>
+
+    <!-- Top Movers Section -->
+    <section>
+      <TopMovers client:load />
+    </section>
+
+    <!-- Volume & Highs/Lows Grid -->
+    <section class="grid lg:grid-cols-2 gap-8">
+      <VolumeLeaders client:load />
+      <div class="space-y-8">
+        <HighsLows type="highs" client:load />
+      </div>
+    </section>
+
+    <!-- Market Performance
+    <section>
+      <MarketPerformance client:load />
+    </section> -->
+    <!-- Market Heatmap Section (Stacked) -->
+    <section class="space-y-16">
+      <MarketTreemap market="sp500" client:load />
+      <MarketTreemap market="nasdaq" client:load />
+      <ForexHeatmap client:load />
+      <CryptoHeatmap client:load />
+    </section>
+
+    <!-- Advanced Chart Section -->
+    <section>
+      <AdvancedChart client:load />
+    </section>
+
+    <!-- Economic Calendar Section -->
+    <section>
+      <EconomicCalendar client:load />
+    </section>
+
+
+    
+
+    <!-- Additional Info -->
+    <!-- <section class="border-t border-border pt-8">
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="space-y-2">
+          <h3 class="text-lg font-semibold">Real-Time Data</h3>
+          <p class="text-sm text-muted-foreground">
+            Access live market data from global exchanges with minimal delay
+          </p>
+        </div>
+        <div class="space-y-2">
+          <h3 class="text-lg font-semibold">Interactive Charts</h3>
+          <p class="text-sm text-muted-foreground">
+            Analyze price movements with professional-grade charting tools and indicators
+          </p>
+        </div>
+        <div class="space-y-2">
+          <h3 class="text-lg font-semibold">Multiple Markets</h3>
+          <p class="text-sm text-muted-foreground">
+            Track stocks, indices, commodities, forex, crypto, and more in one place
+          </p>
+        </div>
+      </div>
+    </section> -->
+  </div>
+</Layout>
+
+<style>
+  /* Ensure TradingView widgets render properly */
+  :global(.tradingview-widget-container) {
+    position: relative;
+  }
+  
+  :global(.tradingview-widget-container iframe) {
+    border-radius: inherit;
+  }
+</style>

@@ -1,0 +1,16 @@
+---
+// src/components/SkillBadge.astro
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  icon?: string;
+  label: string;
+}
+
+const { icon, label } = Astro.props;
+---
+
+<span class="inline-flex items-center gap-1.5 rounded-full bg-muted px-3 py-1.5 text-xs font-medium text-muted-foreground ring-1 ring-inset ring-border">
+  {icon && <Icon name={icon} class="size-4" />}
+  <span>{label}</span>
+</span>

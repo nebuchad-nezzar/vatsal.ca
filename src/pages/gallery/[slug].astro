@@ -1,0 +1,57 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import PageHead from '@/components/PageHead.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import PhotoGrid from '@/components/react/PhotoGrid'
+import VisitorCount from '@/components/VisitorCount.tsx'
+import { photosets } from '@/lib/gallery-data'
+
+// Get the photoset slug from the URL
+const { slug } = Astro.params
+
+const photoset = photosets.find(p => p.slug === slug)
+
+// If photoset doesn't exist, show 404
+if (!photoset) {
+  return Astro.redirect('/404')
+}
+---
+
+<Layout class="px-2">
+  <PageHead slot="head" title={photoset.title} />
+  
+  <div class="mx-auto w-full max-w-[calc(var(--container-3xl)-2rem)]">
+    <Breadcrumbs items={[
+      { label: 'Gallery', href: '/gallery', icon: 'lucide:images' },
+      { label: photoset.title }
+    ]} />
+  </div>
+
+  <div class="max-w-7xl mx-auto pt-4 pb-12 space-y-8">
+    <!-- Page Header -->
+    <div class="space-y-4">
+      <h1 class="text-3xl font-extrabold leading-9 tracking-tight sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+        {photoset.title}
+      </h1>
+      <p class="text-lg leading-7 text-muted-foreground max-w-3xl">
+        {photoset.description}
+      </p>
+      
+      <!-- View counter -->
+      <div class="text-sm text-muted-foreground">
+        <VisitorCount path={`/gallery/${slug}`} trackView={true} client:load />
+      </div>
+    </div>
+
+    <!-- Photo Grid -->
+    {photoset.photos.length > 0 ? (
+      <PhotoGrid photos={photoset.photos} client:load />
+    ) : (
+      <div class="mt-12 text-center p-12 border border-dashed rounded-lg">
+        <p class="text-muted-foreground text-sm">
+          No photos yet. Add photos to this collection by editing the photoset data.
+        </p>
+      </div>
+    )}
+  </div>
+</Layout>

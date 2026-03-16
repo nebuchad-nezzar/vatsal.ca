@@ -1,0 +1,168 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import PageHead from '@/components/PageHead.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import ToolCard from '@/components/ToolCard.astro'
+
+const uses = [
+  // Workstation
+  {
+    name: "MacBook Pro 16\"",
+    description: "Apple M3 Pro — my primary machine for development, data science, and everything else.",
+    image: "",
+    amazonUrl: "",
+    category: "Workstation",
+  },
+  {
+    name: "Dell UltraSharp 27\" 4K Monitor",
+    description: "Crisp 4K display with USB-C connectivity for a clean single-cable desk setup.",
+    image: "",
+    amazonUrl: "",
+    category: "Workstation",
+  },
+  {
+    name: "Autonomous SmartDesk Pro",
+    description: "Electric standing desk for switching between sitting and standing throughout the day.",
+    image: "",
+    amazonUrl: "",
+    category: "Workstation",
+  },
+  {
+    name: "Herman Miller Aeron Chair",
+    description: "Ergonomic office chair for long coding sessions. Worth every penny for back health.",
+    image: "",
+    amazonUrl: "",
+    category: "Workstation",
+  },
+
+  // Peripherals
+  {
+    name: "Apple Magic Keyboard",
+    description: "Compact wireless keyboard with Touch ID for seamless authentication and clean desk aesthetics.",
+    image: "",
+    amazonUrl: "",
+    category: "Peripherals",
+  },
+  {
+    name: "Logitech MX Master 3S",
+    description: "Ergonomic wireless mouse with MagSpeed scroll and customizable buttons for productivity.",
+    image: "",
+    amazonUrl: "",
+    category: "Peripherals",
+  },
+  {
+    name: "AirPods Pro",
+    description: "Active noise cancellation for deep focus work and seamless switching between devices.",
+    image: "",
+    amazonUrl: "",
+    category: "Peripherals",
+  },
+  {
+    name: "Sony WH-1000XM5",
+    description: "Over-ear noise cancelling headphones for long listening sessions and meetings.",
+    image: "",
+    amazonUrl: "",
+    category: "Peripherals",
+  },
+  {
+    name: "CalDigit TS4 Thunderbolt Hub",
+    description: "Thunderbolt 4 dock connecting all peripherals through a single cable to the laptop.",
+    image: "",
+    amazonUrl: "",
+    category: "Peripherals",
+  },
+
+  // Everyday Carry
+  {
+    name: "iPad Pro 12.9\"",
+    description: "For reading papers, annotating documents, and sketching ideas with Apple Pencil.",
+    image: "",
+    amazonUrl: "",
+    category: "Everyday Carry",
+  },
+  {
+    name: "Kindle Paperwhite",
+    description: "Dedicated e-reader for books without the distractions of a tablet or phone.",
+    image: "",
+    amazonUrl: "",
+    category: "Everyday Carry",
+  },
+  {
+    name: "Apple Watch Ultra 2",
+    description: "Fitness tracking, notifications, and quick timers for productivity and Pomodoro sessions.",
+    image: "",
+    amazonUrl: "",
+    category: "Everyday Carry",
+  },
+
+  // Accessories
+  {
+    name: "Anker USB-C Hub",
+    description: "Portable hub for on-the-go connectivity with HDMI, USB-A, and SD card slots.",
+    image: "",
+    amazonUrl: "",
+    category: "Accessories",
+  },
+  {
+    name: "Bellroy Tech Kit",
+    description: "Compact organizer pouch for cables, adapters, and small accessories while travelling.",
+    image: "",
+    amazonUrl: "",
+    category: "Accessories",
+  },
+  {
+    name: "Peak Design Everyday Backpack",
+    description: "Versatile backpack with quick-access compartments for tech gear and daily essentials.",
+    image: "",
+    amazonUrl: "",
+    category: "Accessories",
+  },
+]
+
+const categories = [...new Set(uses.map(u => u.category))]
+---
+
+<Layout class="px-2">
+  <PageHead slot="head" title="Uses" />
+  
+  <div class="mx-auto w-full max-w-[calc(var(--container-3xl)-2rem)]">
+    <Breadcrumbs items={[{ label: 'Uses', icon: 'lucide:monitor' }]} />
+  </div>
+
+  <div class="max-w-7xl mx-auto pt-4 pb-12 space-y-8">
+    <!-- Page Header -->
+    <div class="space-y-4 text-center">
+      <h1 class="text-3xl font-extrabold leading-9 tracking-tight sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+        Uses
+      </h1>
+      <p class="text-lg leading-7 text-muted-foreground max-w-3xl mx-auto">
+        Hardware, gear, and{" "}
+        <span class="bg-secondary border rounded-md px-2 py-0.5 tracking-tight font-medium">
+          Everyday Carry
+        </span>{" "}
+        that power my workflow. Photos coming soon — you can grab anything here via the{" "}
+        <span class="bg-secondary border rounded-md px-2 py-0.5 tracking-tight font-medium">
+          Amazon
+        </span>{" "}
+        links.
+      </p>
+    </div>
+
+    <!-- Uses by Category -->
+    {categories.map(category => (
+      <section class="space-y-4">
+        <h2 class="text-sm font-medium uppercase tracking-wider text-muted-foreground border-b border-border pb-2">
+          {category}
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {uses
+            .filter(u => u.category === category)
+            .map(tool => (
+              <ToolCard tool={tool} />
+            ))
+          }
+        </div>
+      </section>
+    ))}
+  </div>
+</Layout>

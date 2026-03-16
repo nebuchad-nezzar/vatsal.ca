@@ -1,0 +1,243 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import PageHead from '@/components/PageHead.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import BookCard from '@/components/BookCard.astro'
+
+// Placeholder books - you'll add your own later
+const books = [
+  {
+    title: "SuperIntelligence",
+    author: "Nick Bostrom",
+    status: "completed" as const,
+    cover: "/books/SuperIntelligence.png",
+    amazonUrl: "",
+    appleBooksUrl: "",
+  },
+  {
+    title: "The Man Who solved the Market",
+    author: "Gregory Zuckerman",
+    status: "reading" as const,
+    progress: 70,
+    cover: "/books/image.png",
+    amazonUrl: "",
+    appleBooksUrl: "",
+  },
+  {
+    title: "Introduction to Algorithms",
+    author: "Cormen, Leiserson, Rivest, Stein",
+    status: "reading" as const,
+    progress: 85,
+    cover: "/books/CLRS.png",
+    amazonUrl: "",
+    appleBooksUrl: "",
+  },
+  {
+    title: "Grand Pursuit",
+    author: "Sylvia Nasar",
+    status: "completed" as const,
+    cover: "/books/GP.png",
+    amazonUrl: "",
+    appleBooksUrl: "",
+  },
+  {
+    title: "Gödel, Escher, Bach: an Eternal Golden Braid",
+    author: "Douglas Hofstadter",
+    status: "completed" as const,
+    cover: "/books/GEB.png",
+    amazonUrl: "",
+    appleBooksUrl: "",
+  },
+  {
+    title: "The Intelligent Investor",
+    author: "Benjamin Graham",
+    status: "completed" as const,
+    cover: "/books/investor.png",
+    amazonUrl: "",
+    appleBooksUrl: "",
+  },
+  {
+    title: "Blue Ocean Strategy",
+    author: "W. Chan Kim, Renée Mauborgne",
+    status: "completed" as const,
+    cover: "/books/blueocean.png",
+    amazonUrl: "",
+    appleBooksUrl: "",
+  },
+  {
+    title: "Foundation",
+    author: "Isaac Asimov",
+    status: "want" as const,
+    cover: "/books/Foundation.png",
+    amazonUrl: "",
+    appleBooksUrl: "",
+  },
+  {
+    title: "Thinking, Fast and Slow",
+    author: "Daniel Kahneman",
+    status: "completed" as const,
+    cover: "/books/fastslow.png",
+    amazonUrl: "",
+    appleBooksUrl: "",
+  },
+  {
+    title: "Psycho-Cybernetics",
+    author: "Dr. Maxwell Maltz",
+    status: "completed" as const,
+    cover: "/books/cyber.png",
+    amazonUrl: "",
+    appleBooksUrl: "",
+  },
+  {
+    title: "The Genome: Autobiography of a Species in 23 Chapters",
+    author: "Matt Ridley",
+    status: "want" as const,
+    cover: "/books/genome.png",
+    amazonUrl: "",
+    appleBooksUrl: "",
+  },
+  {
+    title: "Deep Work",
+    author: "Cal Newport",
+    status: "completed" as const,
+    cover: "/books/deepwork.png",
+    amazonUrl: "",
+    appleBooksUrl: "",
+  },
+  {
+    title: "Blitzscaling",
+    author: "Reid Hoffman, Chris Yeh",
+    status: "completed" as const,
+    cover: "/books/blitzscale.png",
+    amazonUrl: "",
+    appleBooksUrl: "",
+  },
+  {
+    title: "Algorithms to Live By",
+    author: "Brian Christian, Tom Griffiths",
+    status: "want" as const,
+    cover: "/books/algo.png",
+    amazonUrl: "",
+    appleBooksUrl: "",
+  },
+  {
+    title: "The Search",
+    author: "John Battelle",
+    status: "completed" as const,
+    cover: "/books/search.png",
+    amazonUrl: "",
+    appleBooksUrl: "",
+  },
+]
+
+// Calculate counts
+const readingCount = books.filter(b => b.status === 'reading').length
+const completedCount = books.filter(b => b.status === 'completed').length
+const wantCount = books.filter(b => b.status === 'want').length
+const totalCount = books.length
+---
+
+<Layout class="px-2">
+  <PageHead slot="head" title="Library" />
+  
+  <div class="mx-auto w-full max-w-[calc(var(--container-3xl)-2rem)]">
+    <Breadcrumbs items={[{ label: 'Library', icon: 'lucide:book-open' }]} />
+  </div>
+
+  <div class="max-w-7xl mx-auto pt-4 pb-12 space-y-8">
+    <!-- Page Header -->
+    <div class="space-y-4">
+      <h1 class="text-3xl font-extrabold leading-9 tracking-tight sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+        Library
+      </h1>
+      <p class="text-lg leading-7 text-muted-foreground max-w-3xl">
+        A collection of books I'm reading, have read, and want to read. Tracking my reading journey.
+      </p>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="flex flex-wrap gap-2 pt-4">
+      <button 
+        data-filter="all" 
+        class="filter-btn px-4 py-2 rounded-md bg-foreground text-background text-sm font-medium transition-colors"
+      >
+        All (<span data-count="all">{totalCount}</span>)
+      </button>
+      <button 
+        data-filter="reading" 
+        class="filter-btn px-4 py-2 rounded-md border border-border text-sm font-medium hover:bg-secondary/50 transition-colors"
+      >
+        Reading (<span data-count="reading">{readingCount}</span>)
+      </button>
+      <button 
+        data-filter="completed" 
+        class="filter-btn px-4 py-2 rounded-md border border-border text-sm font-medium hover:bg-secondary/50 transition-colors"
+      >
+        Completed (<span data-count="completed">{completedCount}</span>)
+      </button>
+      <button 
+        data-filter="want" 
+        class="filter-btn px-4 py-2 rounded-md border border-border text-sm font-medium hover:bg-secondary/50 transition-colors"
+      >
+        Want to Read (<span data-count="want">{wantCount}</span>)
+      </button>
+    </div>
+
+    <!-- Books Grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 pt-6" id="books-grid">
+      {books.map((book) => (
+        <div data-status={book.status}>
+          <BookCard book={book} />
+        </div>
+      ))}
+    </div>
+
+    <!-- Empty State (hidden when books exist) -->
+    {books.length === 0 && (
+      <div class="mt-12 text-center p-12 border border-dashed rounded-lg">
+        <p class="text-muted-foreground text-sm">
+          No books yet. Add books to your library by editing the books array.
+        </p>
+      </div>
+    )}
+  </div>
+</Layout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterButtons = document.querySelectorAll('.filter-btn')
+    const bookCards = document.querySelectorAll('#books-grid > div')
+    
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const filter = button.getAttribute('data-filter')
+        
+        // Update active button state
+        filterButtons.forEach(btn => {
+          if (btn === button) {
+            // Active state
+            btn.classList.remove('border', 'border-border', 'hover:bg-secondary/50')
+            btn.classList.add('bg-foreground', 'text-background')
+          } else {
+            // Inactive state
+            btn.classList.remove('bg-foreground', 'text-background')
+            btn.classList.add('border', 'border-border', 'hover:bg-secondary/50')
+          }
+        })
+        
+        // Filter books
+        bookCards.forEach(c => {
+          const card = c as HTMLElement
+          const status = card.getAttribute('data-status')
+          
+          if (filter === 'all' || status === filter) {
+            card.style.display = 'block'
+          } else {
+            card.style.display = 'none'
+          }
+        })
+      })
+    })
+  })
+</script>
+

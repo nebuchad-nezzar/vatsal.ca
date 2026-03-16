@@ -1,0 +1,26 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import Container from '@/components/Container.astro'
+---
+
+<Layout>
+  <Container>
+    <div class="py-12 flex flex-col gap-y-6">
+      <div class="space-y-2">
+        <h1 class="text-4xl font-bold font-mono">Book a call</h1>
+        <p class="text-muted-foreground font-mono">
+          Schedule a call with me to discuss projects, collaborations, or just to say hi.
+        </p>
+      </div>
+
+      <div class="w-full min-h-[700px] rounded-xl border border-border/50 bg-card/50 overflow-hidden">
+        <iframe 
+          src="https://cal.com/vats1910" 
+          style="width:100%; height:700px; border:0;" 
+          allowfullscreen
+          title="Schedule a call with Vatsal Sharma"
+        ></iframe>
+      </div>
+    </div>
+  </Container>
+</Layout>

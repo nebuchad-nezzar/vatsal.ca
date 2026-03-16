@@ -1,0 +1,294 @@
+---
+import Link from '@/components/Link.astro'
+import PageHead from '@/components/PageHead.astro'
+import BlogCard from '@/components/BlogCard.astro'
+import { SITE } from '@/consts'
+import Layout from '@/layouts/Layout.astro'
+import { cn } from '@/lib/utils'
+import { Icon } from 'astro-icon/components'
+import { getRecentPosts } from '@/lib/data-utils'
+import { buttonVariants } from '@/components/ui/button'
+import { ErrorBoundary } from '@/components/react/ErrorBoundary'
+import Skills from '@/components/react/Skills'
+
+
+import MarketTreemap from '@/components/react/MarketTreemap'
+import Laboratory from '@/components/Laboratory.astro'
+
+const blog = await getRecentPosts(SITE.featuredPostCount)
+---
+
+
+<Layout class="px-2">
+  <PageHead slot="head" title="Home" />
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: 'Vatsal Sharma',
+      url: SITE.href,
+      jobTitle: 'Quantitative Researcher',
+      description: SITE.description,
+      sameAs: [
+        'https://github.com/nebuchad-nezzar',
+        'https://x.com/vats360',
+      ],
+      email: 'mailto:vatswork10@gmail.com',
+    })} />
+  </Fragment>
+
+  
+  <section
+    class={cn(
+      'mx-auto grid min-w-xs sm:has-[[data-trigger]:hover]:*:first:[&_[data-overlay]]:opacity-0',
+      'max-w-sm grid-cols-1 [grid-template-areas:"a""b""e""d""g""f""j""i""k"]',
+      'sm:max-w-2xl sm:grid-cols-2 sm:[grid-template-areas:"a_a""b_d""e_e""j_g""h_i""h_c""k_c""f_f"]',
+      'lg:max-w-5xl lg:grid-cols-3 lg:[grid-template-areas:"a_a_b""d_e_e""h_f_f""h_i_g""k_c_j"]',
+      'xl:max-w-7xl xl:grid-cols-4 xl:[grid-template-areas:"a_a_b_c""d_e_e_c""h_f_f_g""h_i_j_k"]',
+    )}
+  >
+    <!-- Vatsal Sharma
+    <div class="aspect-square p-2 [grid-area:b]">
+      <div data-trigger class="bg-muted size-full border">
+        Vatsal is in the bento box
+      </div>
+    </div> -->
+
+    
+    
+ <div class="aspect-[6/5] p-2 [grid-area:e] sm:aspect-[2/1]">
+
+
+
+
+      <section class="rounded-lg border">
+    <div class="flex flex-col space-y-1.5 p-6">
+      <h3 class="text-3xl leading-none font-medium">Vatsal Sharma</h3>
+      <p class="text-muted-foreground text-sm">
+        /ˈvʌt.səl/ &bull; <span class="font-medium">he/him</span>
+      </p>
+      <p class="text-muted-foreground text-sm">
+        <span class="font-medium">Quantitative Researcher | AI Engineer | Data Scientist | Developer</span>
+      </p>
+    </div>
+    <div class="p-6 pt-0">
+      <!-- <p class="text-muted-foreground mb-2 text-sm">
+        astro-erudite is an opinionated, unstyled static blogging template built
+        with <Link
+          href="https://astro.build"
+          class="text-foreground"
+          external
+          underline>Astro</Link
+          >, <Link
+          href="https://tailwindcss.com"
+          class="text-foreground"
+          external
+          underline>Tailwind</Link
+        >, and <Link
+        href="https://ui.shadcn.com"
+        class="text-foreground"
+          external
+          underline>shadcn/ui</Link
+          >. Extraordinarily loosely based on the <Link
+          href="https://astro-micro.vercel.app/"
+          class="text-foreground"
+          external
+          underline>Astro Micro</Link
+        > theme.
+      </p>
+      <p class="text-muted-foreground text-sm">
+        To use this template, check out the <Link
+          href="https://github.com/jktrn/astro-erudite"
+          class="text-foreground"
+          underline
+          external>GitHub</Link
+        > repository. To learn more about why this template exists, read this blog
+        post: <Link
+        href="/blog/the-state-of-static-blogs"
+        class="text-foreground"
+        underline>The State of Static Blogs in 2024</Link
+        >.
+      </p> -->
+      <p class="text-muted-foreground mb-4 text-sm leading-relaxed">
+          I transform market noise into actionable signals, build machine learning models that adapt and outperform, and engineer automated systems designed to run flawlessly under pressure.
+        </p>
+        <p class="text-muted-foreground text-sm leading-relaxed">
+          Currently a Quantitative Researcher at a technology-focused hedge fund, where I develop proprietary trading strategies and AI-powered analytics. Outside the fund, I explore autonomous agents and next-generation quantitative systems.
+        </p>
+    </div>
+  </section>
+  
+<br/>
+    <!-- Skills & Technologies -->
+  <section class="mt-12">
+    <div class="mb-6">
+      <h2 class="text-2xl font-semibold mb-2">Skills & Technologies</h2>
+      <p class="text-sm text-muted-foreground">
+        Core competencies across systems administration, security, and infrastructure automation
+      </p>
+    </div>
+    <ErrorBoundary client:load transition:persist="skills-error-boundary">
+      <Skills client:load transition:persist="skills-section" />
+    </ErrorBoundary>
+  </section>
+<br/>
+
+<!-- Markets Section -->
+    <div class="mb-6">
+      <div class="flex items-center justify-between mb-2">
+        <h2 class="text-2xl font-semibold">Financial Markets</h2>
+        <Link
+          href="/markets"
+          class={buttonVariants({ variant: 'outline' }) + ' group text-sm'}
+        >
+          View All Markets
+          <span class="ml-1.5 transition-transform group-hover:translate-x-1">→</span>
+        </Link>
+      </div>
+      <p class="text-sm text-muted-foreground">
+        Real-time market data and interactive charts
+      </p>
+    </div>
+
+  <!-- TradingView Advanced Real-Time Chart -->
+  <section class="mt-4 mb-8">
+    <div class="rounded-lg border border-border overflow-hidden" style="height: 500px;">
+      <div id="tradingview-chart" style="height: 100%; width: 100%;"></div>
+    </div>
+  </section>
+
+  <!-- Market Treemap Section -->
+  <section class="mt-4">
+    <MarketTreemap market="sp500" client:load />
+  </section>
+  
+<br/>
+<br/>
+<br/>
+    <section class="flex flex-col gap-y-4">
+    <h2 class="text-2xl font-medium">Recent Posts</h2>
+    
+    <ul class="flex flex-col gap-y-4">
+      {
+        blog.map((post) => (
+          <li>
+            <BlogCard entry={post} />
+          </li>
+        ))
+      }
+    </ul>
+    <div class="flex justify-center">
+      <Link
+        href="/blog"
+        class={buttonVariants({ variant: 'ghost' }) + ' group'}
+      >
+        See all posts <span
+          class="ml-1.5 transition-transform group-hover:translate-x-1"
+          >&rarr;</span
+        >
+      </Link>
+
+    </div>
+    
+    
+    
+  </section>
+  
+  <Laboratory />
+
+  <div class="mb-12 relative">
+      <div class="absolute inset-0 flex items-center" aria-hidden="true">
+        <div class="w-full border-t border-border"></div>
+      </div>
+      <div class="relative flex justify-center">
+        <div class="flex items-center gap-2.5 px-4 py-2 rounded-full bg-background border border-border shadow-sm">
+          <span class="relative flex h-1.5 w-1.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+          </span>
+          <span class="text-xs font-medium text-muted-foreground uppercase tracking-wider">Available</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center space-y-6">
+          <div class="space-y-2">
+            <h2 class="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-foreground leading-tight">
+              Let's talk
+              <span class="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary/90 to-primary/75">
+                infrastructure
+              </span>
+            </h2>
+          </div>
+          <p class="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-xl mx-auto">
+            Into quantitative trading, AI agents, machine learning at scale, or rock-solid systems?<br />
+          I design, secure, and automate infrastructure and models that deliver alpha — reliably and at speed..
+          </p>
+          <div class="pt-4">
+            <Link 
+              href="mailto:vatswork10@gmail.com" 
+              class="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-lg bg-foreground text-background text-base font-medium hover:bg-foreground/90 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            >
+              <Icon name="lucide:mail" class="size-4" />
+              <span>Reach out</span>
+              <Icon name="lucide:arrow-right" class="size-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+            <br>
+          </div>
+        </div>
+      
+  </section>
+
+    
+  
+</Layout>
+
+<script>
+  function initTradingViewChart() {
+    const container = document.getElementById('tradingview-chart');
+    if (!container || container.hasChildNodes()) return;
+
+    new (window as any).TradingView.widget({
+      autosize: true,
+      symbol: "NVDA",
+      interval: "D",
+      timezone: "America/New_York",
+      theme: "dark",
+      style: "1",
+      locale: "en",
+      toolbar_bg: "#0a0a0a",
+      enable_publishing: false,
+      allow_symbol_change: true,
+      container_id: "tradingview-chart",
+      hide_side_toolbar: false,
+      studies: ["STD;RSI", "STD;MACD"],
+      show_popup_button: true,
+      popup_width: "1000",
+      popup_height: "650",
+      details: false,
+      hotlist: false,
+      calendar: false,
+      withdateranges: true,
+      hide_volume: false,
+      support_host: "https://www.tradingview.com",
+    });
+  }
+
+  // Load the TradingView library and initialize
+  if (typeof (window as any).TradingView !== 'undefined') {
+    initTradingViewChart();
+  } else {
+    const script = document.createElement('script');
+    script.src = 'https://s3.tradingview.com/tv.js';
+    script.async = true;
+    script.onload = initTradingViewChart;
+    document.head.appendChild(script);
+  }
+
+  // Handle Astro page transitions
+  document.addEventListener('astro:page-load', () => {
+    if (typeof (window as any).TradingView !== 'undefined') {
+      initTradingViewChart();
+    }
+  });
+</script>

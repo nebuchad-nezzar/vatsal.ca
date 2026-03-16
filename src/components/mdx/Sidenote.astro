@@ -1,0 +1,71 @@
+---
+import { cn } from '@/lib/utils'
+
+interface Props {
+  number?: string | number
+  class?: string
+}
+
+const { number = "1", class: className } = Astro.props
+---
+
+<span class="sidenote-wrapper group relative inline-block lg:static">
+  {/* The inline marker/trigger */}
+  <span 
+    class="not-prose inline-flex items-center justify-center size-5 bg-purple-500/20 border border-purple-500/40 rounded text-[10px] font-mono font-bold text-purple-400 cursor-help transition-all hover:bg-purple-500/40"
+    aria-describedby={`sidenote-${number}`}
+  >
+    {number}
+  </span>
+
+  {/* The actual note content */}
+  <aside 
+    id={`sidenote-${number}`}
+    class={cn(
+      "sidenote",
+      "lg:absolute lg:right-[-320px] lg:w-[280px] lg:mt-[-20px]",
+      "hidden lg:block group-hover:block lg:group-hover:block", // Simplified for now, can be improved with JS for mobile
+      "z-40 p-4 rounded-xl",
+      "bg-black/80 backdrop-blur-sm border border-purple-500/30",
+      "shadow-[0_0_20px_rgba(168,85,247,0.15)]",
+      "transition-all duration-300",
+      className
+    )}
+  >
+    <div class="flex items-start gap-3">
+      <span class="not-prose flex-shrink-0 flex items-center justify-center size-5 bg-purple-500 border border-purple-500/50 rounded text-[10px] font-mono font-bold text-white shadow-[0_0_10px_rgba(168,85,247,0.5)]">
+        {number}
+      </span>
+      <div class="text-xs leading-relaxed text-foreground/90 font-sans italic">
+        <slot />
+      </div>
+    </div>
+    
+    {/* Glow effect */}
+    <div class="absolute inset-0 -z-10 bg-purple-500/5 blur-2xl rounded-xl pointer-events-none"></div>
+  </aside>
+
+  {/* Mobile inline version - shown below trigger on tap/hover if needed, but for now let's use standard marginalia logic */}
+</span>
+
+<style>
+  .sidenote-wrapper {
+    /* Ensure the wrapper doesn't break line flow too much */
+    vertical-align: baseline;
+    margin: 0 0.2em;
+  }
+
+  /* Prevent sidenotes from overlapping too much if multiple exist */
+  @media (min-width: 1024px) {
+    .sidenote {
+      /* This allows the note to be seen even if the parent has overflow issues, 
+         though we hope the layout is wide enough */
+    }
+  }
+
+  /* Add a small transition for the glow */
+  .sidenote:hover {
+    border-color: rgba(168, 85, 247, 0.5);
+    shadow: 0 0 30px rgba(168, 85, 247, 0.25);
+  }
+</style>

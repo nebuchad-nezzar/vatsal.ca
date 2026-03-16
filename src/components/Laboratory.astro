@@ -1,0 +1,125 @@
+---
+import { Icon } from 'astro-icon/components'
+import { cn } from '@/lib/utils'
+
+// Reusable card styling
+// Sharper rounded corners (rounded-xl)
+const cardClass = "group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20";
+const gradientClass = "absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 transition-opacity duration-700";
+// Smaller padding for icon container
+const iconContainerClass = "inline-flex items-center justify-center rounded-lg bg-white/5 border border-white/10 p-2 text-white backdrop-blur-md transition-transform duration-300 group-hover:scale-105";
+---
+
+<section class="mt-24 mb-12">
+  <div class="flex flex-col mb-8 px-2">
+    <h2 class="text-3xl font-bold tracking-tight">Laboratory</h2>
+    <p class="text-muted-foreground mt-2">Personal explorations, tools, and digital artifacts.</p>
+  </div>
+  
+  <!-- "Abstract" Bento Grid: Mixed column spans and row spans -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[180px]">
+    
+    <!-- Now: 3 wide (Matching Uses) -->
+    <a href="/now" class={cn(cardClass, "col-span-1 md:col-span-2 lg:col-span-3 row-span-1 flex flex-col justify-between p-6")}>
+       <div class={gradientClass}></div>
+       <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay"></div>
+
+       <div class="relative z-10 flex justify-between items-start">
+          <div class={iconContainerClass}>
+             <Icon name="lucide:loader-2" class="size-5" />
+          </div>
+       </div>
+
+       <div class="relative z-10 mt-auto">
+          <h3 class="text-lg font-bold text-white mb-1">Now</h3>
+          <p class="text-xs text-gray-400 max-w-sm">See what I'm building, learning, and exploring these days.</p>
+       </div>
+    </a>
+
+    <!-- 3D Designs: 1 wide (Matching Tools) -->
+    <a href="/3d-designs" class={cn(cardClass, "col-span-1 row-span-1 flex flex-col justify-between p-6")}>
+        <div class={gradientClass}></div>
+        
+        <div class="relative z-10 flex justify-between items-start">
+             <div class={iconContainerClass}>
+                <Icon name="lucide:box" class="size-5" />
+            </div>
+            <Icon name="lucide:arrow-up-right" class="size-4 text-white/30 group-hover:text-white transition-colors" />
+        </div>
+        
+        <div class="relative z-10">
+            <h3 class="text-lg font-bold text-white mb-1">3D Designs</h3>
+             <p class="text-xs text-gray-400">Renders & models.</p>
+        </div>
+    </a>
+
+    <!-- Gallery: 2 wide (Half Half) -->
+    <a href="/gallery" class={cn(cardClass, "col-span-1 md:col-span-1 lg:col-span-2 row-span-1 flex flex-col justify-between p-5")}>
+        <div class={gradientClass}></div>
+        
+        <div class="relative z-10 flex justify-between items-start">
+            <div class={iconContainerClass}>
+                <Icon name="lucide:image" class="size-5" />
+            </div>
+            <Icon name="lucide:arrow-up-right" class="size-4 text-white/30 group-hover:text-white transition-colors" />
+        </div>
+
+        <div class="relative z-10">
+            <h3 class="text-lg font-bold text-white mb-1">Gallery</h3>
+            <p class="text-xs text-gray-400">Visual experiments.</p>
+        </div>
+    </a>
+
+    <!-- Library: 2 wide (Half Half) -->
+    <a href="/library" class={cn(cardClass, "col-span-1 md:col-span-1 lg:col-span-2 row-span-1 flex flex-col justify-between p-5")}>
+         <div class={gradientClass}></div>
+
+        <div class="relative z-10 flex justify-between items-start">
+            <div class={iconContainerClass}>
+                <Icon name="lucide:library" class="size-5" />
+            </div>
+            <Icon name="lucide:arrow-up-right" class="size-4 text-white/30 group-hover:text-white transition-colors" />
+        </div>
+
+        <div class="relative z-10">
+            <h3 class="text-lg font-bold text-white mb-1">Library</h3>
+             <p class="text-xs text-gray-400">Books & resources.</p>
+        </div>
+    </a>
+
+    <!-- Tools: 1 wide (Left as is/Small) -->
+    <a href="/tools" class={cn(cardClass, "col-span-1 row-span-1 flex flex-col justify-between p-5")}>
+        <div class={gradientClass}></div>
+        
+        <div class="relative z-10 flex justify-between items-start">
+            <div class={iconContainerClass}>
+                <Icon name="lucide:wrench" class="size-5" />
+            </div>
+            <Icon name="lucide:arrow-up-right" class="size-4 text-white/30 group-hover:text-white transition-colors" />
+        </div>
+        
+        <div class="relative z-10">
+            <h3 class="text-lg font-bold text-white mb-1">Tools</h3>
+            <p class="text-xs text-gray-400">Recommended tech.</p>
+        </div>
+    </a>
+
+     <!-- Uses: 3 wide (Left as is/Wide) -->
+    <a href="/uses" class={cn(cardClass, "col-span-1 md:col-span-2 lg:col-span-3 row-span-1 flex flex-col justify-between p-5")}>
+        <div class={gradientClass}></div>
+        
+        <div class="relative z-10 flex justify-between items-start">
+            <div class={iconContainerClass}>
+                <Icon name="lucide:backpack" class="size-5" />
+            </div>
+            <Icon name="lucide:arrow-up-right" class="size-4 text-white/30 group-hover:text-white transition-colors" />
+        </div>
+        
+        <div class="relative z-10">
+            <h3 class="text-lg font-bold text-white mb-1">Uses</h3>
+            <p class="text-xs text-gray-400">My gear & stack.</p>
+        </div>
+    </a>
+
+  </div>
+</section>

@@ -1,0 +1,31 @@
+---
+import { Tweet } from 'react-tweet'
+import type { TweetProps } from 'react-tweet'
+
+interface Props extends Omit<TweetProps, 'id'> {
+  id: string
+}
+
+const { id, ...props } = Astro.props
+---
+
+<div class="not-prose tweet-embed light:theme-light dark:theme-dark mx-auto flex w-full justify-center">
+  <Tweet id={id} {...props} client:only="react" />
+</div>
+
+<style is:global>
+  /* 
+    react-tweet uses its own CSS variables. 
+    We ensure it respects the site's color scheme (dark/light)
+    by forcing the `.theme-dark` and `.theme-light` classes 
+    provided by react-tweet based on the generic dark mode selector.
+  */
+  
+  html.dark .tweet-embed {
+    color-scheme: dark;
+  }
+  
+  html:not(.dark) .tweet-embed {
+    color-scheme: light;
+  }
+</style>

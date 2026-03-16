@@ -1,0 +1,101 @@
+﻿11:34:12 [@astrojs/cloudflare] Enabling sessions with Cloudflare KV with the "SESSION" KV binding.
+11:34:12 [@astrojs/cloudflare] If you see the error "Invalid binding `SESSION`" in your build output, you need to add the binding to your wrangler config file.
+11:34:12 [WARN] [config] The adapter @astrojs/cloudflare has limited support for "sharp". Certain features may not work as expected.
+11:34:12 [WARN] [adapter] Cloudflare does not support sharp at runtime. However, you can configure `imageService: "compile"` to optimize images with sharp on prerendered pages during build time.
+11:34:13 [content] Syncing content
+11:34:13 [content] Synced content
+11:34:13 [types] Generated 826ms
+11:34:13 [check] Getting diagnostics for Astro files in C:\Users\vats3\Desktop\enscribe.dev-main...
+[96msrc/components/BookCard.astro[0m:[93m35[0m:[93m16[0m - [91merror[0m[90m ts(7053): [0mElement implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ reading: { label: string; color: string; }; completed: { label: string; color: string; }; want: { label: string; color: string; }; }'.
+
+[7m35[0m const config = statusConfig[book.status]
+[7m  [0m [91m               ~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/BookCard.astro[0m:[93m14[0m:[93m11[0m - [93mwarning[0m[90m ts(6196): [0m'BookCardProps' is declared but never used.
+
+[7m14[0m interface BookCardProps {
+[7m  [0m [93m          ~~~~~~~~~~~~~[0m
+
+[96msrc/components/Head.astro[0m:[93m71[0m:[93m11[0m - [93mwarning[0m[90m astro(4000): [0mThis script will be treated as if it has the `is:inline` directive because it contains an attribute. Therefore, features that require processing (e.g. using TypeScript or npm packages in the script) are unavailable.
+
+See docs for more details: https://docs.astro.build/en/guides/client-side-scripts/#script-processing.
+
+Add the `is:inline` directive explicitly to silence this hint.
+
+[7m71[0m   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "YOUR_CF_ANALYTICS_TOKEN"}'></script>
+[7m  [0m [93m          ~~~~~[0m
+[96msrc/components/Head.astro[0m:[93m53[0m:[93m11[0m - [93mwarning[0m[90m astro(4000): [0mThis script will be treated as if it has the `is:inline` directive because it contains an attribute. Therefore, features that require processing (e.g. using TypeScript or npm packages in the script) are unavailable.
+
+See docs for more details: https://docs.astro.build/en/guides/client-side-scripts/#script-processing.
+
+Add the `is:inline` directive explicitly to silence this hint.
+
+[7m53[0m   <script type="application/ld+json" set:html={JSON.stringify({
+[7m  [0m [93m          ~~~~[0m
+
+[96msrc/components/PostHead.astro[0m:[93m111[0m:[93m9[0m - [93mwarning[0m[90m astro(4000): [0mThis script will be treated as if it has the `is:inline` directive because it contains an attribute. Therefore, features that require processing (e.g. using TypeScript or npm packages in the script) are unavailable.
+
+See docs for more details: https://docs.astro.build/en/guides/client-side-scripts/#script-processing.
+
+Add the `is:inline` directive explicitly to silence this hint.
+
+[7m111[0m <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+[7m   [0m [93m        ~~~~[0m
+[96msrc/components/PostHead.astro[0m:[93m110[0m:[93m9[0m - [93mwarning[0m[90m astro(4000): [0mThis script will be treated as if it has the `is:inline` directive because it contains an attribute. Therefore, features that require processing (e.g. using TypeScript or npm packages in the script) are unavailable.
+
+See docs for more details: https://docs.astro.build/en/guides/client-side-scripts/#script-processing.
+
+Add the `is:inline` directive explicitly to silence this hint.
+
+[7m110[0m <script type="application/ld+json" set:html={JSON.stringify(blogPostingSchema)} />
+[7m   [0m [93m        ~~~~[0m
+
+[96msrc/components/react/Newsletter.tsx[0m:[93m25[0m:[93m34[0m - [93mwarning[0m[90m ts(6385): [0m'FormEvent' is deprecated.
+
+[7m25[0m   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+[7m  [0m [93m                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/react/Newsletter.tsx[0m:[93m1[0m:[93m20[0m - [93mwarning[0m[90m ts(6385): [0m'FormEvent' is deprecated.
+
+[7m1[0m import { useState, type FormEvent } from 'react'
+[7m [0m [93m                   ~~~~~~~~~~~~~~[0m
+
+[96msrc/components/react/Skills.tsx[0m:[93m275[0m:[93m64[0m - [93mwarning[0m[90m ts(6133): [0m'techIndex' is declared but its value is never read.
+
+[7m275[0m           {techItemsByGroup[groupIndex].map(({ tech, category, techIndex, key }) => (
+[7m   [0m [93m                                                               ~~~~~~~~~[0m
+[96msrc/components/react/Skills.tsx[0m:[93m275[0m:[93m54[0m - [93mwarning[0m[90m ts(6133): [0m'category' is declared but its value is never read.
+
+[7m275[0m           {techItemsByGroup[groupIndex].map(({ tech, category, techIndex, key }) => (
+[7m   [0m [93m                                                     ~~~~~~~~[0m
+[96msrc/components/react/Skills.tsx[0m:[93m219[0m:[93m11[0m - [93mwarning[0m[90m ts(6196): [0m'TechBadgeProps' is declared but never used.
+
+[7m219[0m interface TechBadgeProps {
+[7m   [0m [93m          ~~~~~~~~~~~~~~[0m
+
+[96msrc/components/react/TextSelectionSharer.tsx[0m:[93m1[0m:[93m8[0m - [93mwarning[0m[90m ts(6133): [0m'React' is declared but its value is never read.
+
+[7m1[0m import React, { useEffect, useState } from 'react'
+[7m [0m [93m       ~~~~~[0m
+
+[96msrc/pages/index.astro[0m:[93m25[0m:[93m13[0m - [93mwarning[0m[90m astro(4000): [0mThis script will be treated as if it has the `is:inline` directive because it contains an attribute. Therefore, features that require processing (e.g. using TypeScript or npm packages in the script) are unavailable.
+
+See docs for more details: https://docs.astro.build/en/guides/client-side-scripts/#script-processing.
+
+Add the `is:inline` directive explicitly to silence this hint.
+
+[7m25[0m     <script type="application/ld+json" set:html={JSON.stringify({
+[7m  [0m [93m            ~~~~[0m
+
+[96msrc/pages/library.astro[0m:[93m235[0m:[93m18[0m - [91merror[0m[90m ts(2339): [0mProperty 'style' does not exist on type 'Element'.
+
+[7m235[0m             card.style.display = 'none'
+[7m   [0m [91m                 ~~~~~[0m
+[96msrc/pages/library.astro[0m:[93m233[0m:[93m18[0m - [91merror[0m[90m ts(2339): [0mProperty 'style' does not exist on type 'Element'.
+
+[7m233[0m             card.style.display = 'block'
+[7m   [0m [91m                 ~~~~~[0m
+
+Result (119 files): 
+- 3 errors
+- 0 warnings
+- 12 hints
+

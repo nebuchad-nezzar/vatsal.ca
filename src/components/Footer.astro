@@ -1,0 +1,88 @@
+---
+import { SOCIAL_LINKS, NAV_LINKS } from '@/consts'
+import Link from '@/components/Link.astro'
+import Newsletter from './react/Newsletter'
+import { Icon } from 'astro-icon/components'
+---
+
+<footer class="bg-background/80 border-t border-border/50 backdrop-blur-md">
+  <div class="mx-auto max-w-3xl px-4 py-8 sm:py-10">
+    <div class="flex flex-col gap-8">
+      <!-- Newsletter Section -->
+      <div class="grid md:grid-cols-[1fr_auto] gap-6 py-6 md:py-8 items-center">
+        <div class="text-left">
+          <div class="flex items-center gap-2 mb-3">
+            <Icon name="lucide:mail" class="size-5 text-primary shrink-0" />
+            <h3 class="text-lg font-semibold text-foreground">Stay Updated</h3>
+          </div>
+          <p class="text-sm text-muted-foreground leading-relaxed">
+            Get the latest posts about System Design, Quant, GenAI, and Machine Learning delivered to your inbox.
+          </p>
+        </div>
+        <div class="w-full md:w-auto md:flex-shrink-0">
+          <Newsletter client:load />
+        </div>
+      </div>
+
+
+
+      <!-- Main Footer Content (Simplified Grid) -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-x-12 gap-y-8 font-mono pt-4 border-t border-border/20">
+        <!-- Website -->
+        <div class="space-y-4">
+          <h4 class="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground/40">Website</h4>
+          <nav class="flex flex-col gap-2">
+            {NAV_LINKS.map((item) => (
+              <Link href={item.href} class="text-xs text-muted-foreground hover:text-primary transition-colors uppercase tracking-wider">
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+
+        <!-- Connect -->
+        <div class="space-y-4">
+          <h4 class="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground/40">Connect</h4>
+          <nav class="flex flex-col gap-2">
+            <Link href="mailto:vatswork10@gmail.com" class="text-xs text-muted-foreground hover:text-primary transition-colors uppercase tracking-wider">
+              Email
+            </Link>
+            <Link href="/book-a-call" class="text-xs text-muted-foreground hover:text-primary transition-colors uppercase tracking-wider">
+              Call
+            </Link>
+          </nav>
+        </div>
+
+        <!-- Social -->
+        <div class="space-y-4">
+          <h4 class="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground/40">Social</h4>
+          <nav class="flex flex-col gap-2">
+            {SOCIAL_LINKS.map((item) => (
+              <Link href={item.href} class="text-xs text-muted-foreground hover:text-primary transition-colors uppercase tracking-wider">
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+
+        <!-- Legal -->
+        <div class="space-y-4">
+          <h4 class="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground/40">Legal</h4>
+          <nav class="flex flex-col gap-2">
+            <Link href="/privacy" class="text-xs text-muted-foreground hover:text-primary transition-colors uppercase tracking-wider">
+              Privacy
+            </Link>
+            <Link href="/terms" class="text-xs text-muted-foreground hover:text-primary transition-colors uppercase tracking-wider">
+              Terms
+            </Link>
+          </nav>
+        </div>
+      </div>
+
+      <div class="pt-8 text-[10px] text-muted-foreground/30 font-mono uppercase tracking-[0.3em] flex justify-between items-center">
+        <span>Vatsal Sharma &copy; {new Date().getFullYear()}</span>
+        <span class="opacity-50">BY SHARMA_RESRCH_V1</span>
+      </div>
+    </div>
+  </div>
+</footer>

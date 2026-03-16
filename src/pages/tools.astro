@@ -1,0 +1,160 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import PageHead from '@/components/PageHead.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import ToolCard from '@/components/ToolCard.astro'
+
+const tools = [
+  // Development
+  {
+    name: "VS Code",
+    description: "Primary code editor with extensive extension ecosystem for Python, TypeScript, and data science workflows.",
+    image: "",
+    category: "Development",
+  },
+  {
+    name: "GitHub Copilot",
+    description: "AI-powered code completion and pair programming assistant that accelerates development.",
+    image: "",
+    category: "Development",
+  },
+  {
+    name: "Docker",
+    description: "Containerization for consistent development environments and seamless deployment pipelines.",
+    image: "",
+    category: "Development",
+  },
+  {
+    name: "Git & GitHub",
+    description: "Version control and collaboration platform for all projects and open-source contributions.",
+    image: "",
+    category: "Development",
+  },
+  {
+    name: "Warp Terminal",
+    description: "Modern terminal with AI-powered command suggestions and built-in workflow blocks.",
+    image: "",
+    category: "Development",
+  },
+
+  // Data & ML
+  {
+    name: "Jupyter Notebooks",
+    description: "Interactive computing environment for data exploration, model prototyping, and research documentation.",
+    image: "",
+    category: "Data & ML",
+  },
+  {
+    name: "Python",
+    description: "Primary language for quantitative research, machine learning, and data analysis pipelines.",
+    image: "",
+    category: "Data & ML",
+  },
+  {
+    name: "PyTorch",
+    description: "Deep learning framework for building and training neural networks and research models.",
+    image: "",
+    category: "Data & ML",
+  },
+  {
+    name: "Pandas & NumPy",
+    description: "Core data manipulation and numerical computing libraries for quantitative analysis.",
+    image: "",
+    category: "Data & ML",
+  },
+
+  // Design & Productivity
+  {
+    name: "Figma",
+    description: "Design tool for UI/UX work, prototyping, and creating visual assets for web projects.",
+    image: "",
+    category: "Design & Productivity",
+  },
+  {
+    name: "Notion",
+    description: "All-in-one workspace for notes, project management, research documentation, and knowledge bases.",
+    image: "",
+    category: "Design & Productivity",
+  },
+  {
+    name: "Obsidian",
+    description: "Markdown-based knowledge management and note-taking with linked thinking and graph visualization.",
+    image: "",
+    category: "Design & Productivity",
+  },
+  {
+    name: "Arc Browser",
+    description: "Modern browser with workspaces, split views, and built-in tools for research and browsing.",
+    image: "",
+    category: "Design & Productivity",
+  },
+
+  // Cloud & Infrastructure
+  {
+    name: "Cloudflare",
+    description: "Edge network, DNS, and serverless Workers for fast global deployments and security.",
+    image: "",
+    category: "Cloud & Infrastructure",
+  },
+  {
+    name: "Vercel",
+    description: "Deployment platform for frontend applications with instant previews and edge functions.",
+    image: "",
+    category: "Cloud & Infrastructure",
+  },
+  {
+    name: "AWS",
+    description: "Cloud computing services for scalable compute, storage, and machine learning workloads.",
+    image: "",
+    category: "Cloud & Infrastructure",
+  },
+]
+
+const categories = [...new Set(tools.map(t => t.category))]
+---
+
+<Layout class="px-2">
+  <PageHead slot="head" title="Tools" />
+  
+  <div class="mx-auto w-full max-w-[calc(var(--container-3xl)-2rem)]">
+    <Breadcrumbs items={[{ label: 'Tools', icon: 'lucide:code' }]} />
+  </div>
+
+  <div class="max-w-7xl mx-auto pt-4 pb-12 space-y-8">
+    <!-- Page Header -->
+    <div class="space-y-4 text-center">
+      <h1 class="text-3xl font-extrabold leading-9 tracking-tight sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+        Tools
+      </h1>
+      <p class="text-lg leading-7 text-muted-foreground max-w-3xl mx-auto">
+        Software and tools I use daily for{" "}
+        <span class="bg-secondary border rounded-md px-2 py-0.5 tracking-tight font-medium">
+          Development
+        </span>,{" "}
+        <span class="bg-secondary border rounded-md px-2 py-0.5 tracking-tight font-medium">
+          Data Science
+        </span>, and{" "}
+        <span class="bg-secondary border rounded-md px-2 py-0.5 tracking-tight font-medium">
+          Productivity
+        </span>.
+      </p>
+    </div>
+
+    <!-- Tools by Category -->
+    {categories.map(category => (
+      <section class="space-y-4">
+        <h2 class="text-sm font-medium uppercase tracking-wider text-muted-foreground border-b border-border pb-2">
+          {category}
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {tools
+            .filter(t => t.category === category)
+            .map(tool => (
+              <ToolCard tool={tool} />
+            ))
+          }
+        </div>
+      </section>
+    ))}
+  </div>
+</Layout>

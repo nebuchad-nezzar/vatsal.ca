@@ -1,0 +1,104 @@
+﻿
+16:27:37 [@astrojs/cloudflare] If you 
+see the error "Invalid binding 
+`SESSION`" in your build output, you 
+need to add the binding to your 
+wrangler config file.
+[96msrc/components/BookCard.astro[0m:
+[93m14[0m:[93m11[0m - 
+[93mwarning[0m[90m ts(6196): 
+[0m'BookCardProps' is declared but 
+never used.
+[96msrc/components/Head.astro[0m:[93m
+71[0m:[93m11[0m - 
+[93mwarning[0m[90m astro(4000): 
+[0mThis script will be treated as if 
+it has the `is:inline` directive 
+because it contains an attribute. 
+Therefore, features that require 
+processing (e.g. using TypeScript or 
+npm packages in the script) are 
+unavailable.
+Add the `is:inline` directive 
+explicitly to silence this hint.
+[96msrc/components/Head.astro[0m:[93m
+53[0m:[93m11[0m - 
+[93mwarning[0m[90m astro(4000): 
+[0mThis script will be treated as if 
+it has the `is:inline` directive 
+because it contains an attribute. 
+Therefore, features that require 
+processing (e.g. using TypeScript or 
+npm packages in the script) are 
+unavailable.
+Add the `is:inline` directive 
+explicitly to silence this hint.
+[96msrc/components/PostHead.astro[0m:
+[93m111[0m:[93m9[0m - 
+[93mwarning[0m[90m astro(4000): 
+[0mThis script will be treated as if 
+it has the `is:inline` directive 
+because it contains an attribute. 
+Therefore, features that require 
+processing (e.g. using TypeScript or 
+npm packages in the script) are 
+unavailable.
+Add the `is:inline` directive 
+explicitly to silence this hint.
+[96msrc/components/PostHead.astro[0m:
+[93m110[0m:[93m9[0m - 
+[93mwarning[0m[90m astro(4000): 
+[0mThis script will be treated as if 
+it has the `is:inline` directive 
+because it contains an attribute. 
+Therefore, features that require 
+processing (e.g. using TypeScript or 
+npm packages in the script) are 
+unavailable.
+Add the `is:inline` directive 
+explicitly to silence this hint.
+[96msrc/components/react/Newsletter.tsx
+[0m:[93m25[0m:[93m34[0m - 
+[93mwarning[0m[90m ts(6385): 
+[0m'FormEvent' is deprecated.
+[96msrc/components/react/Newsletter.tsx
+[0m:[93m1[0m:[93m20[0m - 
+[93mwarning[0m[90m ts(6385): 
+[0m'FormEvent' is deprecated.
+[96msrc/components/react/Skills.tsx[0m
+:[93m275[0m:[93m64[0m - 
+[93mwarning[0m[90m ts(6133): 
+[0m'techIndex' is declared but its 
+value is never read.
+[96msrc/components/react/Skills.tsx[0m
+:[93m275[0m:[93m54[0m - 
+[93mwarning[0m[90m ts(6133): 
+[0m'category' is declared but its 
+value is never read.
+[96msrc/components/react/Skills.tsx[0m
+:[93m219[0m:[93m11[0m - 
+[93mwarning[0m[90m ts(6196): 
+[0m'TechBadgeProps' is declared but 
+never used.
+[96msrc/components/react/TextSelectionS
+harer.tsx[0m:[93m1[0m:[93m8[0m - 
+[93mwarning[0m[90m ts(6133): 
+[0m'React' is declared but its value 
+is never read.
+[96msrc/pages/index.astro[0m:[93m25[
+0m:[93m13[0m - [93mwarning[0m[90m 
+astro(4000): [0mThis script will be 
+treated as if it has the `is:inline` 
+directive because it contains an 
+attribute. Therefore, features that 
+require processing (e.g. using 
+TypeScript or npm packages in the 
+script) are unavailable.
+Add the `is:inline` directive 
+explicitly to silence this hint.
+Result (120 files): 
+- 0 errors
+- 0 warnings
+- 12 hints
+
+

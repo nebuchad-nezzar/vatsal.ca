@@ -1,0 +1,352 @@
+---
+
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import PageHead from '@/components/PageHead.astro'
+import Layout from '@/layouts/Layout.astro'
+import { Content } from '../content/about.mdx'
+import { Icon } from 'astro-icon/components'
+
+import { cn } from '@/lib/utils'
+
+
+type ExperienceItem = {
+  role: string
+  company: string
+  companyUrl?: string
+  logo?: string
+  period: string
+  current?: boolean
+  icon: string
+  key: string
+}
+
+
+const experience: ExperienceItem[] = [
+  {
+    role: 'Quantitative Researcher and Developer',
+    company: 'BlackSwan Dexteritas',
+    companyUrl: 'https://blackswandexteritas.com/',
+    logo:'/logo(white).png',
+    period: ' 2025 - Present',
+    current: true,
+    icon: 'lucide:trending-up',
+    key: 'As a Quantitative Researcher at BlackSwan Dexteritas, I am specializing in developing high-frequency trading strategies and advanced risk management systems. My role involves leveraging cutting-edge machine learning and statistical models to identify market opportunities and optimize execute protocols. I am dedicated to driving alpha and ensuring system reliability in complex financial environments.'
+  },
+  {
+    role: 'Software Engineer 2',
+    company: 'HexaWind',
+    companyUrl: 'https://hexaware.com/',
+    logo: '/hexaware.png',
+    period: '2022 - 2023',
+    icon: 'lucide:rocket',
+    key: 'As an cryptocurrency systems architect, I was able to successfully designed and implemented a scalable multi-wallet system that supports six major cryptocurrencies and manages over 120,000 active wallets. My expertise lies in developing high-performance transaction management systems, optimizing APIs with blockchain functionality, and ensuring seamless integration across multiple platforms. I have a proven track record of enhancing system efficiency, reducing onboarding time by 25%, and increasing transaction processing speed by 75%. My collaborative approach with cross-functional teams has resulted in user-centric features that comply with regulatory requirements and mitigate legal risks. I am adept at conducting comprehensive performance testing and optimization, improving system throughput by 55%, and ensuring scalability for future growth. My skills and experience make me an ideal candidate for organizations looking to innovate and excel in the cryptocurrency and blockchain domain'
+  },
+  {
+    role: 'Software Engineer 1',
+    company: 'HexaForce',
+    companyUrl: 'https://hexaware.com/',
+    logo: '/hexaware.png',
+    period: '2021 - 2022',
+    icon: 'lucide:shield',
+    key: 'I successfully contributed to the development of both e-commerce and ride-sharing platforms, demonstrating my versatility and technical expertise. In the e-commerce domain, I designed and implemented critical systems including an EMI/Loan Management System, a Reward Management System that increased repeat purchases by 55%, and a secure multi-environment user authentication system. I also deployed an Email Verification System using OTP for enhanced security. For the ride-sharing platform, I developed advanced alerts and notification systems for smart electric vehicles, optimized vehicle and battery analytics resulting in a 45% improvement in predictive maintenance, integrated MQTT protocols for real-time telemetry data gathering, and scaled a live vehicle tracking application that reduced latency by 40% and increased system throughput by 50%. My experience in handling complex systems, large datasets, and real-time applications makes me a valuable asset for organizations seeking to innovate and optimize their digital platforms.'
+  },
+  {
+    role: 'R&D Intern',
+    company: 'Aindra Labs',
+    companyUrl: 'https://aindra.ai/',
+    logo: '/Aindra.png',
+    period: '2019 - 2019',
+    icon: 'lucide:cpu',
+    key: 'Developed and implemented advanced algorithms and software solutions tailored for industrial applications, with a strong focus on enhancing efficiency and precision in automated systems. I designed a robust color detection algorithm that significantly improved the accuracy of color sorting processes, even under varying lighting conditions. Additionally, I created a custom log counting algorithm that streamlined data processing, reducing processing time by 90% and eliminating labor costs. Leveraging machine learning and computer vision techniques, I built a pattern recognition model that achieved a 96% improvement in detection and classification accuracy. I also engineered standalone software deployable on NVIDIA GPUs, such as Jetson, and Intel NCS, enabling advanced computational tasks and integrating with drones for enhanced functionality. These experiences demonstrate my ability to deliver innovative technical solutions that address real-world industrial challenges and drive operational efficiency.'
+  },
+  {
+    role: 'Machine Learning Intern',
+    company: 'LTIMindtree',
+    companyUrl: 'https://www.ltimindtree.com/',
+    logo: '/Mindtree.png',
+    period: '2017 - 2017',
+    icon: 'lucide:brain',
+    key: 'I designed an NLP model for sentiment analysis as part of a joint initiative between the Government of Karnataka and Mindtree, aimed at supporting local farmers. This project involved building a 5-layered neural network with LSTM, utilizing a dataset of 100,000 entries. The model was able to achieve an accuracy of 93%, showcasing its effectiveness in analyzing sentiment trends. Through this initiative, I contributed to the development of a robust tool that aids in understanding and addressing farmers concerns, furthering the impact of technology in agricultural support systems.'
+  },
+  {
+    role: 'Data Science Intern',
+    company: 'Exzeo',
+    companyUrl: 'https://www.exzeo.com/',
+    logo: '/Exzeo.png',
+    period: '2017 - 2017',
+    icon: 'lucide:database',
+    key: 'I secured my first internship before my sophomore year, where I played a key role in developing end-to-end pipelines for insurance use cases, specifically in Risk Management and Claims Intelligence. Notably, the model I contributed to was stress-tested during Hurricane Irma in 2017, providing valuable insights into its performance under extreme conditions. I gained hands-on experience in risk assessment and insurance, performing feature engineering and cleaning raw data to improve model accuracy. Leveraging tools such as NumPy, pandas, Plotly, and scikit-learn, I developed algorithms and created insightful data visualizations using Python, further enhancing decision-making capabilities within the team.'
+  }
+]
+
+---
+
+<Layout>
+  <PageHead slot="head" title="About" />
+  <div class="mx-auto w-full max-w-[calc(var(--container-3xl)-2rem)]">
+    <Breadcrumbs items={[{ label: 'About', icon: 'lucide:info' }]} />
+  </div>
+
+  <section class="flex flex-col gap-4">
+    <clas class="mx-auto max-w-[calc(var(--container-3xl)-2rem)]">
+      <article class="prose">
+        <Content />
+      </article>
+
+      <br>
+      <!-- Exact Replica Skills Section - Small Text Version -->
+<!-- <section class="mt-12">
+  <h2 class="text-2xl font-semibold mb-6">Skills</h2>
+  <p class="text-sm text-muted-foreground mb-8">
+    Core technical competencies and tools I work with daily
+  </p>
+
+  <div class="space-y-5 text-sm leading-relaxed"> -->
+
+    <!-- Languages -->
+    <!-- <div>
+      <span class="font-semibold text-foreground">Languages:</span>
+      <div class="ml-6 mt-1.5 flex flex-wrap items-center gap-x-5 gap-y-2 text-muted-foreground">
+        <span class="flex items-center gap-2">
+          <Icon name="lucide:code" class="size-4" />
+          Python
+        </span>
+        <span class="flex items-center gap-2">
+          <Icon name="lucide:code" class="size-4" />
+          C++
+        </span>
+        <span class="flex items-center gap-2">
+          <Icon name="lucide:database" class="size-4" />
+          SQL
+        </span>
+      </div>
+    </div> -->
+
+    <!-- Development -->
+    <!-- <div>
+      <span class="font-semibold text-foreground">Development:</span>
+      <div class="ml-6 mt-1.5 flex flex-wrap items-center gap-x-5 gap-y-2 text-muted-foreground">
+        <span class="flex items-center gap-2">
+          <Icon name="lucide:globe" class="size-4" />
+          HTML
+        </span>
+        <span class="flex items-center gap-2">
+          <Icon name="lucide:palette" class="size-4" />
+          CSS
+        </span>
+        <span class="flex items-center gap-2">
+          <Icon name="lucide:wind" class="size-4" />
+          Tailwind CSS
+        </span>
+        <span class="flex items-center gap-2">
+          <Icon name="lucide:atom" class="size-4" />
+          React
+        </span>
+        <span class="flex items-center gap-2">
+          <Icon name="lucide:box" class="size-4" />
+          NextJS
+        </span>
+      </div>
+    </div> -->
+
+    <!-- Technologies -->
+    <!-- <div>
+      <span class="font-semibold text-foreground">Technologies:</span>
+      <div class="ml-6 mt-1.5 text-muted-foreground">
+        Deep Learning, LLMs, Computer Vision, Natural Language Processing,<br class="hidden sm:inline" />
+        RAGs, Neural Networks, Statistical Analysis, EDA,<br class="hidden sm:inline" />
+        Pattern Recognition, Hyperparameter Tuning, Feature Engineering,<br class="hidden sm:inline" />
+        Weights & Biases, Add Quant Skills
+      </div>
+    </div> -->
+
+    <!-- Frameworks -->
+    <!-- <div>
+      <span class="font-semibold text-foreground">Frameworks:</span>
+      <div class="ml-6 mt-1.5 text-muted-foreground">
+        TensorFlow, Scikit-learn, Keras, Apache Spark(PySpark), OpenCV,<br class="hidden sm:inline" />
+        HuggingFace, Pandas, NumPy, Matplotlib, Seaborn, Tableau,<br class="hidden sm:inline" />
+        Requests, BeautifulSoup, LangChain, StreamLit, Plotly
+      </div>
+    </div> -->
+
+    <!-- Collaboration -->
+    <!-- <div>
+      <span class="font-semibold text-foreground">Collaboration:</span>
+      <div class="ml-6 mt-1.5 flex flex-wrap items-center gap-x-5 gap-y-2 text-muted-foreground">
+        <span class="flex items-center gap-2">
+          <Icon name="lucide:notebook" class="size-4" />
+          Notion
+        </span>
+        <span class="flex items-center gap-2">
+          <Icon name="lucide:mail" class="size-4" />
+          Mailchimp
+        </span>
+        <span class="flex items-center gap-2">
+          <Icon name="lucide:message-circle" class="size-4" />
+          Slack
+        </span>
+      </div>
+    </div> -->
+
+    <!-- Soft Skills -->
+    <!-- <div>
+      <span class="font-semibold text-foreground">Soft Skills:</span>
+      <div class="ml-6 mt-1.5 text-muted-foreground">
+        Research and Development, Project Management, Communications,<br class="hidden sm:inline" />
+        Critical Thinking, Problem Solving, Fast Learner,<br class="hidden sm:inline" />
+        Attention to detail, Time management
+      </div>
+    </div>
+
+  </div>
+</section> -->
+      
+      
+<!-- Skills Section (Lucide-only version) -->
+<!-- <section class="mt-12">
+  <div class="mb-6">
+    <h2 class="text-2xl font-semibold mb-2">Skills</h2>
+    <p class="text-sm text-muted-foreground">
+      Core technical competencies and tools I work with daily
+    </p>
+  </div>
+
+  <div class="grid gap-8 md:grid-cols-2"> -->
+    <!-- Languages -->
+    <!-- <div>
+      <h3 class="text-lg font-medium mb-3 flex items-center gap-2">
+        <Icon name="lucide:code" class="size-5" />
+        Languages
+      </h3>
+      <div class="flex flex-wrap gap-3">
+        <SkillBadge label="Python" />
+        <SkillBadge label="C++" />
+        <SkillBadge label="SQL" />
+      </div>
+    </div> -->
+
+    <!-- Development -->
+    <!-- <div>
+      <h3 class="text-lg font-medium mb-3 flex items-center gap-2">
+        <Icon name="lucide:monitor" class="size-5" />
+        Development
+      </h3>
+      <div class="flex flex-wrap gap-3">
+        <SkillBadge label="HTML" />
+        <SkillBadge label="CSS" />
+        <SkillBadge label="Tailwind CSS" />
+        <SkillBadge label="React" />
+        <SkillBadge label="NextJS" />
+      </div>
+    </div> -->
+
+    <!-- Technologies & Frameworks (combined for simplicity) -->
+    <!-- <div class="md:col-span-2">
+      <h3 class="text-lg font-medium mb-3 flex items-center gap-2">
+        <Icon name="lucide:cpu" class="size-5" />
+        Technologies & Frameworks
+      </h3>
+      <div class="flex flex-wrap gap-3">
+        <SkillBadge label="Deep Learning" />
+        <SkillBadge label="LLMs" />
+        <SkillBadge label="Computer Vision" />
+        <SkillBadge label="NLP" />
+        <SkillBadge label="RAGs" />
+        <SkillBadge label="Neural Networks" />
+        <SkillBadge label="TensorFlow" />
+        <SkillBadge label="Scikit-learn" />
+        <SkillBadge label="Keras" />
+        <SkillBadge label="PySpark" />
+        <SkillBadge label="OpenCV" />
+        <SkillBadge label="HuggingFace" />
+        <SkillBadge label="Pandas" />
+        <SkillBadge label="NumPy" />
+        <SkillBadge label="Matplotlib" />
+        <SkillBadge label="Seaborn" />
+        <SkillBadge label="Tableau" />
+        <SkillBadge label="LangChain" />
+        <SkillBadge label="StreamLit" />
+        <SkillBadge label="Plotly" />
+        <!-- Add more as needed -->
+      <!-- </div>
+    </div>  -->
+
+    <!-- Collaboration & Soft Skills -->
+    <!-- <div>
+      <h3 class="text-lg font-medium mb-3 flex items-center gap-2">
+        <Icon name="lucide:users" class="size-5" />
+        Collaboration & Soft Skills
+      </h3>
+      <div class="flex flex-wrap gap-3">
+        <SkillBadge label="Notion" />
+        <SkillBadge label="Mailchimp" />
+        <SkillBadge label="Slack" />
+        <SkillBadge label="Research & Development" />
+        <SkillBadge label="Project Management" />
+        <SkillBadge label="Critical Thinking" />
+        <SkillBadge label="Problem Solving" />
+      </div>
+    </div>
+  </div>
+</section> -->
+
+
+      <br>
+      <br>
+
+      <!-- Experience Timeline -->
+  <section class="mt-8">
+    <div class="mb-6">
+      <h2 class="text-2xl font-semibold mb-2">Experience</h2>
+      <p class="text-sm text-muted-foreground">
+        4+ years in delivering in software, machine learning and AI enterpise solutions.
+      </p>
+    </div>
+    
+    <div class="space-y-6">
+      {experience.map((exp, index) => (
+        <div class="relative group">
+          {index < experience.length - 1 && (
+            <div class="absolute left-[15px] top-10 bottom-0 w-px bg-border group-hover:bg-primary/20 transition-colors" aria-hidden="true"></div>
+          )}
+          
+          <div class="flex gap-4">
+            <div class={cn(
+              "relative flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center ring-4 ring-background z-10 overflow-hidden transition-all duration-300",
+              exp.current ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20" : "bg-muted text-muted-foreground group-hover:ring-primary/10"
+            )}>
+              {exp.logo ? (
+                <img src={exp.logo} alt={exp.company} class="w-full h-full object-contain p-1 bg-white dark:bg-zinc-950" />
+              ) : (
+                <Icon name={exp.icon} class="size-4.5" />
+              )}
+            </div>
+            
+            <div class="flex-1 pb-6 min-w-0">
+              <div class="mb-1">
+                <h3 class="font-semibold text-lg leading-tight group-hover:text-primary transition-colors">{exp.role}</h3>
+                <p class="text-sm text-muted-foreground">
+                  {exp.companyUrl ? (
+                    <a href={exp.companyUrl} target="_blank" rel="noopener noreferrer" class="hover:underline hover:text-foreground transition-all">
+                      {exp.company}
+                    </a>
+                  ) : (
+                    exp.company
+                  )} · {exp.period}
+                </p>
+              </div>
+              <p class="text-sm text-muted-foreground/90 leading-relaxed mt-2 italic border-l-2 border-border/50 pl-4 py-1 group-hover:border-primary/30 transition-colors">
+                {exp.key}
+              </p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+    </div>
+  </section>
+
+   
+</Layout>

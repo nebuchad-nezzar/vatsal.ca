@@ -1,0 +1,51 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import PageHead from '@/components/PageHead.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import PhotosetCard from '@/components/PhotosetCard.astro'
+import { Icon } from 'astro-icon/components'
+import { photosets } from '@/lib/gallery-data'
+---
+
+<Layout class="px-2">
+  <PageHead slot="head" title="Gallery" />
+  
+  <div class="mx-auto w-full max-w-[calc(var(--container-3xl)-2rem)]">
+    <Breadcrumbs items={[{ label: 'Gallery', icon: 'lucide:images' }]} />
+  </div>
+
+  <div class="max-w-7xl mx-auto pt-4 pb-12 space-y-8">
+    <!-- Page Header -->
+    <div class="space-y-4">
+      <h1 class="text-3xl font-extrabold leading-9 tracking-tight sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+        Photosets
+      </h1>
+      <p class="text-lg leading-7 text-muted-foreground max-w-3xl">
+        I'm no photographer, but I like to keep a visual record of the places I've been. These are some JPEGs that have been languishing on my hard drive for a while. Thought it better that they reside somewhere they could be seen.
+      </p>
+    </div>
+
+    <!-- Photosets List -->
+    <div class="flex flex-col gap-y-4 pt-6">
+      {photosets.map((photoset) => (
+        <PhotosetCard
+          title={photoset.title}
+          slug={photoset.slug}
+          description={photoset.description}
+          dateRange={photoset.dateRange}
+          photoCount={photoset.photos.length}
+        />
+      ))}
+    </div>
+
+    <!-- Empty State Message -->
+    {photosets.every(p => p.photos.length === 0) && (
+      <div class="mt-12 text-center p-8 border border-dashed rounded-lg">
+        <Icon name="lucide:camera" class="size-12 mx-auto mb-4 text-muted-foreground/50" />
+        <p class="text-muted-foreground text-sm">
+          Photo collections coming soon. Check back later for updates!
+        </p>
+      </div>
+    )}
+  </div>
+</Layout>

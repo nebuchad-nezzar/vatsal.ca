@@ -1,0 +1,19 @@
+---
+// src/components/SkillPill.astro
+
+import { cn } from '@/lib/utils'
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<span
+  class={cn(
+    "inline-flex items-center rounded-full bg-muted/50 px-5 py-2.5 text-sm font-medium text-foreground border border-border/50 transition-all duration-300 hover:bg-muted hover:border-border hover:shadow-md hover:-translate-y-0.5",
+    className
+  )}
+>
+  <slot />
+</span>

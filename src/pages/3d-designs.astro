@@ -1,0 +1,116 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import PageHead from '@/components/PageHead.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import DemoCard from '@/components/DemoCard.astro'
+---
+
+<Layout class="px-2">
+  <PageHead slot="head" title="3D Designs" />
+  
+  <div class="mx-auto w-full max-w-[calc(var(--container-3xl)-2rem)]">
+    <Breadcrumbs items={[{ label: '3D Designs', icon: 'lucide:box' }]} />
+  </div>
+
+  <div class="max-w-7xl mx-auto pt-4 pb-12 space-y-8">
+    <!-- Page Header -->
+    <div class="space-y-4">
+      <h1 class="text-3xl font-extrabold leading-9 tracking-tight sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+        3D Designs
+      </h1>
+      <p class="text-lg leading-7 text-muted-foreground max-w-3xl">
+        Here are some{" "}
+        <span class="bg-secondary border rounded-md px-2 py-0.5 tracking-tight font-medium">
+          Live Demos
+        </span>{" "}
+        made using ThreeJS. I'll be writing up blogs for some of them in the upcoming days, explaining my approach. Feel free to explore and play with them.
+      </p>
+    </div>
+
+    <!-- Demos Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-6">
+      <DemoCard
+        title="Disco Sphere"
+        href=""
+      />
+      <DemoCard
+        title="90s Sci-Fi"
+        href="https://profound-pie-866947.netlify.app/"
+      />
+      <DemoCard
+        title="Torus"
+        href="https://dainty-arithmetic-131924.netlify.app/"
+      />
+      <DemoCard
+        title="Ripples"
+        href="https://fastidious-smakager-838ae1.netlify.app/"
+      />
+      <DemoCard
+        title="Terrain"
+        href="https://zingy-mandazi-22a3a8.netlify.app/"
+      />
+      <DemoCard
+        title="Swirler"
+        href="https://celadon-souffle-269608.netlify.app/"
+      />
+      <DemoCard
+        title="Flower"
+        href="https://charming-empanada-eb45ca.netlify.app/"
+      />
+      <DemoCard
+        title="Shattered Triangles"
+        href="https://zesty-pika-446653.netlify.app/"
+      />
+      <DemoCard
+        title="Warp Drive"
+        href="https://glittery-begonia-512ba1.netlify.app/"
+      />
+      <DemoCard
+        title="Infinite Light"
+        href="https://rococo-sorbet-af0130.netlify.app"
+      />
+      <DemoCard
+        title="Github Globe"
+        href=""
+        description="Coming soon..."
+      />
+      <DemoCard
+        title="Earth"
+        href=""
+        description="Coming soon..."
+      />
+      <DemoCard
+        title="Perlin Noise"
+        href="https://incredible-hummingbird-93f6dc.netlify.app/"
+      />
+      <DemoCard
+        title="Melting Torus"
+        href="https://bucolic-kulfi-206a2e.netlify.app/"
+      />
+      <DemoCard
+        title="Orbit Trails"
+        href="https://prismatic-vacherin-762aae.netlify.app/"
+      />
+      <DemoCard
+        title="Refracting Noise"
+        href="https://wondrous-lily-2626ac.netlify.app/"
+      />
+      <DemoCard
+        title="Wormhole"
+        href="https://cute-florentine-38101e.netlify.app/"
+      />
+      <DemoCard
+        title="Fireflies"
+        href="https://symphonious-panda-34a175.netlify.app/"
+      />
+      <DemoCard
+        title="Kaleidoscope"
+        href="https://fanciful-frangipane-f0a32e.netlify.app/"
+      />
+      <DemoCard
+        title="Sine Wave"
+        href="https://joyful-bienenstitch-10709a.netlify.app/"
+      />
+    </div>
+  </div>
+</Layout>

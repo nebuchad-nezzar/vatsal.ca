@@ -1,0 +1,352 @@
+---
+title: 'Blog Feature Reference'
+description: 'A complete reference for all features and components available in my blog — callouts, code blocks, math, tweets, sidenotes, and more.'
+date: 2024-03-04
+tags: ['reference']
+image: 'assets/banner.png'
+authors: ['enscribe']
+---
+
+import Callout from '@/components/mdx/Callout.astro'
+import Sidenote from '@/components/mdx/Sidenote.astro'
+import Challenge from '@/components/mdx/Challenge.astro'
+import TweetEmbed from '@/components/mdx/TweetEmbed.astro'
+import CountryFlag from '@/components/mdx/CountryFlag.astro'
+import StaticTweet from '@/components/mdx/StaticTweet.astro'
+import FirstSubpost from '@/components/mdx/FirstSubpost.astro'
+import Admonition from '@/components/mdx/Admonition.astro'
+
+This post is a **living reference** for every feature my blog supports. Use it as a copy-paste starting point when writing new posts.
+
+---
+
+## 1. Headings & Text
+
+# H1 Heading
+## H2 Heading
+### H3 Heading
+#### H4 Heading
+
+You can write **bold**, *italic*, ~~strikethrough~~, `inline code`, and [hyperlinks](https://vatsal.ca).
+
+> This is a blockquote. You can use it for notable quotes or references.
+
+---
+
+## 2. Callouts
+
+Callouts are the most powerful way to highlight information. All variants are shown below.
+
+<Callout variant="note">
+This is a **note** callout. Great for background context.
+</Callout>
+
+<Callout variant="tip">
+This is a **tip** callout. Use it for helpful shortcuts or suggestions.
+</Callout>
+
+<Callout variant="warning">
+This is a **warning** callout. Ideal for prereqs or prerequisites.
+</Callout>
+
+<Callout variant="danger">
+This is a **danger** callout. Use for breaking changes or serious warnings.
+</Callout>
+
+<Callout variant="important">
+This is an **important** callout. For must-know information.
+</Callout>
+
+<Callout variant="definition" title="Graph">
+A **graph** is an ordered pair $G = (V, E)$ where $V$ is a set of vertices and $E$ is a set of edges connecting them.
+</Callout>
+
+<Callout variant="theorem" title="Pythagorean Theorem">
+For a right-angled triangle: $a^2 + b^2 = c^2$
+</Callout>
+
+<Callout variant="proof">
+Given $a = 3$, $b = 4$: $3^2 + 4^2 = 9 + 16 = 25 = 5^2 = c^2$. Therefore $c = 5$. $\square$
+</Callout>
+
+<Callout variant="example" title="Practical Usage">
+When modeling a social network, each user is a **vertex** and each friendship is an **edge**.
+</Callout>
+
+<Callout variant="summary">
+- Callouts support many variants: `note`, `tip`, `warning`, `danger`, `important`, `definition`, `theorem`, `proof`, `example`, `summary`, `recall`, `intuition`, `remark`, `fact`, `lemma`, `corollary`, `axiom`, `conjecture`, `notation`, `proposition`, `exercise`, `problem`, `answer`, `solution`.
+- They can be nested.
+- They accept a `title` prop and a `defaultOpen={false}` prop to collapse by default.
+</Callout>
+
+<Callout variant="warning" title="Collapsible Example">
+This callout is open by default. The one below is collapsed.
+<Callout variant="notation" title="Math Symbols" defaultOpen={false}>
+- $\sum$ — Summation
+- $\forall$ — For all
+- $\exists$ — There exists
+- $\in$ — Element of
+- $\subseteq$ — Subset of or equal to
+</Callout>
+</Callout>
+
+---
+
+## 3. Sidenotes
+
+Sidenotes appear as a numbered inline marker. On desktop, they float in the right margin.
+
+This is a sentence with a sidenote<Sidenote number="1">This is the sidenote content. It appears in the margin on wide screens and is visible on hover.</Sidenote> embedded inline.
+
+You can have multiple<Sidenote number="2">Second sidenote! Use these for tangential info, citations, or extra context.</Sidenote> sidenotes in the same paragraph.
+
+---
+
+## 4. Code Blocks
+
+### Inline Code
+Use `backticks` for inline code like `const x = 42`.
+
+### Fenced Code Block
+```python
+def fibonacci(n: int) -> int:
+    """Returns the nth Fibonacci number."""
+    if n <= 1:
+        return n
+    return fibonacci(n - 1) + fibonacci(n - 2)
+
+print(fibonacci(10))  # 55
+```
+
+```typescript
+// TypeScript example
+interface BlogPost {
+  title: string
+  date: Date
+  tags: string[]
+  draft?: boolean
+}
+
+const post: BlogPost = {
+  title: "My First Post",
+  date: new Date(),
+  tags: ["tech", "writing"],
+}
+```
+
+```bash
+# Terminal commands
+npm run dev
+git add .
+git commit -m "feat: add new blog post"
+git push origin main
+```
+
+---
+
+## 5. Math (KaTeX)
+
+Inline math uses single dollar signs: $E = mc^2$
+
+Display math uses triple backtick with `math` or double dollar signs:
+
+```math
+\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+```
+
+$$
+\frac{d}{dx}\left(\int_{a}^{x} f(t)\, dt\right) = f(x)
+$$
+
+A more complex example:
+
+$$
+\nabla \cdot \mathbf{E} = \frac{\rho}{\varepsilon_0}, \quad
+\nabla \times \mathbf{B} = \mu_0 \mathbf{J} + \mu_0 \varepsilon_0 \frac{\partial \mathbf{E}}{\partial t}
+$$
+
+---
+
+## 6. Tables
+
+| Feature | Syntax | Notes |
+|---------|--------|-------|
+| Bold | `**text**` | Also `__text__` |
+| Italic | `*text*` | Also `_text_` |
+| Code | `` `code` `` | For inline snippets |
+| Link | `[label](url)` | Opens in new tab |
+| Math | `$formula$` | Powered by KaTeX |
+
+---
+
+## 7. X Embeds
+
+### Dynamic Embed (auto-fetched via react-tweet)
+Use `<TweetEmbed>` with the tweet's numeric ID from its URL:
+
+<TweetEmbed id="1970912442118238439" />
+
+---
+
+## 8. Challenge Block
+
+The `<Challenge>` component is great for CTF writeups or problem sets.
+
+<Challenge
+  title="Maximum Matching"
+  category={["Graph Theory", "Algorithms"]}
+  points={350}
+  solves={42}
+  authors={["Vatsal Sharma"]}
+  files={["graph.py", "README.md"]}
+  remote="nc challenge.vatsal.ca 1337"
+  flag="flag{m4x_w31ght_m4tch1ng}"
+>
+  Given a weighted bipartite graph $G = (U \cup V, E)$, find the maximum weight matching $M \subseteq E$ such that no two edges in $M$ share a vertex. Return $w(M)$.
+</Challenge>
+
+---
+
+## 9. Country Flags
+
+Inline country flags using ISO 3166-1 alpha-2 codes:
+
+- Canada: <CountryFlag country="ca" />
+- United States: <CountryFlag country="us" />
+- United Kingdom: <CountryFlag country="gb" />
+- Japan: <CountryFlag country="jp" />
+- India: <CountryFlag country="in" />
+
+---
+
+## 10. First Subpost Link
+
+Use `<FirstSubpost>` to link readers to the first entry in a multi-part series:
+
+<FirstSubpost title="Day 1: Getting Started" href="/blog/Data Science/day-1" />
+
+---
+
+## 11. Emojis
+
+Emoji shortcodes are supported via `remark-emoji`:
+
+:rocket: :fire: :100: :sparkles: :tada: :brain: :chart_with_upwards_trend:
+
+---
+
+## 12. Lists
+
+### Unordered
+- Item one
+- Item two
+  - Nested item
+  - Another nested item
+- Item three
+
+### Ordered
+1. First step
+2. Second step
+   1. Sub-step A
+   2. Sub-step B
+3. Third step
+
+### Task Lists
+- [x] Completed task
+- [x] Another done task
+- [ ] Pending task
+
+---
+
+## 13. HTML Elements
+
+You can use raw HTML in MDX for things Markdown doesn't support:
+
+- <u>Underlined text</u>
+- <mark>Highlighted text</mark>
+- Press <kbd>Ctrl</kbd> + <kbd>C</kbd> to copy
+- <abbr title="HyperText Markup Language">HTML</abbr> is the standard markup language
+- <sup>superscript</sup> and <sub>subscript</sub>
+- <details><summary>Click to expand</summary>This is hidden content in a native HTML details/summary block.</details>
+
+---
+
+## 14. Images
+
+Place images in your post's `assets/` folder and reference them in frontmatter or inline:
+
+![Banner image](assets/banner.png)
+
+---
+
+## Quick Reference
+
+| Component | Import | Usage |
+|-----------|--------|-------|
+| `Callout` | `@/components/mdx/Callout.astro` | `<Callout variant="note">...</Callout>` |
+| `Sidenote` | `@/components/mdx/Sidenote.astro` | `<Sidenote number="1">...</Sidenote>` |
+| `TweetEmbed` | `@/components/mdx/TweetEmbed.astro` | `<TweetEmbed id="TWEET_ID" />` |
+| `StaticTweet` | `@/components/mdx/StaticTweet.astro` | `<StaticTweet avatar="..." username="..." ...>` |
+| `Challenge` | `@/components/mdx/Challenge.astro` | `<Challenge title="..." ...>...</Challenge>` |
+| `CountryFlag` | `@/components/mdx/CountryFlag.astro` | `<CountryFlag country="ca" />` |
+| `FirstSubpost` | `@/components/mdx/FirstSubpost.astro` | `<FirstSubpost title="..." href="..." />` |
+| `Admonition` | `@/components/mdx/Admonition.astro` | `<Admonition variant="tip">...</Admonition>` |
+
+---
+
+## 15. Admonitions (Obsidian-style)
+
+Admonitions are styled callout blocks inspired by Obsidian. All 10 variants:
+
+<Admonition variant="note">
+A brief record of something written down to assist the memory or for future reference.
+</Admonition>
+
+<Admonition variant="tip">
+A small piece of useful advice about something practical.
+</Admonition>
+
+<Admonition variant="important">
+Having great value or influence; very necessary. Something that has great influence or authority.
+</Admonition>
+
+<Admonition variant="warning">
+Something that tells you to be careful or tells you about something, usually something bad, before it happens.
+</Admonition>
+
+<Admonition variant="caution">
+Great care, because of possible danger; to warn somebody not to do something.
+</Admonition>
+
+<Admonition variant="summary" title="TL;DR">
+For the conclusion and all the TLDRs. Great at the end of long posts.
+</Admonition>
+
+<Admonition variant="question">
+A sentence in an interrogative form, addressed to someone in order to get information in reply.
+</Admonition>
+
+<Admonition variant="comment" title="My Take">
+A criticism or interpretation, often by implication or suggestion; to write explanatory or critical notes upon a text.
+</Admonition>
+
+<Admonition variant="quote">
+To repeat a passage, phrase, etc., from a book, speech, or the like, as by way of authority, illustration, etc.
+</Admonition>
+
+<Admonition variant="docs">
+Manuals, listings, diagrams, and other hard- or soft-copy written and graphic materials that describe the use, operation, maintenance, or design of software or hardware.
+</Admonition>
+
+Admonitions fully support **code blocks** inside them:
+
+<Admonition variant="tip" title="Python trick">
+You can sort a list of tuples by any key using a lambda:
+
+```python
+data = [(1, 'z'), (3, 'b'), (2, 'a')]
+sorted_data = sorted(data, key=lambda x: x[1])
+print(sorted_data)  # [(2, 'a'), (3, 'b'), (1, 'z')]
+```
+</Admonition>
+

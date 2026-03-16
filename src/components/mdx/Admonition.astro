@@ -1,0 +1,146 @@
+---
+import { Icon } from 'astro-icon/components'
+import { cn } from '@/lib/utils'
+
+type AdmonitionVariant =
+  | 'warning'
+  | 'caution'
+  | 'summary'
+  | 'comment'
+  | 'question'
+  | 'tip'
+  | 'quote'
+  | 'docs'
+  | 'note'
+  | 'important'
+
+interface AdmonitionConfig {
+  icon: string
+  label: string
+  /** Tailwind classes for the outer wrapper */
+  wrapper: string
+  /** Tailwind classes for the label/icon text colour */
+  labelColor: string
+  /** Tailwind class for the left border accent */
+  borderLeft: string
+  /** Tailwind class for the bottom border accent */
+  borderBottom: string
+}
+
+const admonitionConfig: Record<AdmonitionVariant, AdmonitionConfig> = {
+  warning: {
+    icon: 'lucide:alert-octagon',
+    label: 'Warning',
+    borderLeft: 'border-l-orange-500',
+    borderBottom: 'border-b-orange-500',
+    wrapper: 'bg-orange-950/30 dark:bg-orange-950/20',
+    labelColor: 'text-orange-400',
+  },
+  caution: {
+    icon: 'lucide:flame',
+    label: 'Caution',
+    borderLeft: 'border-l-red-500',
+    borderBottom: 'border-b-red-500',
+    wrapper: 'bg-red-950/30 dark:bg-red-950/20',
+    labelColor: 'text-red-400',
+  },
+  summary: {
+    icon: 'lucide:layout-list',
+    label: 'Summary',
+    borderLeft: 'border-l-pink-500',
+    borderBottom: 'border-b-pink-500',
+    wrapper: 'bg-pink-950/40 dark:bg-pink-950/20',
+    labelColor: 'text-pink-400',
+  },
+  comment: {
+    icon: 'lucide:message-square-quote',
+    label: 'Comment',
+    borderLeft: 'border-l-indigo-500',
+    borderBottom: 'border-b-indigo-500',
+    wrapper: 'bg-indigo-950/30 dark:bg-indigo-950/20',
+    labelColor: 'text-indigo-400',
+  },
+  question: {
+    icon: 'lucide:help-circle',
+    label: 'Question',
+    borderLeft: 'border-l-teal-500',
+    borderBottom: 'border-b-teal-500',
+    wrapper: 'bg-teal-950/30 dark:bg-teal-950/20',
+    labelColor: 'text-teal-400',
+  },
+  tip: {
+    icon: 'lucide:lightbulb',
+    label: 'Tip',
+    borderLeft: 'border-l-green-500',
+    borderBottom: 'border-b-green-500',
+    wrapper: 'bg-green-950/30 dark:bg-green-950/20',
+    labelColor: 'text-green-400',
+  },
+  quote: {
+    icon: 'lucide:quote',
+    label: 'Quote',
+    borderLeft: 'border-l-neutral-500',
+    borderBottom: 'border-b-neutral-500',
+    wrapper: 'bg-neutral-900/50 dark:bg-neutral-900/30',
+    labelColor: 'text-neutral-400',
+  },
+  docs: {
+    icon: 'lucide:book-open',
+    label: 'Docs',
+    borderLeft: 'border-l-blue-500',
+    borderBottom: 'border-b-blue-500',
+    wrapper: 'bg-blue-950/30 dark:bg-blue-950/20',
+    labelColor: 'text-blue-400',
+  },
+  note: {
+    icon: 'lucide:pencil-line',
+    label: 'Note',
+    borderLeft: 'border-l-sky-400',
+    borderBottom: 'border-b-sky-400',
+    wrapper: 'bg-sky-950/30 dark:bg-sky-950/20',
+    labelColor: 'text-sky-400',
+  },
+  important: {
+    icon: 'lucide:badge-alert',
+    label: 'Important',
+    borderLeft: 'border-l-violet-500',
+    borderBottom: 'border-b-violet-500',
+    wrapper: 'bg-violet-950/30 dark:bg-violet-950/20',
+    labelColor: 'text-violet-400',
+  },
+}
+
+interface Props {
+  variant?: AdmonitionVariant
+  title?: string
+  class?: string
+}
+
+const { variant = 'note', title, class: className } = Astro.props
+
+const config = admonitionConfig[variant]
+---
+
+<div
+  class={cn(
+    'admonition not-prose my-6 overflow-hidden rounded-md border-l-4 border-b-4 px-4 py-3.5 text-sm',
+    config.borderLeft,
+    config.borderBottom,
+    config.wrapper,
+    className,
+  )}
+>
+  <!-- Header: Icon + bold label + optional title -->
+  <div class={cn('mb-2 flex items-center gap-2 font-semibold font-mono', config.labelColor)}>
+    <Icon name={config.icon} class="size-4 shrink-0" />
+    <span>
+      {config.label}
+      {title && <span class="font-normal opacity-75 ml-1">— {title}</span>}
+    </span>
+  </div>
+
+  <!-- Body: rendered MDX slot including code blocks -->
+  <div class="prose-sm prose dark:prose-invert prose-code:before:hidden prose-code:after:hidden max-w-none leading-relaxed [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+    <slot />
+  </div>
+</div>
