@@ -22,7 +22,7 @@ const blog = await getRecentPosts(SITE.featuredPostCount)
 <Layout class="px-2">
   <PageHead slot="head" title="Home" />
   <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify({
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'Person',
       name: 'Vatsal Sharma',

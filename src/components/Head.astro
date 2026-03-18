@@ -50,7 +50,7 @@ import Favicons from './Favicons.astro'
   <ClientRouter />
 
   <!-- Global WebSite Structured Data -->
-  <script type="application/ld+json" set:html={JSON.stringify({
+  <script is:inline type="application/ld+json" set:html={JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: SITE.title,
@@ -68,7 +68,11 @@ import Favicons from './Favicons.astro'
   })} />
 
   <!-- Cloudflare Web Analytics -->
-  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "YOUR_CF_ANALYTICS_TOKEN"}'></script>
+   {
+    import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN && (
+      <script is:inline defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon={`{"token": "${import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN}"}`}></script>
+    )
+   }
 
   <slot />
 </head>
