@@ -2,7 +2,8 @@
 name = "vatsal-main"
 main = "dist/_worker.js"
 compatibility_date = "2024-03-18"
-assets = "dist"
+[assets]
+directory = "dist"
 
 # If you use sessions, uncomment and add your KV ID
 # [[kv_namespaces]]
