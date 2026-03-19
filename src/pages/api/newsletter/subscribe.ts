@@ -4,7 +4,7 @@ export const prerender = false;
 
 export const POST: APIRoute = async (context) => {
     const { request, locals } = context;
-    const runtimeEnv = (locals as any).runtime?.env || {};
+    const runtimeEnv = (locals as any).runtime?.env || (locals as any).env || {};
 
     const BREVO_API_KEY = runtimeEnv.BREVO_API_KEY || import.meta.env.BREVO_API_KEY;
     const LIST_ID = Number(runtimeEnv.BREVO_LIST_ID || import.meta.env.BREVO_LIST_ID) || 2;

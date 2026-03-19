@@ -6,17 +6,18 @@ import { Redis } from '@upstash/redis';
 export const prerender = false;
 
 // Use import.meta.env + PUBLIC_ prefix (Astro/Vite standard)
-const redis = new Redis({
-  url: import.meta.env.UPSTASH_REDIS_REST_URL,
-  token: import.meta.env.UPSTASH_REDIS_REST_TOKEN,
-});
-
 // Debug startup
 console.log('=== PAGEVIEWS API LOADED ===');
-console.log('URL:', import.meta.env.UPSTASH_REDIS_REST_URL || 'MISSING');
-console.log('TOKEN length:', import.meta.env.UPSTASH_REDIS_REST_TOKEN?.length || 'MISSING');
 
-export const GET: APIRoute = async ({ request }) => {
+export const GET: APIRoute = async (context) => {
+  const { request, locals } = context;
+  const runtimeEnv = (locals as any).runtime?.env || {};
+
+  const redis = new Redis({
+    url: runtimeEnv.UPSTASH_REDIS_REST_URL || import.meta.env.UPSTASH_REDIS_REST_URL,
+    token: runtimeEnv.UPSTASH_REDIS_REST_TOKEN || import.meta.env.UPSTASH_REDIS_REST_TOKEN,
+  });
+
   try {
     const url = new URL(request.url);
     const path = url.searchParams.get('path');
@@ -37,7 +38,15 @@ export const GET: APIRoute = async ({ request }) => {
   }
 };
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async (context) => {
+  const { request, locals } = context;
+  const runtimeEnv = (locals as any).runtime?.env || {};
+
+  const redis = new Redis({
+    url: runtimeEnv.UPSTASH_REDIS_REST_URL || import.meta.env.UPSTASH_REDIS_REST_URL,
+    token: runtimeEnv.UPSTASH_REDIS_REST_TOKEN || import.meta.env.UPSTASH_REDIS_REST_TOKEN,
+  });
+
   try {
     const url = new URL(request.url);
     const path = url.searchParams.get('path');
