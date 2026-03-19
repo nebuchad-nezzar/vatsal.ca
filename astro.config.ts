@@ -1,5 +1,4 @@
 import { defineConfig } from 'astro/config'
-// Trigger build after secrets update
 
 import mdx from '@astrojs/mdx'
 import react from '@astrojs/react'
@@ -25,11 +24,6 @@ export default defineConfig({
   integrations: [expressiveCode(), mdx(), react(), sitemap(), icon()],
   vite: {
     plugins: [tailwindcss()],
-    resolve: {
-      alias: {
-        'react-dom/server': 'react-dom/server.edge',
-      },
-    },
     ssr: {
       noExternal: ['react-tweet'],
     },
