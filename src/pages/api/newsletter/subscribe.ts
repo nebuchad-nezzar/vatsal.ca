@@ -2,10 +2,13 @@ import type { APIRoute } from 'astro';
 
 export const prerender = false;
 
-export const POST: APIRoute = async ({ request }) => {
-    const BREVO_API_KEY = import.meta.env.BREVO_API_KEY;
-    const LIST_ID = Number(import.meta.env.BREVO_LIST_ID) || 2;
-    const DOI_TEMPLATE_ID = Number(import.meta.env.BREVO_DOI_TEMPLATE_ID);
+export const POST: APIRoute = async (context) => {
+    const { request, locals } = context;
+    const runtimeEnv = (locals as any).runtime?.env || {};
+
+    const BREVO_API_KEY = runtimeEnv.BREVO_API_KEY || import.meta.env.BREVO_API_KEY;
+    const LIST_ID = Number(runtimeEnv.BREVO_LIST_ID || import.meta.env.BREVO_LIST_ID) || 2;
+    const DOI_TEMPLATE_ID = Number(runtimeEnv.BREVO_DOI_TEMPLATE_ID || import.meta.env.BREVO_DOI_TEMPLATE_ID);
     const REDIRECT_URL = import.meta.env.SITE || 'https://vatsal.ca';
 
     if (!BREVO_API_KEY) {
