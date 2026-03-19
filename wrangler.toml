@@ -1,0 +1,10 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "vatsal-main"
+main = "dist/_worker.js"
+compatibility_date = "2024-03-18"
+assets = "dist"
+
+# If you use sessions, uncomment and add your KV ID
+# [[kv_namespaces]]
+# binding = "SESSION"
+# id = "xxxxxxxxxxxx"

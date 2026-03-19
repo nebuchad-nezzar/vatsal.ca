@@ -10,7 +10,7 @@ export const NEWSLETTER_CONSENT_TEXT = {
 export const SITE: Site = {
   title: 'Vatsal Sharma',
   description:
-    'Quantitative Researcher and Data Scientist in Toronto.',
+    'Quantitative Researcher and Data Scientist.',
   href: 'https://vatsal.ca',
   author: 'Vatsal Sharma',
   locale: 'en-US',
