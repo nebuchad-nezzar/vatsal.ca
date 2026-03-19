@@ -24,6 +24,11 @@ export default defineConfig({
   integrations: [expressiveCode(), mdx(), react(), sitemap(), icon()],
   vite: {
     plugins: [tailwindcss()],
+    resolve: {
+      alias: {
+        'react-dom/server': 'react-dom/server.edge',
+      },
+    },
     ssr: {
       noExternal: ['react-tweet'],
     },
