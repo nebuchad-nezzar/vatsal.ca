@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config'
+// Trigger build after secrets update
 
 import mdx from '@astrojs/mdx'
 import react from '@astrojs/react'
