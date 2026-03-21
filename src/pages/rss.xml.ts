@@ -1,3 +1,4 @@
+export const prerender = true
 import { SITE } from '@/consts'
 import rss from '@astrojs/rss'
 import type { APIContext } from 'astro'
@@ -26,8 +27,8 @@ export async function GET(context: APIContext) {
         pubDate: post.data.date,
         link: `/blog/${post.id}/`,
         author: `vatswork10@gmail.com (${post.data.authors && post.data.authors.length > 0
-            ? post.data.authors.join(', ')
-            : SITE.author
+          ? post.data.authors.join(', ')
+          : SITE.author
           })`,
         categories: post.data.tags ?? [],
       })),
