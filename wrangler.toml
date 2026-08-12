@@ -5,6 +5,9 @@ compatibility_date = "2026-03-19"
 compatibility_flags = [ "nodejs_compat" ]
 assets = { directory = "dist" }
 
+[vars]
+NEWSLETTER_SECRET = "vatsal_newsletter_secret_7f3a9e2d"
+
 # If you use sessions, uncomment and add your KV ID
 # [[kv_namespaces]]
 # binding = "SESSION"
