@@ -12,3 +12,4 @@ pnpm-debug.log*
 .idea/
 teaser.pptx
 ~$teaser.pptx
+*.log
