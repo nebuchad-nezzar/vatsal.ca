@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro'
-import { getAllPosts } from '@/lib/data-utils'
-import { generateDigestEmail, postToDigest } from '@/lib/newsletter-template'
+import { getAllPostsIncludingNewsletters } from '@/lib/data-utils'
+import { generateDigestEmail, postToDigest, generateWelcomeEmail } from '@/lib/newsletter-template'
 
 export const prerender = false
 
@@ -16,6 +16,16 @@ export const POST: APIRoute = async (context) => {
     const testMode = url.searchParams.get('test') === 'true' || url.searchParams.get('testMode') === 'true'
     const sendTest = url.searchParams.get('sendTest') === 'true'
     const getSubscribers = url.searchParams.get('subscribers') === 'true'
+    const testWelcome = url.searchParams.get('testWelcome') === 'true'
+
+    if (testWelcome) {
+        const siteUrl = import.meta.env.SITE || 'https://vatsal.ca'
+        const welcomeHtml = generateWelcomeEmail('Vatsal', siteUrl)
+        return new Response(welcomeHtml, {
+            status: 200,
+            headers: { 'Content-Type': 'text/html; charset=utf-8' }
+        })
+    }
 
     // Auth check (skipped in test mode or local dev sendTest/subscribers mode)
     const isDev = import.meta.env.DEV || url.hostname === 'localhost' || url.hostname === '127.0.0.1'
@@ -68,7 +78,7 @@ export const POST: APIRoute = async (context) => {
 
         // Parse optional query params
         // Get all posts
-        const allPosts = await getAllPosts()
+        const allPosts = await getAllPostsIncludingNewsletters()
 
         // Check if the latest post is a newsletter or daily outlook
         const latestPost = allPosts[0]
