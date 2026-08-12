@@ -31,10 +31,25 @@ export const POST: APIRoute = async (context) => {
     const isDev = import.meta.env.DEV || url.hostname === 'localhost' || url.hostname === '127.0.0.1'
     const bypassAuth = testMode || ((sendTest || getSubscribers) && isDev)
 
-    if (!bypassAuth) {
-        const secret = runtimeEnv.NEWSLETTER_SECRET || import.meta.env.NEWSLETTER_SECRET
-        const authHeader = request.headers.get('x-newsletter-secret') || url.searchParams.get('secret')
+    // Broad lookup for NEWSLETTER_SECRET across all Cloudflare binding patterns
+    const platformEnv = (locals as any).runtime?.env || (locals as any).env || {}
+    const secret = platformEnv.NEWSLETTER_SECRET || import.meta.env.NEWSLETTER_SECRET || ''
+    const authHeader = request.headers.get('x-newsletter-secret') || url.searchParams.get('secret') || ''
 
+    // Debug mode: show what the server sees (remove after testing)
+    if (url.searchParams.get('debug') === 'true') {
+        return new Response(JSON.stringify({
+            hasSecret: !!secret,
+            secretLength: secret.length,
+            authHeaderLength: authHeader.length,
+            match: secret === authHeader,
+            runtimeKeys: Object.keys(platformEnv),
+            bypassAuth,
+            isDev,
+        }), { status: 200, headers: { 'Content-Type': 'application/json' } })
+    }
+
+    if (!bypassAuth) {
         if (!secret || authHeader !== secret) {
             return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 })
         }
