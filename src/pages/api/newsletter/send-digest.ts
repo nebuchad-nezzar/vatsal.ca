@@ -10,7 +10,7 @@ export const GET: APIRoute = async (context) => {
 
 export const POST: APIRoute = async (context) => {
     const { request, locals } = context
-    const runtimeEnv = (locals as any).runtime?.env || {}
+    const runtimeEnv = (locals as any).runtime?.env || (locals as any).env || {}
 
     const url = new URL(request.url)
     const testMode = url.searchParams.get('test') === 'true' || url.searchParams.get('testMode') === 'true'
