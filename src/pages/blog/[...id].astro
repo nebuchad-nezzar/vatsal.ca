@@ -10,6 +10,8 @@ import SubpostsSidebar from '@/components/SubpostsSidebar.astro'
 import TOCHeader from '@/components/TOCHeader.astro'
 import ViewCounter from '@/components/VisitorCount.tsx' 
 import TOCSidebar from '@/components/TOCSidebar.astro'
+import PremiumBadge from '@/components/PremiumBadge.astro'
+import PremiumPaywall from '@/components/PremiumPaywall.astro'
 import { Button } from '@/components/ui/button'
 import Layout from '@/layouts/Layout.astro'
 
@@ -64,6 +66,7 @@ const combinedReadingTime =
     ? await getCombinedReadingTime(currentPostId)
     : null
 const tocSections = await getTOCSections(currentPostId)
+const isPremium = post.data.premium === true
 ---
 <Layout>
   <PostHead slot="head" post={post} />
@@ -131,6 +134,7 @@ const tocSections = await getTOCSections(currentPostId)
           id="post-title"
         >
           {post.data.title}
+          {isPremium && <PremiumBadge class="ml-2 align-middle" />}
         </h1>
         <div
           class="text-muted-foreground divide-border mb-4 flex flex-col items-center justify-center divide-y text-xs sm:flex-row sm:flex-wrap sm:divide-x sm:divide-y-0 sm:text-sm"
@@ -238,22 +242,124 @@ const tocSections = await getTOCSections(currentPostId)
         <TOCSidebar sections={tocSections} currentPostId={currentPostId} />
       )
     }
-    <article class="prose col-start-2 max-w-none relative">
-      <Content />
-    </article>
-    
+    {isPremium ? (
+      <div class="col-start-2 relative premium-gate">
+        <article class="prose max-w-none relative premium-article">
+          <Content />
+        </article>
 
+        {/* 5-layer cascading blur — each layer adds more blur progressively */}
+        <div class="premium-blur-layer premium-blur-1"></div>
+        <div class="premium-blur-layer premium-blur-2"></div>
+        <div class="premium-blur-layer premium-blur-3"></div>
+        <div class="premium-blur-layer premium-blur-4"></div>
+        <div class="premium-blur-layer premium-blur-5"></div>
 
-    {
-      (hasChildPosts || isCurrentSubpost) && (
-        <SubpostsSidebar
-          parentId={
-            isCurrentSubpost ? getParentId(currentPostId) : currentPostId
+        {/* Paywall CTA floating on top */}
+        <div class="premium-paywall-overlay">
+          <PremiumPaywall />
+        </div>
+
+        <style>
+          .premium-gate {
+            position: relative;
           }
-          className="w-64"
-        />
-      )
-    }
+          .premium-article {
+            max-height: 900px;
+            overflow: hidden;
+            position: relative;
+          }
+
+          /* Shared blur layer base */
+          .premium-blur-layer {
+            position: absolute;
+            left: -2rem;
+            right: -2rem;
+            pointer-events: none;
+            z-index: 2;
+          }
+
+          /* Layer 1: barely-there hint — 1px blur */
+          .premium-blur-1 {
+            top: 200px;
+            height: 150px;
+            backdrop-filter: blur(1px);
+            -webkit-backdrop-filter: blur(1px);
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 100%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 100%);
+          }
+
+          /* Layer 2: getting noticeable — 2px blur */
+          .premium-blur-2 {
+            top: 300px;
+            height: 150px;
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 100%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 100%);
+          }
+
+          /* Layer 3: clearly blurred — 4px */
+          .premium-blur-3 {
+            top: 400px;
+            height: 150px;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 100%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 100%);
+          }
+
+          /* Layer 4: heavy blur — 8px */
+          .premium-blur-4 {
+            top: 500px;
+            bottom: 200px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 30%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 30%);
+          }
+
+          /* Layer 5: max blur — 12px covers the rest */
+          .premium-blur-5 {
+            top: 600px;
+            bottom: 0;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 20%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%);
+          }
+
+          /* Paywall card floats on top */
+          .premium-paywall-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+          }
+        </style>
+      </div>
+    ) : (
+      <article class="prose col-start-2 max-w-none relative">
+        <Content />
+      </article>
+    )}
+
+    <!-- Right sidebar: Premium Promo Card + Subposts -->
+    <div class="col-start-3 row-span-full hidden xl:block">
+      <div class="sticky top-20">
+        {
+          (hasChildPosts || isCurrentSubpost) && (
+            <SubpostsSidebar
+              parentId={
+                isCurrentSubpost ? getParentId(currentPostId) : currentPostId
+              }
+              className="w-64"
+            />
+          )
+        }
+      </div>
+    </div>
     <PostNavigation
       newerPost={navigation.newer}
       olderPost={navigation.older}

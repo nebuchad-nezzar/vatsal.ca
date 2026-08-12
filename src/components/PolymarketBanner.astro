@@ -1,0 +1,23 @@
+---
+import PolymarketBannerReact from '@/components/react/PolymarketBanner'
+
+interface Props {
+  iframeUrl?: string
+  class?: string
+}
+
+const { iframeUrl, class: className = '' } = Astro.props
+---
+
+<div class={`polymarket-banner mt-6 pt-4 border-t border-border/40 ${className}`}>
+  {iframeUrl ? (
+    <iframe
+      src={iframeUrl}
+      class="w-full min-h-[420px] rounded-xl border border-border"
+      loading="lazy"
+      title="Polymarket Banner"
+    />
+  ) : (
+    <PolymarketBannerReact client:load />
+  )}
+</div>

@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { FaXTwitter, FaLinkedinIn } from "react-icons/fa6"
+import { FaXTwitter, FaLinkedinIn, FaEnvelope } from "react-icons/fa6"
 
 interface FollowButtonsProps {
     className?: string
@@ -19,6 +19,12 @@ const FollowButtons: React.FC<FollowButtonsProps> = ({ className }) => {
             icon: FaLinkedinIn,
             colorClass: 'hover:bg-[#0077b5] hover:text-white hover:border-[#0077b5]',
             href: 'https://www.linkedin.com/in/vats1910/',
+        },
+        {
+            name: 'Email',
+            icon: FaEnvelope,
+            colorClass: 'hover:bg-[#ea4335] hover:text-white hover:border-[#ea4335]',
+            href: 'mailto:vatswork10@gmail.com',
         },
     ]
 

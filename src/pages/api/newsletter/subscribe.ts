@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { generateWelcomeEmail } from '../../../lib/newsletter-template';
 
 export const prerender = false;
 
@@ -87,6 +88,36 @@ export const POST: APIRoute = async (context) => {
             return new Response(JSON.stringify({ error: data.message || 'Subscription failed' }), {
                 status: response.status,
             });
+        }
+
+        // Send transactional Welcome email if using Single Opt-In
+        if (!useDOI) {
+            try {
+                const welcomeHtml = generateWelcomeEmail(firstName, REDIRECT_URL);
+                await fetch('https://api.brevo.com/v3/smtp/email', {
+                    method: 'POST',
+                    headers: {
+                        'api-key': BREVO_API_KEY,
+                        'Content-Type': 'application/json',
+                        'accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        sender: {
+                            name: "Vatsal Sharma",
+                            email: "newsletter@vatsal.ca"
+                        },
+                        to: [{ email, name: fullName || email }],
+                        replyTo: {
+                            email: "vatswork10@gmail.com",
+                            name: "Vatsal Sharma"
+                        },
+                        subject: "Welcome | Here is your macro roadmap (Action Required)",
+                        htmlContent: welcomeHtml
+                    })
+                });
+            } catch (smtpErr) {
+                console.error('Failed to send welcome email:', smtpErr);
+            }
         }
 
         const successMessage = useDOI

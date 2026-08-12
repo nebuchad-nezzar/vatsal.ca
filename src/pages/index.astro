@@ -15,6 +15,7 @@ import Skills from '@/components/react/Skills'
 
 import MarketTreemap from '@/components/react/MarketTreemap'
 import Laboratory from '@/components/Laboratory.astro'
+import FollowButtons from '@/components/react/FollowButtons'
 
 const blog = await getRecentPosts(SITE.featuredPostCount)
 ---
@@ -116,6 +117,7 @@ const blog = await getRecentPosts(SITE.featuredPostCount)
         <p class="text-muted-foreground text-sm leading-relaxed">
           Currently a Quantitative Researcher at a technology-focused hedge fund, where I develop proprietary trading strategies and AI-powered analytics. Outside the fund, I explore autonomous agents and next-generation quantitative systems.
         </p>
+        <FollowButtons client:load className="mt-4" />
     </div>
   </section>
   

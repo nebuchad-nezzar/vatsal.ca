@@ -13,6 +13,17 @@ const blog = defineCollection({
       tags: z.array(z.string()).optional(),
       authors: z.array(z.string()).optional(),
       draft: z.boolean().optional(),
+      premium: z.boolean().optional(),
+      premiumPreview: z.number().optional(),
+      isNewsletter: z.boolean().optional(),
+      isDaily: z.boolean().optional(),
+      issueNumber: z.string().optional(),
+      topThree: z.array(z.object({ title: z.string(), description: z.string() })).optional(),
+      events: z.array(z.object({ badge: z.string(), description: z.string() })).optional(),
+      keyTakeaways: z.array(z.string()).optional(),
+      conceptCornerTitle: z.string().optional(),
+      conceptCornerText: z.string().optional(),
+      onMyDesk: z.array(z.object({ title: z.string(), description: z.string(), link: z.string().optional() })).optional(),
     }),
 })
 

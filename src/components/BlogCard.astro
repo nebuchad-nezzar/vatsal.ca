@@ -1,5 +1,6 @@
 ---
 import Badge from '@/components/Badge.astro'
+import PremiumBadge from '@/components/PremiumBadge.astro'
 import AvatarComponent from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
 import {
@@ -48,7 +49,10 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
     }
 
     <div class="grow">
-      <h3 class="mb-2 text-lg leading-6 font-medium">{entry.data.title}</h3>
+      <h3 class="mb-2 text-lg leading-6 font-medium">
+        {entry.data.title}
+        {entry.data.premium && <PremiumBadge class="ml-1.5 align-middle" />}
+      </h3>
       <p class="text-muted-foreground mb-2 text-sm">{entry.data.description}</p>
 
       <div

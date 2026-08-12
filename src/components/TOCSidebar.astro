@@ -1,8 +1,10 @@
 ---
 import { ScrollArea } from '@/components/ui/scroll-area'
 import type { TOCSection } from '@/lib/data-utils'
-import { getParentId, isSubpost } from '@/lib/data-utils'
+import { getParentId, isSubpost, getPremiumPosts } from '@/lib/data-utils'
 import { cn, getHeadingMargin } from '@/lib/utils'
+import PolymarketBanner from '@/components/PolymarketBanner.astro'
+import PremiumPromoCard from '@/components/react/PremiumPromoCard'
 
 type Props = {
   sections: TOCSection[]
@@ -12,6 +14,18 @@ type Props = {
 const { sections, currentPostId } = Astro.props
 const isCurrentSubpost = isSubpost(currentPostId)
 const parentId = isCurrentSubpost ? getParentId(currentPostId) : currentPostId
+
+const allPremiumPosts = await getPremiumPosts()
+const premiumPostsForPromo = allPremiumPosts
+  .filter((p) => p.id !== currentPostId)
+  .map((p) => ({
+    id: p.id,
+    title: p.data.title,
+    description: p.data.description,
+    date: p.data.date.toISOString(),
+    tags: p.data.tags,
+    imageUrl: p.data.image?.src || undefined,
+  }))
 ---
 
 {
@@ -113,6 +127,12 @@ const parentId = isCurrentSubpost ? getParentId(currentPostId) : currentPostId
               </>
             )
           })}
+          <PolymarketBanner />
+          {
+            premiumPostsForPromo.length > 0 && (
+              <PremiumPromoCard posts={premiumPostsForPromo} client:load />
+            )
+          }
         </div>
       </ScrollArea>
     </div>

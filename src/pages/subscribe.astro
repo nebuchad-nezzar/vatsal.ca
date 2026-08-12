@@ -1,0 +1,298 @@
+---
+export const prerender = true
+import PageHead from '@/components/PageHead.astro'
+import Layout from '@/layouts/Layout.astro'
+import { Icon } from 'astro-icon/components'
+import { SITE } from '@/consts'
+import Newsletter from '@/components/react/Newsletter'
+
+// Stripe Payment Links
+const STRIPE_MONTHLY_URL = 'https://buy.stripe.com/14A9AM4HmcNC8gtd4U08g00'
+const STRIPE_YEARLY_URL = 'https://buy.stripe.com/6oUdR22ze3d21S5c0Q08g01'
+---
+
+<Layout class="px-2">
+  <PageHead slot="head" title="Subscribe — Premium" />
+
+  <div class="max-w-4xl mx-auto pt-8 pb-16 space-y-16">
+    <!-- Header -->
+    <div class="text-center space-y-4">
+      <div class="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 border border-primary/20 rounded-full text-primary text-xs font-semibold uppercase tracking-widest mb-2">
+        <svg class="size-3" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+        </svg>
+        Premium
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-foreground">
+        Unlock Premium Research
+      </h1>
+      <p class="text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
+        Deep market analysis, quantitative models, and alpha-generating insights — delivered straight to you.
+      </p>
+    </div>
+
+    <!-- Pricing Cards -->
+    <div class="grid gap-6 sm:grid-cols-2 max-w-3xl mx-auto">
+
+      <!-- Free Tier -->
+      <div class="border border-border rounded-2xl p-8 flex flex-col bg-secondary/30 hover:bg-secondary/50 transition-colors duration-300">
+        <div class="mb-6">
+          <h3 class="text-lg font-bold text-foreground mb-1">Free</h3>
+          <p class="text-muted-foreground text-sm">Get started with public articles</p>
+        </div>
+
+        <div class="mb-6">
+          <span class="text-4xl font-bold text-foreground">$0</span>
+          <span class="text-muted-foreground text-sm ml-1">/month</span>
+        </div>
+
+        <ul class="space-y-3 mb-8 flex-1">
+          <li class="flex items-start gap-2.5 text-sm text-muted-foreground">
+            <Icon name="lucide:check" class="size-4 text-primary shrink-0 mt-0.5" />
+            Access to all free articles
+          </li>
+          <li class="flex items-start gap-2.5 text-sm text-muted-foreground">
+            <Icon name="lucide:check" class="size-4 text-primary shrink-0 mt-0.5" />
+            Weekly newsletter
+          </li>
+          <li class="flex items-start gap-2.5 text-sm text-muted-foreground">
+            <Icon name="lucide:check" class="size-4 text-primary shrink-0 mt-0.5" />
+            Public market dashboards
+          </li>
+        </ul>
+
+        <a
+          href="/blog"
+          class="inline-flex items-center justify-center w-full py-3 px-6 border border-border rounded-lg text-foreground text-sm font-semibold hover:bg-secondary transition-colors duration-200"
+        >
+          Browse Free Articles
+        </a>
+      </div>
+
+      <!-- Premium Tier -->
+      <div class="relative border-2 border-primary/40 rounded-2xl p-8 flex flex-col premium-card-glow">
+        <!-- Popular badge -->
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+          <span class="inline-flex items-center gap-1 px-3 py-1 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider rounded-full shadow-lg shadow-primary/25">
+            <svg class="size-3" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+            Most Popular
+          </span>
+        </div>
+
+        <div class="mb-6 mt-2">
+          <h3 class="text-lg font-bold text-foreground mb-1">Premium</h3>
+          <p class="text-muted-foreground text-sm">Full access to everything</p>
+        </div>
+
+        <!-- Pricing toggle -->
+        <div class="mb-6" id="pricing-display">
+          <div id="monthly-price">
+            <span class="text-4xl font-bold text-foreground">$20</span>
+            <span class="text-muted-foreground text-sm ml-1">/month</span>
+          </div>
+          <div id="yearly-price" class="hidden">
+            <span class="text-4xl font-bold text-foreground">$220</span>
+            <span class="text-muted-foreground text-sm ml-1">/year</span>
+            <span class="inline-flex ml-2 px-2 py-0.5 bg-additive/15 text-additive text-xs font-semibold rounded">Save 8%</span>
+          </div>
+
+          <!-- Toggle -->
+          <div class="flex items-center gap-3 mt-3">
+            <button
+              id="toggle-monthly"
+              class="text-xs font-semibold text-foreground px-2.5 py-1 rounded-md bg-secondary border border-border transition-all duration-200"
+            >
+              Monthly
+            </button>
+            <button
+              id="toggle-yearly"
+              class="text-xs font-semibold text-muted-foreground px-2.5 py-1 rounded-md hover:text-foreground transition-all duration-200"
+            >
+              Yearly
+            </button>
+          </div>
+        </div>
+
+        <ul class="space-y-3 mb-8 flex-1">
+          <li class="flex items-start gap-2.5 text-sm text-foreground/80">
+            <Icon name="lucide:check" class="size-4 text-primary shrink-0 mt-0.5" />
+            <span><strong>Everything in Free</strong></span>
+          </li>
+          <li class="flex items-start gap-2.5 text-sm text-foreground/80">
+            <Icon name="lucide:check" class="size-4 text-primary shrink-0 mt-0.5" />
+            Exclusive premium research & deep dives
+          </li>
+          <li class="flex items-start gap-2.5 text-sm text-foreground/80">
+            <Icon name="lucide:check" class="size-4 text-primary shrink-0 mt-0.5" />
+            Quantitative models & backtesting
+          </li>
+          <li class="flex items-start gap-2.5 text-sm text-foreground/80">
+            <Icon name="lucide:check" class="size-4 text-primary shrink-0 mt-0.5" />
+            Real-time market signals & alerts
+          </li>
+          <li class="flex items-start gap-2.5 text-sm text-foreground/80">
+            <Icon name="lucide:check" class="size-4 text-primary shrink-0 mt-0.5" />
+            Early access to new tools & features
+          </li>
+        </ul>
+
+        <a
+          id="premium-cta"
+          href={STRIPE_MONTHLY_URL}
+          data-monthly-url={STRIPE_MONTHLY_URL}
+          data-yearly-url={STRIPE_YEARLY_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center w-full py-3 px-6 bg-primary text-primary-foreground rounded-lg text-sm font-bold hover:brightness-110 transition-all duration-200 shadow-lg shadow-primary/20"
+        >
+          Subscribe Now
+        </a>
+
+        <p class="text-center text-muted-foreground/50 text-xs mt-3">
+          Cancel anytime · Secure payment via Stripe
+        </p>
+      </div>
+    </div>
+
+    <!-- What You Get Section -->
+    <div class="space-y-8">
+      <h2 class="text-2xl font-bold text-center text-foreground">What's Inside Premium</h2>
+
+      <div class="grid gap-6 sm:grid-cols-3">
+        <div class="border border-border rounded-xl p-6 bg-secondary/20 hover:bg-secondary/40 transition-colors duration-300">
+          <div class="mb-3 flex size-10 items-center justify-center rounded-lg bg-primary/10 border border-primary/20">
+            <Icon name="lucide:bar-chart-3" class="size-5 text-primary" />
+          </div>
+          <h3 class="font-semibold text-foreground mb-1.5 text-sm">Market Analysis</h3>
+          <p class="text-muted-foreground text-xs leading-relaxed">
+            Weekly deep-dives into macro, volatility surfaces, and cross-asset flows.
+          </p>
+        </div>
+
+        <div class="border border-border rounded-xl p-6 bg-secondary/20 hover:bg-secondary/40 transition-colors duration-300">
+          <div class="mb-3 flex size-10 items-center justify-center rounded-lg bg-primary/10 border border-primary/20">
+            <Icon name="lucide:code" class="size-5 text-primary" />
+          </div>
+          <h3 class="font-semibold text-foreground mb-1.5 text-sm">Quant Models</h3>
+          <p class="text-muted-foreground text-xs leading-relaxed">
+            Backtested strategies, factor models, and Python notebooks with full source.
+          </p>
+        </div>
+
+        <div class="border border-border rounded-xl p-6 bg-secondary/20 hover:bg-secondary/40 transition-colors duration-300">
+          <div class="mb-3 flex size-10 items-center justify-center rounded-lg bg-primary/10 border border-primary/20">
+            <Icon name="lucide:zap" class="size-5 text-primary" />
+          </div>
+          <h3 class="font-semibold text-foreground mb-1.5 text-sm">Signals & Alerts</h3>
+          <p class="text-muted-foreground text-xs leading-relaxed">
+            Real-time alerts on regime changes, unusual options flow, and macro events.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="max-w-2xl mx-auto space-y-6">
+      <h2 class="text-2xl font-bold text-center text-foreground">Questions</h2>
+
+      <div class="space-y-4">
+        <details class="border border-border rounded-xl p-4 group">
+          <summary class="font-semibold text-sm text-foreground cursor-pointer flex items-center justify-between">
+            Can I cancel anytime?
+            <Icon name="lucide:chevron-down" class="size-4 text-muted-foreground group-open:rotate-180 transition-transform duration-200" />
+          </summary>
+          <p class="text-muted-foreground text-sm mt-3 leading-relaxed">
+            Yes, you can cancel your subscription at any time from your Stripe customer portal. You'll retain access until the end of your current billing period.
+          </p>
+        </details>
+
+        <details class="border border-border rounded-xl p-4 group">
+          <summary class="font-semibold text-sm text-foreground cursor-pointer flex items-center justify-between">
+            What payment methods do you accept?
+            <Icon name="lucide:chevron-down" class="size-4 text-muted-foreground group-open:rotate-180 transition-transform duration-200" />
+          </summary>
+          <p class="text-muted-foreground text-sm mt-3 leading-relaxed">
+            We accept all major credit cards, debit cards, and Apple Pay / Google Pay through Stripe's secure payment platform.
+          </p>
+        </details>
+
+        <details class="border border-border rounded-xl p-4 group">
+          <summary class="font-semibold text-sm text-foreground cursor-pointer flex items-center justify-between">
+            How do I access premium content after subscribing?
+            <Icon name="lucide:chevron-down" class="size-4 text-muted-foreground group-open:rotate-180 transition-transform duration-200" />
+          </summary>
+          <p class="text-muted-foreground text-sm mt-3 leading-relaxed">
+            After subscribing, you'll receive an email with your access credentials. Premium articles will be fully unlocked when you're signed in.
+          </p>
+        </details>
+      </div>
+    </div>
+
+    <!-- Free Email Newsletter Section -->
+    <div class="p-8 rounded-2xl border border-border/60 bg-secondary/20 backdrop-blur-sm">
+      <div class="grid lg:grid-cols-[1fr_1.3fr] gap-8 items-center">
+        <div class="space-y-3 text-left">
+          <div class="flex items-center gap-2">
+            <Icon name="lucide:mail" class="size-5 text-primary shrink-0" />
+            <h3 class="font-mono text-xl font-bold text-foreground uppercase tracking-tight">Join the Network</h3>
+          </div>
+          <p class="text-xs text-muted-foreground leading-relaxed">
+            Read by business leaders navigating market volatility. Subscribe to get VWAP, Trade The News, and my latest technical and research blogs delivered directly to your inbox.
+          </p>
+        </div>
+        <div>
+          <Newsletter client:load />
+        </div>
+      </div>
+    </div>
+
+  </div>
+</Layout>
+
+<style>
+  .premium-card-glow {
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklch, var(--secondary) 85%, var(--primary) 15%) 0%,
+      var(--secondary) 100%
+    );
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const monthlyBtn = document.getElementById('toggle-monthly')
+    const yearlyBtn = document.getElementById('toggle-yearly')
+    const monthlyPrice = document.getElementById('monthly-price')
+    const yearlyPrice = document.getElementById('yearly-price')
+    const premiumCta = document.getElementById('premium-cta') as HTMLAnchorElement | null
+
+    // Store URLs from data attributes or use defaults
+    const monthlyUrl = premiumCta?.dataset.monthlyUrl || premiumCta?.href || '#'
+    const yearlyUrl = premiumCta?.dataset.yearlyUrl || '#'
+
+    if (monthlyBtn && yearlyBtn && monthlyPrice && yearlyPrice && premiumCta) {
+      monthlyBtn.addEventListener('click', () => {
+        monthlyPrice.classList.remove('hidden')
+        yearlyPrice.classList.add('hidden')
+        monthlyBtn.classList.add('bg-secondary', 'border', 'border-border', 'text-foreground')
+        monthlyBtn.classList.remove('text-muted-foreground')
+        yearlyBtn.classList.remove('bg-secondary', 'border', 'border-border', 'text-foreground')
+        yearlyBtn.classList.add('text-muted-foreground')
+        premiumCta.href = monthlyUrl
+      })
+
+      yearlyBtn.addEventListener('click', () => {
+        yearlyPrice.classList.remove('hidden')
+        monthlyPrice.classList.add('hidden')
+        yearlyBtn.classList.add('bg-secondary', 'border', 'border-border', 'text-foreground')
+        yearlyBtn.classList.remove('text-muted-foreground')
+        monthlyBtn.classList.remove('bg-secondary', 'border', 'border-border', 'text-foreground')
+        monthlyBtn.classList.add('text-muted-foreground')
+        premiumCta.href = yearlyUrl
+      })
+    }
+  })
+</script>

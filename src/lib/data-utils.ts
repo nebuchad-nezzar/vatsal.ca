@@ -12,6 +12,11 @@ export async function getAllPosts(): Promise<CollectionEntry<'blog'>[]> {
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 }
 
+export async function getPremiumPosts(): Promise<CollectionEntry<'blog'>[]> {
+  const posts = await getAllPosts()
+  return posts.filter((post) => post.data.premium === true)
+}
+
 export async function getAllPostsAndSubposts(): Promise<
   CollectionEntry<'blog'>[]
 > {
