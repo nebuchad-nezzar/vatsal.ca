@@ -538,12 +538,11 @@ export function generateWelcomeEmail(firstName: string, siteUrl: string): string
           
           <!-- Black Masthead Header -->
           <tr>
-            <td class="header-pad" style="background-color:#0a0a0a; padding:40px 40px 30px 40px;" align="center">
+            <td class="header-pad" style="background-color:#0a0a0a; padding:45px 40px 35px 40px;" align="center">
               <a href="${siteUrl}" target="_blank" style="text-decoration:none;">
-                <img src="https://vatsal.ca/logo.png" alt="Vatsal.ca Logo" width="48" style="display:block; border:none; margin-bottom:12px;">
+                <img src="https://vatsal.ca/logo.png" alt="Vatsal.ca Logo" width="64" style="display:block; border:none; margin-bottom:16px; max-width:64px; height:auto;">
               </a>
-              <div style="font-size:12px; font-weight:700; color:#b8960c; letter-spacing:3px; text-transform:uppercase; margin-bottom:4px;">WELCOME TO THE READERSHIP</div>
-              <div style="font-size:18px; font-weight:normal; color:#ffffff; font-family:Georgia, 'Times New Roman', serif;">Vatsal Sharma</div>
+              <div style="font-size:12px; font-weight:700; color:#b8960c; letter-spacing:3px; text-transform:uppercase; margin-bottom:0;">WELCOME TO THE READERSHIP</div>
             </td>
           </tr>
 
@@ -554,7 +553,7 @@ export function generateWelcomeEmail(firstName: string, siteUrl: string): string
               
               <p>Thank you for subscribing. You are officially plugged into a network of business leaders navigating market volatility.</p>
               
-              <p style="margin-top:24px; font-weight:600; color:#0a0a0a; text-transform:uppercase; font-size:12px; letter-spacing:1.5px;">Moving forward, here is your roadmap for what is coming across your desk:</p>
+              <p style="margin-top:24px;">Moving forward, here is your roadmap for what is coming across your desk:</p>
               
               <ol style="margin-top:16px;">
                 <li>
