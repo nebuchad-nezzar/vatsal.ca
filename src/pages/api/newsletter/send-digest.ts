@@ -5,22 +5,7 @@ import { generateDigestEmail, postToDigest, generateWelcomeEmail } from '@/lib/n
 export const prerender = false
 
 export const GET: APIRoute = async (context) => {
-    const url = new URL(context.request.url)
-    const testMode = url.searchParams.get('test') === 'true' || url.searchParams.get('testMode') === 'true'
-    const getSubscribers = url.searchParams.get('subscribers') === 'true'
-    const testWelcome = url.searchParams.get('testWelcome') === 'true'
-    const sendTest = url.searchParams.get('sendTest') === 'true'
-
-    // GET requests can ONLY do previews, subscriber checks, and test sends — never a real blast
-    if (testMode || getSubscribers || testWelcome || sendTest) {
-        return POST(context)
-    }
-
-    // If someone visits the blast URL via GET (browser tab, link preview, etc.), block it
-    return new Response(JSON.stringify({
-        error: 'Send requires POST request',
-        message: 'For safety, newsletter sends can only be triggered via POST. Use the admin panel at /admin/send to send newsletters.',
-    }), { status: 405, headers: { 'Content-Type': 'application/json' } })
+    return POST(context)
 }
 
 export const POST: APIRoute = async (context) => {
