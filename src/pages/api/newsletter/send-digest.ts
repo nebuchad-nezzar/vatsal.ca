@@ -53,6 +53,14 @@ export const POST: APIRoute = async (context) => {
         if (!secret || authHeader !== secret) {
             return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 })
         }
+        
+        // Safety check to prevent accidental browser refresh sends
+        if (url.searchParams.get('confirm') !== 'yes') {
+            return new Response(JSON.stringify({ 
+                error: 'Action Requires Confirmation',
+                message: 'To prevent accidental email blasts on browser refresh, you must append &confirm=yes to the URL.'
+            }), { status: 400, headers: { 'Content-Type': 'application/json' } })
+        }
     }
 
     const BREVO_API_KEY = runtimeEnv.BREVO_API_KEY || import.meta.env.BREVO_API_KEY
