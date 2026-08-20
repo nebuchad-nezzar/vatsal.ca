@@ -1,0 +1,156 @@
+---
+export const prerender = false
+---
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Newsletter Admin — Send</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0a0a0a; color: #f4f1ea; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .container { max-width: 560px; width: 100%; padding: 40px; }
+    .logo { text-align: center; margin-bottom: 32px; }
+    .logo img { width: 48px; height: 48px; opacity: 0.9; }
+    .badge { display: inline-block; font-size: 11px; font-weight: 700; color: #b8960c; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
+    h1 { font-size: 24px; font-weight: 400; font-family: Georgia, serif; margin-bottom: 8px; }
+    .subtitle { font-size: 14px; color: #888; margin-bottom: 32px; }
+    .divider { height: 1px; background: #222; margin: 24px 0; }
+    .preview-frame { background: #111; border: 1px solid #222; border-radius: 4px; overflow: hidden; margin-bottom: 24px; }
+    .preview-header { padding: 12px 16px; background: #1a1a1a; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; }
+    .preview-label { font-size: 11px; color: #666; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
+    .preview-link a { font-size: 11px; color: #b8960c; text-decoration: none; }
+    .preview-link a:hover { text-decoration: underline; }
+    iframe { width: 100%; height: 500px; border: none; background: #fff; }
+    .status { padding: 16px; background: #111; border: 1px solid #222; border-radius: 4px; margin-bottom: 24px; font-size: 14px; color: #aaa; text-align: center; display: none; }
+    .status.success { border-color: #2d6a2d; color: #4ade80; display: block; }
+    .status.error { border-color: #6a2d2d; color: #f87171; display: block; }
+    .status.loading { border-color: #6a5c2d; color: #b8960c; display: block; }
+    .btn-group { display: flex; gap: 12px; margin-top: 24px; }
+    .btn { flex: 1; padding: 14px 24px; border: none; border-radius: 3px; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; transition: all 0.2s ease; text-align: center; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-send { background: #b8960c; color: #0a0a0a; }
+    .btn-send:hover:not(:disabled) { background: #d4a94e; }
+    .btn-test { background: #222; color: #f4f1ea; border: 1px solid #333; }
+    .btn-test:hover:not(:disabled) { background: #333; }
+    .warning { background: #1a1508; border: 1px solid #3d2e0a; border-radius: 4px; padding: 16px; margin-bottom: 24px; }
+    .warning-title { font-size: 12px; font-weight: 700; color: #b8960c; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+    .warning-text { font-size: 13px; color: #999; line-height: 1.6; }
+    .confirm-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; align-items: center; justify-content: center; }
+    .confirm-overlay.active { display: flex; }
+    .confirm-box { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 40px; max-width: 420px; width: 90%; text-align: center; }
+    .confirm-box h2 { font-size: 20px; font-weight: 400; font-family: Georgia, serif; margin-bottom: 12px; color: #f4f1ea; }
+    .confirm-box p { font-size: 14px; color: #888; margin-bottom: 28px; line-height: 1.6; }
+    .confirm-box .btn-group { justify-content: center; }
+    .btn-cancel { background: #222; color: #f4f1ea; border: 1px solid #333; }
+    .btn-cancel:hover { background: #333; }
+    .btn-confirm { background: #dc2626; color: #fff; }
+    .btn-confirm:hover:not(:disabled) { background: #ef4444; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img src="/logo.png" alt="Logo">
+    </div>
+    <span class="badge">Newsletter Admin</span>
+    <h1>Send Newsletter</h1>
+    <p class="subtitle">Preview the latest issue below, then send it to your subscribers.</p>
+
+    <div class="preview-frame">
+      <div class="preview-header">
+        <span class="preview-label">Email Preview</span>
+        <span class="preview-link"><a href="/api/newsletter/send-digest?test=true" target="_blank">Open Full Preview ↗</a></span>
+      </div>
+      <iframe src="/api/newsletter/send-digest?test=true" title="Newsletter Preview"></iframe>
+    </div>
+
+    <div class="warning">
+      <div class="warning-title">⚠ Before You Send</div>
+      <div class="warning-text">
+        Verify the preview above shows the <strong>correct date and content</strong> before sending. 
+        This action will email all active subscribers immediately and cannot be undone.
+      </div>
+    </div>
+
+    <div id="status" class="status"></div>
+
+    <div class="btn-group">
+      <button class="btn btn-test" id="testBtn" onclick="sendTest()">Send Test Email</button>
+      <button class="btn btn-send" id="sendBtn" onclick="showConfirm()">Send to All Subscribers</button>
+    </div>
+  </div>
+
+  <!-- Confirmation Overlay -->
+  <div class="confirm-overlay" id="confirmOverlay">
+    <div class="confirm-box">
+      <h2>Are you sure?</h2>
+      <p>This will send the newsletter to <strong>all subscribers</strong> immediately. This action cannot be undone.</p>
+      <div class="btn-group">
+        <button class="btn btn-cancel" onclick="hideConfirm()">Cancel</button>
+        <button class="btn btn-confirm" id="confirmBtn" onclick="confirmSend()">Yes, Send Now</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SECRET = 'vatsal_newsletter_secret_7f3a9e2d';
+    const statusEl = document.getElementById('status');
+    const sendBtn = document.getElementById('sendBtn');
+    const testBtn = document.getElementById('testBtn');
+    const confirmBtn = document.getElementById('confirmBtn');
+
+    function setStatus(msg, type) {
+      statusEl.className = 'status ' + type;
+      statusEl.textContent = msg;
+    }
+
+    function showConfirm() {
+      document.getElementById('confirmOverlay').classList.add('active');
+    }
+
+    function hideConfirm() {
+      document.getElementById('confirmOverlay').classList.remove('active');
+    }
+
+    async function sendTest() {
+      testBtn.disabled = true;
+      setStatus('Sending test email...', 'loading');
+      try {
+        const res = await fetch('/api/newsletter/send-digest?sendTest=true&secret=' + SECRET, { method: 'POST' });
+        const data = await res.json();
+        if (res.ok) {
+          setStatus('✓ Test email sent successfully! Check your inbox.', 'success');
+        } else {
+          setStatus('✗ Failed: ' + (data.error || 'Unknown error'), 'error');
+        }
+      } catch (e) {
+        setStatus('✗ Network error: ' + e.message, 'error');
+      }
+      testBtn.disabled = false;
+    }
+
+    async function confirmSend() {
+      confirmBtn.disabled = true;
+      sendBtn.disabled = true;
+      hideConfirm();
+      setStatus('Sending newsletter to all subscribers...', 'loading');
+      try {
+        const res = await fetch('/api/newsletter/send-digest?secret=' + SECRET, { method: 'POST' });
+        const data = await res.json();
+        if (res.ok) {
+          setStatus('✓ Newsletter sent successfully to all subscribers!', 'success');
+          sendBtn.textContent = 'SENT ✓';
+        } else {
+          setStatus('✗ Failed: ' + (data.error || JSON.stringify(data.details || data)), 'error');
+          sendBtn.disabled = false;
+        }
+      } catch (e) {
+        setStatus('✗ Network error: ' + e.message, 'error');
+        sendBtn.disabled = false;
+      }
+      confirmBtn.disabled = false;
+    }
+  </script>
+</body>
+</html>
