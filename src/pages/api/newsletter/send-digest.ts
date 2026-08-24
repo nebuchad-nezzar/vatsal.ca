@@ -5,6 +5,17 @@ import { generateDigestEmail, postToDigest, generateWelcomeEmail } from '@/lib/n
 export const prerender = false
 
 export const GET: APIRoute = async (context) => {
+    const url = new URL(context.request.url)
+    const testMode = url.searchParams.get('test') === 'true' || url.searchParams.get('testMode') === 'true'
+    
+    // Only allow GET requests for the iframe preview. Actual sends MUST be POST.
+    if (!testMode) {
+        return new Response(JSON.stringify({ 
+            error: 'Method Not Allowed',
+            message: 'You can only preview the newsletter via GET. To actually blast it, you must use a POST request via the Admin Dashboard.' 
+        }), { status: 405, headers: { 'Content-Type': 'application/json' } })
+    }
+    
     return POST(context)
 }
 
