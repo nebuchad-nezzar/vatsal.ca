@@ -58,7 +58,7 @@ export function generateDigestEmail(posts: DigestPost[], siteUrl: string, newsle
     const latestResearchBlock = newsletterData?.isDaily ? '' : renderLatestResearch(posts);
 
     const emailTitle = newsletterData 
-        ? (newsletterData.isDaily ? `Trade The News — ${newsletterData.title}` : `Weekly Market Outlook — ${newsletterData.title}`)
+        ? (newsletterData.isDaily ? `The Daily Alpha Pulse — ${newsletterData.title}` : `Weekly Market Outlook — ${newsletterData.title}`)
         : `Weekly Digest — Vatsal Sharma`;
 
     return `<!DOCTYPE html>
@@ -152,7 +152,7 @@ export function generateDigestEmail(posts: DigestPost[], siteUrl: string, newsle
               <img src="https://vatsal.ca/logo.png" alt="Vatsal.ca Logo" width="48" style="display:block; border:none; max-width:48px; height:auto;">
             </a>
             <span style="display:inline-block; vertical-align:middle; margin-left:16px; border-left:1px solid #333333; padding-left:16px;">
-              <span class="gold-accent" style="font-size:15px; font-weight:600; color:#b8960c; letter-spacing:2px; text-transform:uppercase;">${newsletterData?.isDaily ? 'Trade The News' : 'VWAP'}</span>
+              <span class="gold-accent" style="font-size:15px; font-weight:600; color:#b8960c; letter-spacing:2px; text-transform:uppercase;">${newsletterData?.isDaily ? 'The Daily Alpha Pulse' : 'VWAP'}</span>
             </span>
           </td>
           <td style="text-align:right; vertical-align:middle;">
@@ -557,7 +557,7 @@ export function generateWelcomeEmail(firstName: string, siteUrl: string): string
               
               <ol style="margin-top:16px;">
                 <li>
-                  <strong style="color:#0a0a0a;">Trade The News (Daily):</strong> Short, market briefings covering key risks, macro events, and daily trade catalysts.
+                  <strong style="color:#0a0a0a;">The Daily Alpha Pulse:</strong> Short, market briefings covering key risks, macro events, and daily trade catalysts.
                 </li>
                 <li>
                   <strong style="color:#0a0a0a;">VWAP (Weekly):</strong> A Sunday dispatch (Vatsal's Weekly Alpha Pulse) for when your mindset shifts from "weekend mode" back to "market prep mode." We set the table for the week ahead, detailing actionable trading strategies, cross-asset correlation shifts, and current market rotations. Each brief also includes upcoming earnings prep, options mechanics in Concept Corner, and a look at exactly what is on my reading desk.

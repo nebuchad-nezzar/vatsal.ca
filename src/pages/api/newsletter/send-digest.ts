@@ -173,13 +173,13 @@ export const POST: APIRoute = async (context) => {
         // Send via Brevo Campaign API
         const campaignName = newsletterData
             ? (newsletterData.isDaily 
-                ? `Trade The News — ${new Date(newsletterData.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`
+                ? `The Daily Alpha Pulse — ${new Date(newsletterData.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`
                 : `Weekly Market Outlook — Issue ${newsletterData.issueNumber || '01'} (${new Date(newsletterData.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })})`)
             : `Weekly Digest — ${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`
 
         const campaignSubject = newsletterData
             ? (newsletterData.isDaily
-                ? `Trade The News | ${newsletterData.title}`
+                ? `The Daily Alpha Pulse | ${newsletterData.title}`
                 : `Weekly Market Outlook | ${newsletterData.title}`)
             : `📬 Weekly Digest | ${digestPosts.length} new post${digestPosts.length !== 1 ? 's' : ''} on vatsal.ca`
 

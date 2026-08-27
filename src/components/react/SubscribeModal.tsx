@@ -197,7 +197,7 @@ const SubscribeModal = () => {
                                         <div className="text-center mb-8">
                                             <h2 className="text-2xl font-bold text-foreground mb-2 uppercase tracking-tight">Join the Network</h2>
                                             <p className="text-muted-foreground text-xs leading-relaxed">
-                                                Read by business leaders navigating market volatility. Subscribe to get VWAP, Trade The News, and my latest technical and research blogs delivered directly to your inbox.
+                                                Read by business leaders navigating market volatility. Subscribe to get VWAP, The Daily Alpha Pulse, and my latest technical and research blogs delivered directly to your inbox.
                                             </p>
                                         </div>
 
