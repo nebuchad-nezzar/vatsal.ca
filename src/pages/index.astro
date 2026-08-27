@@ -16,6 +16,7 @@ import Skills from '@/components/react/Skills'
 import MarketTreemap from '@/components/react/MarketTreemap'
 import Laboratory from '@/components/Laboratory.astro'
 import FollowButtons from '@/components/react/FollowButtons'
+import ThreeGlobe from '@/components/react/ThreeGlobe'
 
 const blog = await getRecentPosts(SITE.featuredPostCount)
 ---
@@ -198,6 +199,16 @@ const blog = await getRecentPosts(SITE.featuredPostCount)
   </section>
   
   <Laboratory />
+
+  <section class="my-16 text-center">
+    <div class="mb-4">
+      <h2 class="text-2xl font-semibold">Global Network & Infrastructure</h2>
+      <p class="text-sm text-muted-foreground">
+        Real-time telemetry & low-latency execution across primary liquidity hubs
+      </p>
+    </div>
+    <ThreeGlobe client:visible />
+  </section>
 
   <div class="mb-12 relative">
       <div class="absolute inset-0 flex items-center" aria-hidden="true">
