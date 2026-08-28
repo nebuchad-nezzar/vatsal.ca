@@ -27,6 +27,19 @@ const FINANCIAL_MARKETS: MarketHub[] = [
   { id: 'sydney', name: 'Sydney', exchange: 'ASX', country: 'Australia', lat: -33.8688, lng: 151.2093, tzOffset: 10, openHour: 10.0, closeHour: 16.0 },
 ];
 
+// Sequential East-to-West Market Connections
+const MARKET_CONNECTIONS: [string, string][] = [
+  ['sydney', 'tokyo'],     // Australia -> Tokyo
+  ['tokyo', 'hk'],         // Tokyo -> Hong Kong
+  ['hk', 'singapore'],     // Hong Kong -> Singapore
+  ['singapore', 'mumbai'], // Singapore -> Mumbai
+  ['mumbai', 'delhi'],     // Mumbai -> Delhi
+  ['delhi', 'frankfurt'],  // Delhi -> Frankfurt
+  ['frankfurt', 'london'], // Frankfurt -> London
+  ['london', 'ny'],        // London -> New York
+  ['ny', 'chicago'],       // New York -> Chicago
+];
+
 function latLngToVector3(lat: number, lng: number, radius: number): THREE.Vector3 {
   const phi = (90 - lat) * (Math.PI / 180);
   const theta = (lng + 180) * (Math.PI / 180);
@@ -182,7 +195,7 @@ export default function ThreeGlobe() {
     const atmosMesh = new THREE.Mesh(atmosGeo, atmosMat);
     scene.add(atmosMesh);
 
-    // 6. Pre-computed Landmass Matrix (Instant Loading < 5ms)
+    // 6. Pre-computed Landmass Matrix
     fetch('/world-dots.json')
       .then((res) => res.json())
       .then((landCoords: [number, number][]) => {
@@ -208,16 +221,16 @@ export default function ThreeGlobe() {
       })
       .catch((err) => console.error('Failed to load pre-computed world dots:', err));
 
-    // 7. Financial Market Pins
+    // 7. Financial Market Pins & Map Lookup
     const raycastTargets: { mesh: THREE.Mesh; market: MarketHub }[] = [];
-    const hubVectors: THREE.Vector3[] = [];
+    const marketMap = new Map<string, { vector: THREE.Vector3; market: MarketHub }>();
 
     const hitGeo = new THREE.SphereGeometry(4.5, 16, 16);
     const hitMat = new THREE.MeshBasicMaterial({ visible: false });
 
     FINANCIAL_MARKETS.forEach((market) => {
       const pos = latLngToVector3(market.lat, market.lng, GLOBE_RADIUS + 0.5);
-      hubVectors.push(pos);
+      marketMap.set(market.id, { vector: pos, market });
 
       const statusInfo = getMarketStatusInfo(market);
       const dotColor = statusInfo.state === 'OPEN' ? 0x10b981 : (statusInfo.state === 'CLOSING_SOON' ? 0xf59e0b : 0x0099ff);
@@ -252,40 +265,54 @@ export default function ThreeGlobe() {
       raycastTargets.push({ mesh: hitMesh, market });
     });
 
-    // 8. 3D Arcs & Flying Pulses
+    // 8. 3D ARCS & FLYING PULSES
     interface FlyingPulse {
       mesh: THREE.Mesh;
-      curve: THREE.QuadraticBezierCurve3;
+      points: THREE.Vector3[];
       progress: number;
       speed: number;
     }
 
     const flyingPulses: FlyingPulse[] = [];
     const arcMat = new THREE.LineBasicMaterial({
-      color: 0x00d8ff,
+      color: 0x00e5ff,
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.75,
     });
-    const pulseGeo = new THREE.SphereGeometry(1.2, 16, 16);
+    const pulseGeo = new THREE.SphereGeometry(1.3, 16, 16);
     const pulseMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
 
-    for (let i = 0; i < hubVectors.length; i++) {
-      const nextIdx = (i + 1) % hubVectors.length;
-      const p1 = hubVectors[i];
-      const p2 = hubVectors[nextIdx];
+    const upVec = new THREE.Vector3(0, 1, 0);
+
+    MARKET_CONNECTIONS.forEach(([fromId, toId]) => {
+      const fromObj = marketMap.get(fromId);
+      const toObj = marketMap.get(toId);
+
+      if (!fromObj || !toObj) return;
+
+      const p1 = fromObj.vector.clone().normalize();
+      const p2 = toObj.vector.clone().normalize();
 
       const dist = p1.distanceTo(p2);
-      const normal = new THREE.Vector3().addVectors(p1, p2).normalize();
+      const maxAltitude = Math.min(dist * 0.38, 42);
 
-      if (normal.lengthSq() < 0.1) {
-        normal.crossVectors(p1, new THREE.Vector3(0, 1, 0)).normalize();
+      const numSegments = 64;
+      const arcPoints: THREE.Vector3[] = [];
+
+      const q1 = new THREE.Quaternion().setFromUnitVectors(upVec, p1);
+      const q2 = new THREE.Quaternion().setFromUnitVectors(upVec, p2);
+
+      for (let s = 0; s <= numSegments; s++) {
+        const t = s / numSegments;
+        const q = q1.clone().slerp(q2, t);
+
+        const currentDir = upVec.clone().applyQuaternion(q).normalize();
+        const currentAltitude = GLOBE_RADIUS + 0.5 + Math.sin(t * Math.PI) * maxAltitude;
+
+        arcPoints.push(currentDir.multiplyScalar(currentAltitude));
       }
 
-      const mid = normal.multiplyScalar(GLOBE_RADIUS + Math.min(dist * 0.35, 45));
-
-      const curve = new THREE.QuadraticBezierCurve3(p1, mid, p2);
-      const points = curve.getPoints(60);
-      const curveGeo = new THREE.BufferGeometry().setFromPoints(points);
+      const curveGeo = new THREE.BufferGeometry().setFromPoints(arcPoints);
       const line = new THREE.Line(curveGeo, arcMat);
       globeGroup.add(line);
 
@@ -294,14 +321,14 @@ export default function ThreeGlobe() {
         globeGroup.add(pulseMesh);
         flyingPulses.push({
           mesh: pulseMesh,
-          curve,
+          points: arcPoints,
           progress: Math.random(),
-          speed: 0.003 + Math.random() * 0.003,
+          speed: 0.0035 + Math.random() * 0.003,
         });
       }
-    }
+    });
 
-    // 9. Loosened, Responsive Controls
+    // 9. Controls
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
 
@@ -410,9 +437,12 @@ export default function ThreeGlobe() {
 
       flyingPulses.forEach((pulse) => {
         pulse.progress += pulse.speed;
-        if (pulse.progress > 1) pulse.progress = 0;
-        const pt = pulse.curve.getPoint(pulse.progress);
-        pulse.mesh.position.copy(pt);
+        if (pulse.progress >= 1) pulse.progress = 0;
+        
+        const idx = Math.floor(pulse.progress * (pulse.points.length - 1));
+        if (pulse.points[idx]) {
+          pulse.mesh.position.copy(pulse.points[idx]);
+        }
       });
 
       renderer.render(scene, camera);
@@ -451,7 +481,7 @@ export default function ThreeGlobe() {
     <div className="relative w-full flex items-center justify-center">
       <div
         ref={containerRef}
-        className="relative w-full h-[500px] flex items-center justify-center cursor-grab active:cursor-grabbing select-none"
+        className="relative w-full h-[500px] min-h-[500px] flex items-center justify-center cursor-grab active:cursor-grabbing select-none"
       />
 
       {/* Hover Status Blob / Tooltip */}
