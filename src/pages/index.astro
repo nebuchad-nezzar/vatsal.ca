@@ -17,6 +17,7 @@ import MarketTreemap from '@/components/react/MarketTreemap'
 import Laboratory from '@/components/Laboratory.astro'
 import FollowButtons from '@/components/react/FollowButtons'
 import ThreeGlobe from '@/components/react/ThreeGlobe'
+import WorldClocks from '@/components/react/WorldClocks'
 
 const blog = await getRecentPosts(SITE.featuredPostCount)
 ---
@@ -200,61 +201,59 @@ const blog = await getRecentPosts(SITE.featuredPostCount)
   
   <Laboratory />
 
-  <section class="my-16 text-center">
+  <div class="mt-16 mb-8 relative">
+    <div class="absolute inset-0 flex items-center" aria-hidden="true">
+      <div class="w-full border-t border-border"></div>
+    </div>
+    <div class="relative flex justify-center">
+      <div class="flex items-center gap-2.5 px-4 py-2 rounded-full bg-background border border-border shadow-sm">
+        <span class="relative flex h-1.5 w-1.5">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+        </span>
+        <span class="text-xs font-medium text-muted-foreground uppercase tracking-wider">Available for Advisory & Engineering</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center space-y-6">
+    <div class="space-y-2">
+      <h2 class="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-foreground leading-tight">
+        Let's talk
+        <span class="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary/90 to-primary/75">
+          infrastructure
+        </span>
+      </h2>
+    </div>
+    <p class="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-xl mx-auto">
+      Into quantitative trading, AI agents, machine learning at scale, or rock-solid systems?<br />
+      I design, secure, and automate infrastructure and models that deliver alpha — reliably and at speed.
+    </p>
+    <div class="pt-4">
+      <Link 
+        href="mailto:vatswork10@gmail.com" 
+        class="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-lg bg-foreground text-background text-base font-medium hover:bg-foreground/90 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      >
+        <Icon name="lucide:mail" class="size-4" />
+        <span>Reach out</span>
+        <Icon name="lucide:arrow-right" class="size-4 transition-transform group-hover:translate-x-1" />
+      </Link>
+    </div>
+  </div>
+
+  <!-- Global Market Connectivity Globe -->
+  <section class="mt-12 mb-16 text-center">
     <div class="mb-4">
-      <h2 class="text-2xl font-semibold">Global Network & Infrastructure</h2>
-      <p class="text-sm text-muted-foreground">
-        Real-time telemetry & low-latency execution across primary liquidity hubs
+      <h3 class="text-xs font-mono font-semibold uppercase tracking-[0.25em] text-primary">
+        24/7 Global Market Flow
+      </h3>
+      <p class="mt-1 text-xs text-muted-foreground">
+        Real-time market session telemetry across major financial hubs
       </p>
     </div>
     <ThreeGlobe client:load />
+    <WorldClocks client:load />
   </section>
-
-  <div class="mb-12 relative">
-      <div class="absolute inset-0 flex items-center" aria-hidden="true">
-        <div class="w-full border-t border-border"></div>
-      </div>
-      <div class="relative flex justify-center">
-        <div class="flex items-center gap-2.5 px-4 py-2 rounded-full bg-background border border-border shadow-sm">
-          <span class="relative flex h-1.5 w-1.5">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-          </span>
-          <span class="text-xs font-medium text-muted-foreground uppercase tracking-wider">Available</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="text-center space-y-6">
-          <div class="space-y-2">
-            <h2 class="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-foreground leading-tight">
-              Let's talk
-              <span class="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary/90 to-primary/75">
-                infrastructure
-              </span>
-            </h2>
-          </div>
-          <p class="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-xl mx-auto">
-            Into quantitative trading, AI agents, machine learning at scale, or rock-solid systems?<br />
-          I design, secure, and automate infrastructure and models that deliver alpha — reliably and at speed..
-          </p>
-          <div class="pt-4">
-            <Link 
-              href="mailto:vatswork10@gmail.com" 
-              class="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-lg bg-foreground text-background text-base font-medium hover:bg-foreground/90 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-            >
-              <Icon name="lucide:mail" class="size-4" />
-              <span>Reach out</span>
-              <Icon name="lucide:arrow-right" class="size-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-            <br>
-          </div>
-        </div>
-      
-  </section>
-
-    
-  
 </Layout>
 
 <script>
