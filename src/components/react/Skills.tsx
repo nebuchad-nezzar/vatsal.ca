@@ -69,7 +69,7 @@ export default function Skills() {
 
         return (
           <div key={category}>
-            <InfiniteScroll direction={isReverse ? 'right' : 'left'} speed="slow">
+            <InfiniteScroll direction={isReverse ? 'reverse' : 'normal'}>
               {techs.map((tech) => {
                 const IconComponent = getIcon(tech.logo)
 
