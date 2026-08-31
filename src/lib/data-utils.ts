@@ -211,6 +211,7 @@ export async function hasSubposts(postId: string): Promise<boolean> {
 }
 
 export function isSubpost(postId: string): boolean {
+  if (postId.endsWith('/index')) return false;
   return postId.includes('/')
 }
 
