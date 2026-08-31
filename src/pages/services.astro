@@ -1,0 +1,17 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import Container from '@/components/Container.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import PageHead from '@/components/PageHead.astro'
+import ServicesAndIndustries from '@/components/react/ServicesAndIndustries'
+---
+
+<Layout>
+  <PageHead slot="head" title="Services & Engineering" description="Quantitative trading systems, AI integrations, ML data science pipelines, and high-performance system architecture." />
+  <Container>
+    <div class="py-6 space-y-6">
+      <Breadcrumbs items={[{ label: 'Services', icon: 'lucide:layers' }]} />
+      <ServicesAndIndustries client:load />
+    </div>
+  </Container>
+</Layout>

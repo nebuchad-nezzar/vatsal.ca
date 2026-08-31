@@ -1,8 +1,8 @@
 ---
 import Link from '@/components/Link.astro'
-import { NAV_LINKS } from '@/consts'
 import { Image } from 'astro:assets'
 import logo from '../assets/logo.webp'
+import WorkDropdown from '@/components/react/WorkDropdown'
 ---
 
 <header transition:persist>
@@ -14,16 +14,29 @@ import logo from '../assets/logo.webp'
     </Link>
     <div class="flex items-center gap-4">
       <nav class="flex items-center gap-6 text-sm">
-        {
-          NAV_LINKS.map((item) => (
-            <Link
-              href={item.href}
-              class="text-foreground/60 hover:text-foreground/80 capitalize transition-colors"
-            >
-              {item.label}
-            </Link>
-          ))
-        }
+        <Link
+          href="/blog"
+          class="text-foreground/60 hover:text-foreground/80 capitalize transition-colors"
+        >
+          Blogs
+        </Link>
+
+        <Link
+          href="/markets"
+          class="text-foreground/60 hover:text-foreground/80 capitalize transition-colors"
+        >
+          Markets
+        </Link>
+
+        <WorkDropdown client:load />
+
+        <Link
+          href="/about"
+          class="text-foreground/60 hover:text-foreground/80 capitalize transition-colors"
+        >
+          About
+        </Link>
+
         <Link 
           href="/book-a-call" 
           class="px-3 py-1 border border-border/60 hover:border-primary/50 hover:bg-primary/5 transition-all text-xs font-mono tracking-widest text-foreground/80 uppercase"

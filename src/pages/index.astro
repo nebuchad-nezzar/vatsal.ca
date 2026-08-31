@@ -18,6 +18,9 @@ import Laboratory from '@/components/Laboratory.astro'
 import FollowButtons from '@/components/react/FollowButtons'
 import ThreeGlobe from '@/components/react/ThreeGlobe'
 import WorldClocks from '@/components/react/WorldClocks'
+import JourneyTimeline from '@/components/react/JourneyTimeline'
+import ReadinessQuiz from '@/components/react/ReadinessQuiz'
+import ServicesAndIndustries from '@/components/react/ServicesAndIndustries'
 
 const blog = await getRecentPosts(SITE.featuredPostCount)
 ---
@@ -120,6 +123,21 @@ const blog = await getRecentPosts(SITE.featuredPostCount)
           Currently a Quantitative Researcher at a technology-focused hedge fund, where I develop proprietary trading strategies and AI-powered analytics. Outside the fund, I explore autonomous agents and next-generation quantitative systems.
         </p>
         <FollowButtons client:load className="mt-4" />
+
+        <!-- Readiness Score Hyperlink Banner -->
+        <div class="mt-6 p-4 rounded-xl border border-blue-500/30 bg-blue-950/20 backdrop-blur-md flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="space-y-1 text-center sm:text-left">
+            <div class="flex items-center justify-center sm:justify-start gap-2 text-[11px] font-mono text-blue-400">
+              <span class="flex h-2 w-2 rounded-full bg-blue-400 animate-pulse"></span>
+              Diagnostic Assessment
+            </div>
+            <h4 class="text-sm font-bold font-mono text-foreground">Is Your Firm Ready for AI & Automated Trading?</h4>
+            <p class="text-xs text-muted-foreground">Take our 60-second assessment to unlock your Engineering Readiness Score.</p>
+          </div>
+          <a href="/readiness" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs font-semibold shrink-0 transition-all shadow-md shadow-blue-600/20 inline-flex items-center gap-1.5 cursor-pointer">
+            Get My Readiness Score &rarr;
+          </a>
+        </div>
     </div>
   </section>
   
@@ -197,8 +215,10 @@ const blog = await getRecentPosts(SITE.featuredPostCount)
     
     
     
-  </section>
-  
+  <ServicesAndIndustries client:load />
+
+  <JourneyTimeline client:load />
+
   <Laboratory />
 
   <div class="mt-16 mb-8 relative">

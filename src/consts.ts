@@ -126,10 +126,6 @@ export async function loadWaveformData(
 
 
 export const NAV_LINKS: SocialLink[] = [
-  // {
-  //   href: '/',
-  //   label: 'Home',
-  // },
   {
     href: '/blog',
     label: 'Blogs',
@@ -137,10 +133,6 @@ export const NAV_LINKS: SocialLink[] = [
   {
     href: '/markets',
     label: 'Markets',
-  },
-  {
-    href: '/work',
-    label: 'Work',
   },
   {
     href: '/about',

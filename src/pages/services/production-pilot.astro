@@ -1,0 +1,284 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import Container from '@/components/Container.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import PageHead from '@/components/PageHead.astro'
+import { Icon } from 'astro-icon/components'
+---
+<Layout>
+  <PageHead slot="head" title="2-Week Production Pilot | Vatsal Sharma" description="A fixed-scope, two-week engagement that ships a working prototype against your real data." />
+  <Container>
+    <div class="py-8 space-y-16">
+      <Breadcrumbs items={[
+        { label: 'Services', href: '/services', icon: 'lucide:layers' },
+        { label: 'Production Pilot', icon: 'lucide:test-tube' }
+      ]} />
+      
+      <!-- Hero -->
+      <section class="space-y-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border bg-background/50 text-xs font-medium text-primary">
+          <Icon name="lucide:test-tube" class="w-4 h-4" />
+          <span>Rapid Validation</span>
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-foreground">
+          2-Week Production Pilot
+        </h1>
+        <p class="text-lg sm:text-xl text-muted-foreground leading-relaxed">
+          A fixed-scope, two-week engagement that ships a working prototype against your real data — not a slide deck, not a strategy memo.
+        </p>
+      </section>
+
+      <!-- Problem Narrative -->
+      <section class="p-6 sm:p-8 rounded-2xl border border-border bg-background leading-relaxed text-muted-foreground">
+        <p>
+          Most AI and quant engagements start with a 6-week discovery process. We flip this: two weeks, fixed fee, fixed scope. Pick one workflow. Build a working prototype against your real data. At the end, you have something you can run and a recommendation memo.
+        </p>
+      </section>
+
+      <!-- What's Included -->
+      <section class="space-y-8">
+        <h2 class="text-2xl font-bold text-foreground">What's Included</h2>
+        <div class="space-y-6 relative">
+          <!-- Item 1: Odd -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col md:flex-row items-stretch">
+              <!-- Number Section (Left) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-r border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">01</span>
+              </div>
+              <!-- Text Section (Right) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Working Prototype</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Working prototype running against your real (or anonymized) data — source code, prompts, configs, and execution scripts.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 2: Even -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col-reverse md:flex-row items-stretch">
+              <!-- Text Section (Left) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Evaluation Results</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Evaluation of 10-30 test cases from your historical data, with documented results including where the model failed.</p>
+              </div>
+              <!-- Number Section (Right) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-l border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">02</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 3: Odd -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col md:flex-row items-stretch">
+              <!-- Number Section (Left) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-r border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">03</span>
+              </div>
+              <!-- Text Section (Right) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Recommendation Memo</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Recommendation memo: whether this is a fit for production, risks, estimated cost and timeline for full build.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 4: Even -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col-reverse md:flex-row items-stretch">
+              <!-- Text Section (Left) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Live Demo Session</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Live demo session with your team at end of week two — Q&A, walkthrough, honest discussion of limitations.</p>
+              </div>
+              <!-- Number Section (Right) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-l border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">04</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 5: Odd -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col md:flex-row items-stretch">
+              <!-- Number Section (Left) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-r border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">05</span>
+              </div>
+              <!-- Text Section (Right) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Architecture Notes</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Architecture notes covering model choice, integration approach, latency requirements, and projected API costs.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 6: Even -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col-reverse md:flex-row items-stretch">
+              <!-- Text Section (Left) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Honest Exit Option</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">If automation isn't right for this workflow, you walk away with a paid-for, clear answer.</p>
+              </div>
+              <!-- Number Section (Right) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-l border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">06</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- How the Engagement Runs -->
+      <section class="space-y-8">
+        <h2 class="text-2xl font-bold text-foreground">How the 2 Weeks Break Down</h2>
+        <div class="relative space-y-8 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-white/10">
+          <!-- Step 1 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">1</div>
+    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 space-y-3">
+              <div class="flex items-center gap-3">
+                <h4 class="font-bold text-foreground">Discovery & Data Handoff</h4>
+              </div>
+              <p class="text-xs font-medium text-primary">Days 1-3</p>
+              <p class="text-sm text-muted-foreground">Kickoff call, data handoff, workflow walkthrough. Define what the prototype will and won't do.</p>
+            </div>
+          </div>
+        </div>
+
+          <!-- Step 2 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">2</div>
+    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 space-y-3">
+              <div class="flex items-center gap-3">
+                <h4 class="font-bold text-foreground">Build</h4>
+              </div>
+              <p class="text-xs font-medium text-primary">Days 4-7</p>
+              <p class="text-sm text-muted-foreground">Prototype development. Daily commits to private repo. Daily updates.</p>
+            </div>
+          </div>
+        </div>
+
+          <!-- Step 3 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">3</div>
+    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 space-y-3">
+              <div class="flex items-center gap-3">
+                <h4 class="font-bold text-foreground">Test & Evaluate</h4>
+              </div>
+              <p class="text-xs font-medium text-primary">Days 8-12</p>
+              <p class="text-sm text-muted-foreground">Run prototype against eval dataset. Document successes and failures. Iterate on edge cases.</p>
+            </div>
+          </div>
+        </div>
+
+          <!-- Step 4 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">4</div>
+    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 space-y-3">
+              <div class="flex items-center gap-3">
+                <h4 class="font-bold text-foreground">Demo & Recommendation</h4>
+              </div>
+              <p class="text-xs font-medium text-primary">Days 13-14</p>
+              <p class="text-sm text-muted-foreground">Live demo. Hand off code, eval results, and recommendation memo.</p>
+            </div>
+          </div>
+        </div>
+
+          <!-- Step 5 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">5</div>
+    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 space-y-3">
+              <div class="flex items-center gap-3">
+                <h4 class="font-bold text-foreground">Next Step (Optional)</h4>
+              </div>
+              <p class="text-xs font-medium text-primary">Post-Pilot</p>
+              <p class="text-sm text-muted-foreground">If recommended, scope full engagement. Pilot fee credited toward next build.</p>
+            </div>
+          </div>
+        </div>
+        </div>
+      </section>
+
+      <!-- Fit/Not Fit -->
+      <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-6 rounded-2xl border border-border bg-background space-y-4">
+          <div class="flex items-center gap-3 pb-4 border-b border-border">
+            <Icon name="lucide:check-circle-2" class="w-5 h-5 text-green-500" />
+            <h3 class="text-base font-bold text-green-500">Good Fit For</h3>
+          </div>
+          <ul class="space-y-3 text-sm text-muted-foreground">
+            <li class="flex items-start gap-2"><Icon name="lucide:arrow-right" class="w-4 h-4 mt-0.5 text-primary" /> Firms with specific workflow + willingness to share data</li>
+            <li class="flex items-start gap-2"><Icon name="lucide:arrow-right" class="w-4 h-4 mt-0.5 text-primary" /> Teams wanting to see models on their own data before committing</li>
+            <li class="flex items-start gap-2"><Icon name="lucide:arrow-right" class="w-4 h-4 mt-0.5 text-primary" /> Operators who can give 2-4 hrs/week of feedback</li>
+          </ul>
+        </div>
+        <div class="p-6 rounded-2xl border border-border bg-background space-y-4">
+          <div class="flex items-center gap-3 pb-4 border-b border-border">
+            <Icon name="lucide:x-circle" class="w-5 h-5 text-red-500" />
+            <h3 class="text-base font-bold text-red-500">Not a Fit For</h3>
+          </div>
+          <ul class="space-y-3 text-sm text-muted-foreground">
+            <li class="flex items-start gap-2"><Icon name="lucide:arrow-right" class="w-4 h-4 mt-0.5 text-primary" /> Still deciding which workflow</li>
+            <li class="flex items-start gap-2"><Icon name="lucide:arrow-right" class="w-4 h-4 mt-0.5 text-primary" /> Need finished product in 2 weeks</li>
+            <li class="flex items-start gap-2"><Icon name="lucide:arrow-right" class="w-4 h-4 mt-0.5 text-primary" /> Deep enterprise integrations that take weeks to authorize</li>
+          </ul>
+        </div>
+      </section>
+      
+      <!-- Pricing Card -->
+      <section class="p-8 rounded-2xl border border-primary/20 bg-primary/5 text-center space-y-4">
+        <h3 class="text-xl font-bold text-foreground">Fixed fee. Fixed scope. No surprises.</h3>
+        <p class="text-sm text-muted-foreground max-w-lg mx-auto">Pricing scoped after a 15-minute discovery call based on data complexity.</p>
+      </section>
+
+      <!-- CTA -->
+      
+      <!-- CTA -->
+      <div class="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-8 sm:p-10 text-center mt-16">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+        <div class="relative z-10 space-y-4 flex flex-col items-center justify-center">
+          <h3 class="text-xl sm:text-2xl font-bold text-foreground">
+          Find out in two weeks, not two quarters.
+        </h3>
+        <p class="text-sm text-muted-foreground max-w-lg mx-auto">
+          Tell us about your workflow. We reply within one business day.
+        </p>
+        <a href="/book-a-call" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white text-[#0a0a0a] hover:bg-white/90 text-xs font-bold transition-all">
+          Book an Appointment →
+        </a>
+        </div>
+      </div>
+    </div>
+  </Container>
+</Layout>

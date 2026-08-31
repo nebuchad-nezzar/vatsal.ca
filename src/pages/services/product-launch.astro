@@ -1,0 +1,329 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import Container from '@/components/Container.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import PageHead from '@/components/PageHead.astro'
+import { Icon } from 'astro-icon/components'
+---
+<Layout>
+  <PageHead slot="head" title="AI Product Launch | Vatsal Sharma" description="Take an AI prototype or internal pilot to a shippable v1 with real users." />
+  <Container>
+    <div class="py-8 space-y-16">
+      <Breadcrumbs items={[
+        { label: 'Services', href: '/services', icon: 'lucide:layers' },
+        { label: 'Product Launch', icon: 'lucide:rocket' }
+      ]} />
+      
+      <!-- Hero -->
+      <section class="space-y-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border bg-background/50 text-xs font-medium text-primary">
+          <Icon name="lucide:rocket" class="w-4 h-4" />
+          <span>Production Engineering</span>
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-foreground">
+          AI Product Launch
+        </h1>
+        <p class="text-lg sm:text-xl text-muted-foreground leading-relaxed">
+          Take an AI prototype or internal pilot to a shippable v1 with real users — architecture, build, launch, and the eval and monitoring that keep it honest.
+        </p>
+      </section>
+
+      <!-- Problem Narrative -->
+      <section class="p-6 sm:p-8 rounded-2xl border border-border bg-background leading-relaxed text-muted-foreground">
+        <p>
+          The gap between a working demo and a product real customers pay for is where most AI projects stall. Demo works in notebook. Stakeholder deck looks great. But eval harness doesn't exist, monitoring missing, no auth or billing. We close that gap. 8-12 week engagement.
+        </p>
+      </section>
+
+      <!-- What You Ship -->
+      <section class="space-y-8">
+        <h2 class="text-2xl font-bold text-foreground">What You Ship</h2>
+        <div class="space-y-6 relative">
+          <!-- Item 1: Odd -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col md:flex-row items-stretch">
+              <!-- Number Section (Left) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-r border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">01</span>
+              </div>
+              <!-- Text Section (Right) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Shippable v1</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">A v1 product deployed to production with real users — not a staging URL.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 2: Even -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col-reverse md:flex-row items-stretch">
+              <!-- Text Section (Left) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Production-Grade Architecture</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Queues, rate limits, retries, observability, secrets management, error handling, cost controls.</p>
+              </div>
+              <!-- Number Section (Right) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-l border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">02</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 3: Odd -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col md:flex-row items-stretch">
+              <!-- Number Section (Left) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-r border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">03</span>
+              </div>
+              <!-- Text Section (Right) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Eval Harness</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Eval harness with 100+ benchmark test cases running in CI that blocks regressions.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 4: Even -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col-reverse md:flex-row items-stretch">
+              <!-- Text Section (Left) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Monitoring and Alerting</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Monitoring and alerting for latency, error rate, cost per request, quality drift, and product KPIs.</p>
+              </div>
+              <!-- Number Section (Right) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-l border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">04</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 5: Odd -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col md:flex-row items-stretch">
+              <!-- Number Section (Left) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-r border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">05</span>
+              </div>
+              <!-- Text Section (Right) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Auth & Billing Hooks</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Auth, billing hooks, and entitlement plumbing for paying users.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 6: Even -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col-reverse md:flex-row items-stretch">
+              <!-- Text Section (Left) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Launch Plan and Runbook</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Phased rollout, support intake, escalation, first 30 days post-launch.</p>
+              </div>
+              <!-- Number Section (Right) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-l border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">06</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 7: Odd -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col md:flex-row items-stretch">
+              <!-- Number Section (Left) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-r border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">07</span>
+              </div>
+              <!-- Text Section (Right) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Handoff Documentation</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Handoff documentation so your team can ship the next feature without us.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- How the Engagement Runs -->
+      <section class="space-y-8">
+        <h2 class="text-2xl font-bold text-foreground">How the Engagement Runs</h2>
+        <div class="relative space-y-8 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-white/10">
+          <!-- Step 1 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">1</div>
+    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 space-y-3">
+              <div class="flex items-center gap-3">
+                <h4 class="font-bold text-foreground">Discovery & Scope</h4>
+              </div>
+              <p class="text-xs font-medium text-primary">Weeks 1-2</p>
+              <p class="text-sm text-muted-foreground">Define v1 surface, success metrics, eval set, scope boundaries.</p>
+            </div>
+          </div>
+        </div>
+
+          <!-- Step 2 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">2</div>
+    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 space-y-3">
+              <div class="flex items-center gap-3">
+                <h4 class="font-bold text-foreground">System Architecture</h4>
+              </div>
+              <p class="text-xs font-medium text-primary">Week 3</p>
+              <p class="text-sm text-muted-foreground">Full system design: models, data flow, auth, billing, monitoring. You approve before code.</p>
+            </div>
+          </div>
+        </div>
+
+          <!-- Step 3 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">3</div>
+    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 space-y-3">
+              <div class="flex items-center gap-3">
+                <h4 class="font-bold text-foreground">Production Build</h4>
+              </div>
+              <p class="text-xs font-medium text-primary">Weeks 4-8</p>
+              <p class="text-sm text-muted-foreground">Weekly demos and eval reports. Cut scope honestly when needed.</p>
+            </div>
+          </div>
+        </div>
+
+          <!-- Step 4 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">4</div>
+    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 space-y-3">
+              <div class="flex items-center gap-3">
+                <h4 class="font-bold text-foreground">Phased Launch</h4>
+              </div>
+              <p class="text-xs font-medium text-primary">Weeks 9-10</p>
+              <p class="text-sm text-muted-foreground">Internal users → design partners → controlled public launch. Monitoring wired first.</p>
+            </div>
+          </div>
+        </div>
+
+          <!-- Step 5 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">5</div>
+    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 space-y-3">
+              <div class="flex items-center gap-3">
+                <h4 class="font-bold text-foreground">Stabilization & Handoff</h4>
+              </div>
+              <p class="text-xs font-medium text-primary">Weeks 11-12</p>
+              <p class="text-sm text-muted-foreground">Tune against real usage, close defect list, hand off runbooks and docs.</p>
+            </div>
+          </div>
+        </div>
+        </div>
+      </section>
+
+      <!-- Fit/Not Fit -->
+      <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-6 rounded-2xl border border-border bg-background space-y-4">
+          <div class="flex items-center gap-3 pb-4 border-b border-border">
+            <Icon name="lucide:check-circle-2" class="w-5 h-5 text-green-500" />
+            <h3 class="text-base font-bold text-green-500">Good Fit For</h3>
+          </div>
+          <ul class="space-y-3 text-sm text-muted-foreground">
+            <li class="flex items-start gap-2"><Icon name="lucide:arrow-right" class="w-4 h-4 mt-0.5 text-primary" /> Working prototype past idea stage</li>
+            <li class="flex items-start gap-2"><Icon name="lucide:arrow-right" class="w-4 h-4 mt-0.5 text-primary" /> Validated use case with users</li>
+            <li class="flex items-start gap-2"><Icon name="lucide:arrow-right" class="w-4 h-4 mt-0.5 text-primary" /> Want single accountable partner</li>
+          </ul>
+        </div>
+        <div class="p-6 rounded-2xl border border-border bg-background space-y-4">
+          <div class="flex items-center gap-3 pb-4 border-b border-border">
+            <Icon name="lucide:x-circle" class="w-5 h-5 text-red-500" />
+            <h3 class="text-base font-bold text-red-500">Not a Fit For</h3>
+          </div>
+          <ul class="space-y-3 text-sm text-muted-foreground">
+            <li class="flex items-start gap-2"><Icon name="lucide:arrow-right" class="w-4 h-4 mt-0.5 text-primary" /> Pre-pilot ideas (use Production Pilot instead)</li>
+            <li class="flex items-start gap-2"><Icon name="lucide:arrow-right" class="w-4 h-4 mt-0.5 text-primary" /> Build capacity only, no architecture input</li>
+            <li class="flex items-start gap-2"><Icon name="lucide:arrow-right" class="w-4 h-4 mt-0.5 text-primary" /> No clear first customers</li>
+          </ul>
+        </div>
+      </section>
+      
+      <!-- What Makes This Different -->
+      <section class="space-y-8">
+        <h2 class="text-2xl font-bold text-foreground">What Makes This Different</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 space-y-3">
+              <Icon name="lucide:test-tube-2" class="w-6 h-6 text-primary" />
+              <h4 class="font-bold text-foreground">Eval-Driven Development</h4>
+              <p class="text-sm text-muted-foreground">Every feature tested against eval harness before shipping</p>
+            </div>
+          </div>
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 space-y-3">
+              <Icon name="lucide:eye" class="w-6 h-6 text-primary" />
+              <h4 class="font-bold text-foreground">Transparent Scope Management</h4>
+              <p class="text-sm text-muted-foreground">If something won't be ready, we tell you in week 4 not week 11</p>
+            </div>
+          </div>
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 space-y-3">
+              <Icon name="lucide:unlock" class="w-6 h-6 text-primary" />
+              <h4 class="font-bold text-foreground">Full Ownership, Zero Lock-In</h4>
+              <p class="text-sm text-muted-foreground">Everything in your repo from day one, no proprietary frameworks</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      
+      <!-- CTA -->
+      <div class="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-8 sm:p-10 text-center mt-16">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+        <div class="relative z-10 space-y-4 flex flex-col items-center justify-center">
+          <h3 class="text-xl sm:text-2xl font-bold text-foreground">
+          Move from AI demo to AI in production.
+        </h3>
+        <p class="text-sm text-muted-foreground max-w-lg mx-auto">
+          We take AI prototypes to shippable v1s. Tell us about your project.
+        </p>
+        <a href="/book-a-call" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white text-[#0a0a0a] hover:bg-white/90 text-xs font-bold transition-all">
+          Book an Appointment →
+        </a>
+        </div>
+      </div>
+    </div>
+  </Container>
+</Layout>

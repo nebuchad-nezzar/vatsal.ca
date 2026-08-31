@@ -1,0 +1,17 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import Container from '@/components/Container.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import ReadinessQuiz from '@/components/react/ReadinessQuiz'
+import PageHead from '@/components/PageHead.astro'
+---
+
+<Layout>
+  <PageHead slot="head" title="Readiness Assessment" description="Determine your firm's technical & infrastructure readiness for AI agents and quantitative trading systems." />
+  <Container>
+    <div class="py-6 space-y-6">
+      <Breadcrumbs items={[{ label: 'Readiness Assessment', icon: 'lucide:sparkles' }]} />
+      <ReadinessQuiz client:load />
+    </div>
+  </Container>
+</Layout>

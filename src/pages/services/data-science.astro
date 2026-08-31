@@ -1,0 +1,284 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import Container from '@/components/Container.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import PageHead from '@/components/PageHead.astro'
+import { Icon } from 'astro-icon/components'
+---
+<Layout>
+  <PageHead slot="head" title="Data Science & Machine Learning" description="Predictive models, feature engineering, and ML pipelines purpose-built for financial markets and high-stakes decision systems." />
+  <Container>
+    <div class="py-8 space-y-16">
+      <Breadcrumbs items={[
+        { label: 'Services', href: '/services', icon: 'lucide:layers' },
+        { label: 'Data Science & Machine Learning', icon: 'lucide:brain' }
+      ]} />
+      
+      <!-- Hero -->
+      <section class="space-y-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border bg-background/50 text-sm font-medium text-primary">
+          <Icon name="lucide:brain" class="w-4 h-4" />
+          <span>Predictive Analytics & Modeling</span>
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-bold text-foreground">Data Science & Machine Learning</h1>
+        <p class="text-xl text-muted-foreground max-w-2xl">
+          Predictive models, feature engineering, and ML pipelines purpose-built for financial markets and high-stakes decision systems.
+        </p>
+      </section>
+
+      <!-- What We Build -->
+      <section class="space-y-8">
+        <div class="space-y-4">
+          <h2 class="text-3xl font-bold text-foreground">What We Build</h2>
+          <p class="text-muted-foreground">Specialized data science and ML capabilities.</p>
+        </div>
+        
+        <div class="grid gap-6">
+          {/* Card 1 */}
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col md:flex-row items-stretch">
+              <!-- Number Section (Left) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-r border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">01</span>
+              </div>
+              <!-- Text Section (Right) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Microstructure Feature Engineering</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Extract alpha signals from tick data: order flow imbalance, VPIN, Kyle's lambda, and trade toxicity metrics.</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Card 2 */}
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col-reverse md:flex-row items-stretch">
+              <!-- Text Section (Left) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Predictive Volatility & Regime Models</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">GARCH variants, Hidden Markov Models, and transformer architectures for forecasting market regime switches and tail risk.</p>
+              </div>
+              <!-- Number Section (Right) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-l border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">02</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 3 */}
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col md:flex-row items-stretch">
+              <!-- Number Section (Left) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-r border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">03</span>
+              </div>
+              <!-- Text Section (Right) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Financial NLP & Earnings Sentiment</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Domain-adapted FinBERT and LLM parsers that score sentiment, detect surprise signals from earnings calls and 10-K filings.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 4 */}
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col-reverse md:flex-row items-stretch">
+              <!-- Text Section (Left) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">CUDA-Accelerated Training Pipelines</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">GPU-accelerated data processing (cuDF, RAPIDS) and model training (PyTorch, JAX) for ultra-fast parameter sweeps.</p>
+              </div>
+              <!-- Number Section (Right) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-l border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">04</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 5 */}
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col md:flex-row items-stretch">
+              <!-- Number Section (Left) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-r border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">05</span>
+              </div>
+              <!-- Text Section (Right) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Time-Series Forecasting Systems</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Production forecasting for price, volume, and flow using temporal fusion transformers, N-BEATS, and custom recurrent architectures.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 6 */}
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col-reverse md:flex-row items-stretch">
+              <!-- Text Section (Left) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">ML Model Serving & A/B Testing</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Production inference endpoints with model versioning, shadow deployment, A/B testing, and automated retraining triggers.</p>
+              </div>
+              <!-- Number Section (Right) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-l border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">06</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Technology Stack -->
+      <section class="space-y-6 border-t border-border pt-8">
+        <h2 class="text-2xl font-bold text-foreground">Technology Stack</h2>
+        <div class="flex flex-wrap gap-2">
+          {['Python', 'PyTorch', 'JAX', 'CUDA', 'scikit-learn', 'XGBoost', 'LightGBM', 'Pandas', 'cuDF', 'MLflow', 'DVC', 'W&B', 'FastAPI'].map(tech => (
+            <span class="px-3 py-1 rounded-full border border-border bg-background text-sm text-muted-foreground">{tech}</span>
+          ))}
+        </div>
+      </section>
+
+      <!-- Fit / Not a Fit -->
+      <section class="grid md:grid-cols-2 gap-8 border-t border-border pt-8">
+        <div class="space-y-4">
+          <div class="flex items-center gap-2 text-green-500">
+            <Icon name="lucide:check-circle" class="w-5 h-5 text-green-500" />
+            <h3 class="font-bold text-green-500">Good Fit For</h3>
+          </div>
+          <ul class="space-y-3 text-muted-foreground">
+            <li class="flex items-start gap-2"><Icon name="lucide:check" class="w-4 h-4 mt-1 shrink-0 text-green-500" /> Trading firms needing predictive models on proprietary data</li>
+            <li class="flex items-start gap-2"><Icon name="lucide:check" class="w-4 h-4 mt-1 shrink-0 text-green-500" /> Teams with existing pipelines needing ML integration</li>
+            <li class="flex items-start gap-2"><Icon name="lucide:check" class="w-4 h-4 mt-1 shrink-0 text-green-500" /> Firms wanting a senior ML engineer who understands financial markets</li>
+          </ul>
+        </div>
+        <div class="space-y-4">
+          <div class="flex items-center gap-2 text-red-500">
+            <Icon name="lucide:x-circle" class="w-5 h-5 text-red-500" />
+            <h3 class="font-bold text-red-500">Not a Fit For</h3>
+          </div>
+          <ul class="space-y-3 text-muted-foreground">
+            <li class="flex items-start gap-2"><Icon name="lucide:x" class="w-4 h-4 mt-1 shrink-0 text-red-500" /> Companies without historical data</li>
+            <li class="flex items-start gap-2"><Icon name="lucide:x" class="w-4 h-4 mt-1 shrink-0 text-red-500" /> One-time analysis without production deployment</li>
+            <li class="flex items-start gap-2"><Icon name="lucide:x" class="w-4 h-4 mt-1 shrink-0 text-red-500" /> BI dashboards only</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Engagement -->
+      <section class="space-y-8 border-t border-border pt-8">
+        <div class="space-y-4">
+          <h2 class="text-3xl font-bold text-foreground">How the Engagement Works</h2>
+          <p class="text-muted-foreground">A structured approach to delivering production ML systems.</p>
+        </div>
+        
+        <div class="relative space-y-8 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-white/10">
+          
+          <!-- Step 1 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">1</div>
+            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-bold text-foreground group-hover:text-primary transition-colors">Data Audit & Feature Discovery</h3>
+                  <span class="text-xs text-muted-foreground px-2 py-0.5 rounded bg-white/5 border border-white/10">Weeks 1-2</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">2</div>
+            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-bold text-foreground group-hover:text-primary transition-colors">Research & Prototyping</h3>
+                  <span class="text-xs text-muted-foreground px-2 py-0.5 rounded bg-white/5 border border-white/10">Weeks 3-5</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">3</div>
+            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-bold text-foreground group-hover:text-primary transition-colors">Production Pipeline Build</h3>
+                  <span class="text-xs text-muted-foreground px-2 py-0.5 rounded bg-white/5 border border-white/10">Weeks 6-8</span>
+                </div>
+                  <p class="text-sm text-muted-foreground leading-relaxed mt-2">Refactor Jupyter notebooks into robust Python pipelines with CI/CD and automated data ingestion.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">4</div>
+            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-bold text-foreground group-hover:text-primary transition-colors">Integration & Validation</h3>
+                  <span class="text-xs text-muted-foreground px-2 py-0.5 rounded bg-white/5 border border-white/10">Weeks 9-10</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">5</div>
+            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-bold text-foreground group-hover:text-primary transition-colors">Monitoring & Handoff</h3>
+                  <span class="text-xs text-muted-foreground px-2 py-0.5 rounded bg-white/5 border border-white/10">Weeks 11-12</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      
+      <!-- CTA -->
+      <div class="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-8 sm:p-10 text-center mt-16">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+        <div class="relative z-10 space-y-4 flex flex-col items-center justify-center">
+          <h3 class="text-xl sm:text-2xl font-bold text-foreground">
+          Turn your data into a competitive advantage.
+        </h3>
+        <p class="text-sm text-muted-foreground max-w-lg mx-auto">
+          We build predictive ML models for quantitative firms.
+        </p>
+        <a href="/book-a-call" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white text-[#0a0a0a] hover:bg-white/90 text-xs font-bold transition-all">
+          Book an Appointment →
+        </a>
+        </div>
+      </div>
+    </div>
+  </Container>
+</Layout>

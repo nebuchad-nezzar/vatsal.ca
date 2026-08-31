@@ -1,0 +1,211 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import Container from '@/components/Container.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import PageHead from '@/components/PageHead.astro'
+import { Icon } from 'astro-icon/components'
+---
+<Layout>
+  <PageHead 
+    slot="head" 
+    title="Engineering Capabilities - Vatsal Sharma" 
+    description="Full-stack and systems engineering capabilities. Custom software, application modernization, web and mobile development." 
+  />
+  <Container>
+    <div class="py-8 space-y-16">
+      <Breadcrumbs items={[
+        { label: 'Services', href: '/services', icon: 'lucide:layers' },
+        { label: 'Capabilities', icon: 'lucide:settings-2' }
+      ]} />
+
+      <!-- Hero Section -->
+      <section class="max-w-3xl space-y-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-[#0a0a0a] text-xs font-medium text-primary">
+          <span class="text-base">⚙️</span>
+          <span>Full-Stack & Systems Engineering</span>
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-foreground">
+          Engineering Capabilities
+        </h1>
+        <p class="text-lg text-muted-foreground leading-relaxed">
+          Beyond AI agents and quantitative engines, we build and modernize production software. Fixed scope, weekly demos, code you own.
+        </p>
+      </section>
+
+      <!-- What We Build Section -->
+      <section class="space-y-8">
+        <h2 class="text-2xl font-bold text-foreground">What We Build</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Custom Software Development -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-8 flex flex-col gap-6">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative flex items-center justify-center w-12 h-12 rounded-lg bg-black/50 border border-white/10 text-primary">
+              <Icon name="lucide:code-2" class="w-6 h-6" />
+            </div>
+            
+            <div class="relative space-y-3 flex-1">
+              <h3 class="text-xl font-bold text-foreground">Custom Software Development</h3>
+              <p class="text-sm text-muted-foreground leading-relaxed">
+                Bespoke applications for the work you actually do — high-throughput APIs, real-time telemetry dashboards, internal operations tools, and transaction processing engines. From initial specification to production.
+              </p>
+            </div>
+            
+            <div class="relative flex flex-wrap gap-2 mt-auto pt-4 border-t border-white/10">
+              {['REST & GraphQL APIs', 'Admin Dashboards', 'Internal Tools', 'Data Pipelines'].map(tag => (
+                <span class="px-2 py-1 text-[10px] font-medium tracking-wider uppercase rounded-md bg-white/5 text-muted-foreground border border-white/5">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <!-- Application Modernization -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-8 flex flex-col gap-6">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative flex items-center justify-center w-12 h-12 rounded-lg bg-black/50 border border-white/10 text-primary">
+              <Icon name="lucide:refresh-cw" class="w-6 h-6" />
+            </div>
+            
+            <div class="relative space-y-3 flex-1">
+              <h3 class="text-xl font-bold text-foreground">Application Modernization</h3>
+              <p class="text-sm text-muted-foreground leading-relaxed">
+                Move legacy applications onto modern stacks without a year-long rebuild. Incremental migrations, careful database refactoring, and a direct path to AI-ready architecture.
+              </p>
+            </div>
+            
+            <div class="relative flex flex-wrap gap-2 mt-auto pt-4 border-t border-white/10">
+              {['Legacy Migration', 'Database Refactoring', 'API Modernization', 'Containerization'].map(tag => (
+                <span class="px-2 py-1 text-[10px] font-medium tracking-wider uppercase rounded-md bg-white/5 text-muted-foreground border border-white/5">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <!-- Web Application Development -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-8 flex flex-col gap-6">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative flex items-center justify-center w-12 h-12 rounded-lg bg-black/50 border border-white/10 text-primary">
+              <Icon name="lucide:globe" class="w-6 h-6" />
+            </div>
+            
+            <div class="relative space-y-3 flex-1">
+              <h3 class="text-xl font-bold text-foreground">Web Application Development</h3>
+              <p class="text-sm text-muted-foreground leading-relaxed">
+                React, Astro, Next.js shipped with real-time analytics, monitoring, rate limiting, error tracking, and CI/CD deployment workflows. Production-grade from day one.
+              </p>
+            </div>
+            
+            <div class="relative flex flex-wrap gap-2 mt-auto pt-4 border-t border-white/10">
+              {['React / Next.js / Astro', 'Real-Time WebSocket Apps', 'SSR & Hybrid', 'Progressive Web Apps'].map(tag => (
+                <span class="px-2 py-1 text-[10px] font-medium tracking-wider uppercase rounded-md bg-white/5 text-muted-foreground border border-white/5">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <!-- Mobile Application Development -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-8 flex flex-col gap-6">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative flex items-center justify-center w-12 h-12 rounded-lg bg-black/50 border border-white/10 text-primary">
+              <Icon name="lucide:smartphone" class="w-6 h-6" />
+            </div>
+            
+            <div class="relative space-y-3 flex-1">
+              <h3 class="text-xl font-bold text-foreground">Mobile Application Development</h3>
+              <p class="text-sm text-muted-foreground leading-relaxed">
+                Native iOS/Android or cross-platform React Native builds. App Store and Google Play submission, push notifications, real-time sync, analytics — handled end to end.
+              </p>
+            </div>
+            
+            <div class="relative flex flex-wrap gap-2 mt-auto pt-4 border-t border-white/10">
+              {['React Native', 'iOS / Swift', 'Push Notifications', 'Store Deployment'].map(tag => (
+                <span class="px-2 py-1 text-[10px] font-medium tracking-wider uppercase rounded-md bg-white/5 text-muted-foreground border border-white/5">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+          
+        </div>
+      </section>
+
+      <!-- How We Work Together Section -->
+      <section class="space-y-8">
+        <h2 class="text-2xl font-bold text-foreground">How We Work Together</h2>
+        
+        <div class="relative space-y-8 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-white/10">
+          
+          <!-- Step 1 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">1</div>
+            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+              <div class="relative z-10">
+                <h3 class="font-bold text-foreground group-hover:text-primary transition-colors mb-2">Scope</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">15-minute call to understand requirements. Define what ships and what doesn't.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">2</div>
+            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+              <div class="relative z-10">
+                <h3 class="font-bold text-foreground group-hover:text-primary transition-colors mb-2">Build</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Weekly sprint cycles with live demos every Friday. Working software, not status reports.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">3</div>
+            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+              <div class="relative z-10">
+                <h3 class="font-bold text-foreground group-hover:text-primary transition-colors mb-2">Ship</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Production deployment with monitoring, documentation, and handoff to your team.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        
+        <div class="p-6 rounded-xl bg-white/5 border border-white/10 text-sm text-muted-foreground mt-8 text-center max-w-2xl mx-auto leading-relaxed">
+          Most of our work blends these capabilities with AI & quantitative models — integration projects that add real-time streaming, modernizations that introduce RAG, or web platforms that execute trading strategies.
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      
+      <!-- CTA -->
+      <div class="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-8 sm:p-10 text-center mt-16">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+        <div class="relative z-10 space-y-4 flex flex-col items-center justify-center">
+          <h3 class="text-xl sm:text-2xl font-bold text-foreground">
+          Build software that works the first time.
+        </h3>
+        <p class="text-sm text-muted-foreground max-w-lg mx-auto">
+          Tell us about your project — we reply within one business day.
+        </p>
+        <a href="/book-a-call" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white text-[#0a0a0a] hover:bg-white/90 text-xs font-bold transition-all">
+          Book an Appointment →
+        </a>
+        </div>
+      </div>
+    </div>
+  </Container>
+</Layout>

@@ -1,0 +1,308 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import Container from '@/components/Container.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import PageHead from '@/components/PageHead.astro'
+import { Icon } from 'astro-icon/components'
+---
+
+<Layout>
+  <PageHead slot="head" title="Quant Work & Algorithmic Trading | Vatsal Sharma" description="End-to-end development of proprietary trading infrastructure — from signal research through live execution." />
+  
+  <Container>
+    <div class="py-8 space-y-16">
+      <Breadcrumbs items={[
+        { label: 'Services', href: '/services', icon: 'lucide:layers' },
+        { label: 'Quant Trading', icon: 'lucide:line-chart' }
+      ]} />
+      
+      <!-- Hero Section -->
+      <section class="space-y-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-muted-foreground">
+          <Icon name="lucide:zap" class="w-3.5 h-3.5 text-primary" />
+          <span>Quantitative Engineering</span>
+        </div>
+        
+        <div class="space-y-4">
+          <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+            Quant Work & Algorithmic Trading
+          </h1>
+          <p class="text-base sm:text-lg text-muted-foreground max-w-2xl leading-relaxed">
+            End-to-end development of proprietary trading infrastructure — from signal research through live execution.
+          </p>
+        </div>
+      </section>
+
+      <!-- What We Build -->
+      <section class="space-y-6">
+        <h2 class="text-xl font-bold text-foreground">What We Build</h2>
+        <div class="space-y-4">
+          <!-- Item 1 (Odd: Number Left, Text Right) -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col md:flex-row items-stretch">
+              <!-- Number Section (Left) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-r border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">01</span>
+              </div>
+              <!-- Text Section (Right) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Execution Algorithms & Smart Order Routing</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Custom execution bots (TWAP, VWAP, iceberg) that minimize market impact across multiple venues. Slippage analysis and fill optimization.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 2 (Even: Text Left, Number Right) -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col-reverse md:flex-row items-stretch">
+              <!-- Text Section (Left) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Tick-Level Backtesting Frameworks</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Event-driven simulation engines replaying L2/L3 order book data with realistic fee models, partial fills, and latency modeling. No look-ahead bias.</p>
+              </div>
+              <!-- Number Section (Right) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-l border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">02</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 3 (Odd: Number Left, Text Right) -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col md:flex-row items-stretch">
+              <!-- Number Section (Left) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-r border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">03</span>
+              </div>
+              <!-- Text Section (Right) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Pre-Trade Risk Controls & Kill Switches</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Gateway-level checks: position limits, drawdown circuit breakers, max order size, and emergency kill switches that halt trading in milliseconds.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 4 (Even: Text Left, Number Right) -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col-reverse md:flex-row items-stretch">
+              <!-- Text Section (Left) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Statistical Arbitrage & Market Making</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Cointegration models, pairs/basket strategies, and automated market-making engines for crypto and equities with inventory risk management.</p>
+              </div>
+              <!-- Number Section (Right) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-l border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">04</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 5 (Odd: Number Left, Text Right) -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col md:flex-row items-stretch">
+              <!-- Number Section (Left) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-r border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">05</span>
+              </div>
+              <!-- Text Section (Right) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Signal Research & Alpha Generation</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Feature engineering from microstructure data (order flow imbalance, VPIN, Kyle's lambda), cross-sectional momentum, and alternative data integration.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 6 (Even: Text Left, Number Right) -->
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col-reverse md:flex-row items-stretch">
+              <!-- Text Section (Left) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Real-Time Market Data Infrastructure</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Low-latency WebSocket feeds, order book reconstruction, VWAP/TWAP calculators, and tick database ingestion (TimescaleDB, ClickHouse).</p>
+              </div>
+              <!-- Number Section (Right) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-l border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">06</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Technologies -->
+      <section class="space-y-6">
+        <h2 class="text-xl font-bold text-foreground">Technologies</h2>
+        <div class="flex flex-wrap gap-2">
+          {['Python', 'C++', 'Rust', 'CUDA', 'FIX Protocol', 'WebSocket', 'TimescaleDB', 'ClickHouse', 'Redis', 'Docker', 'Kubernetes'].map(tech => (
+            <span class="px-3 py-1 text-xs font-medium rounded-full bg-white/5 border border-white/10 text-muted-foreground hover:text-foreground hover:border-white/20 transition-colors">
+              {tech}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      <!-- Fit For / Not a Fit For -->
+      <section class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="rounded-xl border border-white/10 bg-[#0a0a0a] p-6 space-y-4">
+          <div class="flex items-center gap-2 text-green-500">
+            <Icon name="lucide:check-circle-2" class="w-5 h-5" />
+            <h3 class="text-base font-bold text-green-500">Good Fit For</h3>
+          </div>
+          <ul class="space-y-3">
+            <li class="flex gap-2 text-sm text-muted-foreground leading-relaxed">
+              <span class="text-green-500 mt-1">•</span>
+              Trading firms needing proprietary execution infrastructure built from scratch or replacing vendor solutions
+            </li>
+            <li class="flex gap-2 text-sm text-muted-foreground leading-relaxed">
+              <span class="text-green-500 mt-1">•</span>
+              Funds with existing strategies that need production-grade backtesting and risk management
+            </li>
+            <li class="flex gap-2 text-sm text-muted-foreground leading-relaxed">
+              <span class="text-green-500 mt-1">•</span>
+              Teams that want a senior quant engineer embedded for 2-12 weeks, not a junior contractor
+            </li>
+          </ul>
+        </div>
+        
+        <div class="rounded-xl border border-white/10 bg-[#0a0a0a] p-6 space-y-4">
+          <div class="flex items-center gap-2 text-red-500">
+            <Icon name="lucide:x-circle" class="w-5 h-5" />
+            <h3 class="text-base font-bold text-red-500">Not a Fit For</h3>
+          </div>
+          <ul class="space-y-3">
+            <li class="flex gap-2 text-sm text-muted-foreground leading-relaxed">
+              <span class="text-red-500 mt-1">•</span>
+              Retail traders looking for a trading bot they can buy off the shelf
+            </li>
+            <li class="flex gap-2 text-sm text-muted-foreground leading-relaxed">
+              <span class="text-red-500 mt-1">•</span>
+              Teams that need regulatory compliance consulting (we build the tech, not the compliance framework)
+            </li>
+            <li class="flex gap-2 text-sm text-muted-foreground leading-relaxed">
+              <span class="text-red-500 mt-1">•</span>
+              Firms without existing market data feeds or exchange connectivity to build on
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- How the Engagement Works -->
+      <section class="space-y-6">
+        <h2 class="text-xl font-bold text-foreground">How the Engagement Works</h2>
+        <div class="relative space-y-8 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-white/10">
+          
+          <!-- Step 1 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">1</div>
+            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between mb-2">
+                  <h3 class="font-bold text-foreground group-hover:text-primary transition-colors">Strategy & Infrastructure Audit</h3>
+                  <span class="text-xs text-muted-foreground px-2 py-0.5 rounded bg-white/5 border border-white/10">Week 1</span>
+                </div>
+                <p class="text-sm text-muted-foreground leading-relaxed">Review existing codebase, data feeds, execution stack, and risk controls. Identify gaps and define the build scope.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">2</div>
+            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between mb-2">
+                  <h3 class="font-bold text-foreground group-hover:text-primary transition-colors">Architecture & Design</h3>
+                  <span class="text-xs text-muted-foreground px-2 py-0.5 rounded bg-white/5 border border-white/10">Week 2</span>
+                </div>
+                <p class="text-sm text-muted-foreground leading-relaxed">System design document covering data flow, latency targets, failover strategy, and deployment topology. You approve before code is written.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">3</div>
+            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between mb-2">
+                  <h3 class="font-bold text-foreground group-hover:text-primary transition-colors">Core Build Sprint</h3>
+                  <span class="text-xs text-muted-foreground px-2 py-0.5 rounded bg-white/5 border border-white/10">Weeks 3-8</span>
+                </div>
+                <p class="text-sm text-muted-foreground leading-relaxed">Production development with weekly demos and test results. Every component ships with unit tests and integration tests.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">4</div>
+            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between mb-2">
+                  <h3 class="font-bold text-foreground group-hover:text-primary transition-colors">Paper Trading & Validation</h3>
+                  <span class="text-xs text-muted-foreground px-2 py-0.5 rounded bg-white/5 border border-white/10">Weeks 9-10</span>
+                </div>
+                <p class="text-sm text-muted-foreground leading-relaxed">Deploy to paper trading environment. Validate execution quality, fill rates, and risk controls against live market data.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">5</div>
+            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between mb-2">
+                  <h3 class="font-bold text-foreground group-hover:text-primary transition-colors">Production Deployment & Handoff</h3>
+                  <span class="text-xs text-muted-foreground px-2 py-0.5 rounded bg-white/5 border border-white/10">Weeks 11-12</span>
+                </div>
+                <p class="text-sm text-muted-foreground leading-relaxed">Go-live with monitoring dashboards, alerting, runbooks, and full documentation for your team to maintain.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      
+      <!-- CTA -->
+      <div class="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-8 sm:p-10 text-center mt-16">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+        <div class="relative z-10 space-y-4 flex flex-col items-center justify-center">
+          <h3 class="text-xl sm:text-2xl font-bold text-foreground">
+          Build your trading infrastructure with confidence.
+        </h3>
+        <p class="text-sm text-muted-foreground max-w-lg mx-auto">
+          We build proprietary quant systems for technology-focused funds. Tell us about your project.
+        </p>
+        <a href="/book-a-call" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white text-[#0a0a0a] hover:bg-white/90 text-xs font-bold transition-all">
+          Book an Appointment &rarr;
+        </a>
+        </div>
+      </div>
+    </div>
+  </Container>
+</Layout>

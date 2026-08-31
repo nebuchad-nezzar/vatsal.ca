@@ -1,0 +1,288 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import Container from '@/components/Container.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import PageHead from '@/components/PageHead.astro'
+import { Icon } from 'astro-icon/components'
+---
+<Layout>
+  <PageHead slot="head" title="System Design & Architecture" description="Distributed infrastructure engineered for low latency, high throughput, and fault tolerance." />
+  <Container>
+    <div class="py-8 space-y-16">
+      <Breadcrumbs items={[
+        { label: 'Services', href: '/services', icon: 'lucide:layers' },
+        { label: 'System Design & Architecture', icon: 'lucide:network' }
+      ]} />
+      
+      <!-- Hero -->
+      <section class="space-y-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border bg-background/50 text-sm font-medium text-primary">
+          <Icon name="lucide:zap" class="w-4 h-4" />
+          <span>Distributed Infrastructure</span>
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-bold text-foreground">System Design & Architecture</h1>
+        <p class="text-xl text-muted-foreground max-w-2xl">
+          Distributed infrastructure engineered for low latency, high throughput, and fault tolerance.
+        </p>
+      </section>
+
+      <!-- What We Build -->
+      <section class="space-y-8">
+        <div class="space-y-4">
+          <h2 class="text-3xl font-bold text-foreground">What We Build</h2>
+          <p class="text-muted-foreground">High-performance systems and backend infrastructure.</p>
+        </div>
+        
+        <div class="grid gap-6">
+          {/* Card 1 */}
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col md:flex-row items-stretch">
+              <!-- Number Section (Left) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-r border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">01</span>
+              </div>
+              <!-- Text Section (Right) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Low-Latency Market Data Systems</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">WebSocket streaming architectures delivering order book depth, VWAP, and trade flow with sub-millisecond overhead.</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Card 2 */}
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col-reverse md:flex-row items-stretch">
+              <!-- Text Section (Left) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">FIX Protocol & Exchange Gateways</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Native FIX 4.2/4.4/5.0 session management, market data parsing, and order routing to traditional and crypto venues.</p>
+              </div>
+              <!-- Number Section (Right) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-l border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">02</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 3 */}
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col md:flex-row items-stretch">
+              <!-- Number Section (Left) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-r border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">03</span>
+              </div>
+              <!-- Text Section (Right) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">High-Throughput Database Architecture</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">TimescaleDB, ClickHouse, PostgreSQL, and Redis schemas tuned for fast time-series aggregation and high-concurrency workloads.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 4 */}
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col-reverse md:flex-row items-stretch">
+              <!-- Text Section (Left) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Microservices & Container Orchestration</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Docker and Kubernetes deployments with service mesh, automatic failover, zero-downtime rolling updates.</p>
+              </div>
+              <!-- Number Section (Right) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-l border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">04</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 5 */}
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col md:flex-row items-stretch">
+              <!-- Number Section (Left) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-r border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">05</span>
+              </div>
+              <!-- Text Section (Right) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Event-Driven & Message Queue Systems</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">Kafka, RabbitMQ, and Redis Streams architectures for decoupled, fault-tolerant data processing.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 6 */}
+          <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col-reverse md:flex-row items-stretch">
+              <!-- Text Section (Left) -->
+              <div class="p-8 md:w-2/3 flex flex-col justify-center space-y-3">
+                <h3 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Cloud Infrastructure & DevOps</h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">AWS, GCP, and hybrid infrastructure with Terraform IaC, CI/CD pipelines, monitoring (Prometheus/Grafana), and cost optimization.</p>
+              </div>
+              <!-- Number Section (Right) -->
+              <div class="p-8 md:w-1/3 flex items-center justify-center border-b md:border-b-0 md:border-l border-white/10 bg-black/20">
+                <span class="text-7xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">06</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Technology Stack -->
+      <section class="space-y-6 border-t border-border pt-8">
+        <h2 class="text-2xl font-bold text-foreground">Technology Stack</h2>
+        <div class="flex flex-wrap gap-2">
+          {['Go', 'Rust', 'C++', 'Python', 'Kafka', 'Redis', 'PostgreSQL', 'TimescaleDB', 'ClickHouse', 'Docker', 'Kubernetes', 'Terraform', 'AWS', 'GCP', 'Prometheus', 'Grafana'].map(tech => (
+            <span class="px-3 py-1 rounded-full border border-border bg-background text-sm text-muted-foreground">{tech}</span>
+          ))}
+        </div>
+      </section>
+
+      <!-- Fit / Not a Fit -->
+      <section class="grid md:grid-cols-2 gap-8 border-t border-border pt-8">
+        <div class="space-y-4">
+          <div class="flex items-center gap-2 text-green-500">
+            <Icon name="lucide:check-circle" class="w-5 h-5 text-green-500" />
+            <h3 class="font-bold text-green-500">Good Fit For</h3>
+          </div>
+          <ul class="space-y-3 text-muted-foreground">
+            <li class="flex items-start gap-2"><Icon name="lucide:check" class="w-4 h-4 mt-1 shrink-0 text-green-500" /> Teams whose architecture can't handle scale</li>
+            <li class="flex items-start gap-2"><Icon name="lucide:check" class="w-4 h-4 mt-1 shrink-0 text-green-500" /> Building new infrastructure from scratch</li>
+            <li class="flex items-start gap-2"><Icon name="lucide:check" class="w-4 h-4 mt-1 shrink-0 text-green-500" /> Migrating from monolith to microservices</li>
+          </ul>
+        </div>
+        <div class="space-y-4">
+          <div class="flex items-center gap-2 text-red-500">
+            <Icon name="lucide:x-circle" class="w-5 h-5 text-red-500" />
+            <h3 class="font-bold text-red-500">Not a Fit For</h3>
+          </div>
+          <ul class="space-y-3 text-muted-foreground">
+            <li class="flex items-start gap-2"><Icon name="lucide:x" class="w-4 h-4 mt-1 shrink-0 text-red-500" /> Managed SaaS configuration</li>
+            <li class="flex items-start gap-2"><Icon name="lucide:x" class="w-4 h-4 mt-1 shrink-0 text-red-500" /> Frontend-only work</li>
+            <li class="flex items-start gap-2"><Icon name="lucide:x" class="w-4 h-4 mt-1 shrink-0 text-red-500" /> No clear operational workload</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Engagement -->
+      <section class="space-y-8 border-t border-border pt-8">
+        <div class="space-y-4">
+          <h2 class="text-3xl font-bold text-foreground">How the Engagement Works</h2>
+          <p class="text-muted-foreground">A structured approach to delivering robust infrastructure.</p>
+        </div>
+        
+        <div class="relative space-y-8 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-white/10">
+          
+          <!-- Step 1 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">1</div>
+            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-bold text-foreground group-hover:text-primary transition-colors">Infrastructure Assessment</h3>
+                  <span class="text-xs text-muted-foreground px-2 py-0.5 rounded bg-white/5 border border-white/10">Week 1</span>
+                </div>
+                  <p class="text-sm text-muted-foreground leading-relaxed mt-2">Review existing architecture, network topology, and identify latency or scaling bottlenecks.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">2</div>
+            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-bold text-foreground group-hover:text-primary transition-colors">System Design & RFC</h3>
+                  <span class="text-xs text-muted-foreground px-2 py-0.5 rounded bg-white/5 border border-white/10">Week 2</span>
+                </div>
+                  <p class="text-sm text-muted-foreground leading-relaxed mt-2">Propose target architecture, complete with tech stack selection and fault-tolerance guarantees.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">3</div>
+            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-bold text-foreground group-hover:text-primary transition-colors">Core Infrastructure Build</h3>
+                  <span class="text-xs text-muted-foreground px-2 py-0.5 rounded bg-white/5 border border-white/10">Weeks 3-8</span>
+                </div>
+                  <p class="text-sm text-muted-foreground leading-relaxed mt-2">Provision servers, configure databases, and build the foundational microservices via IaC.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">4</div>
+            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-bold text-foreground group-hover:text-primary transition-colors">Load Testing & Hardening</h3>
+                  <span class="text-xs text-muted-foreground px-2 py-0.5 rounded bg-white/5 border border-white/10">Weeks 9-10</span>
+                </div>
+                  <p class="text-sm text-muted-foreground leading-relaxed mt-2">Simulate peak market volatility, measure latency, and harden security perimeters.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group/timeline">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#0a0a0a] text-primary font-bold shrink-0 md:order-1 md:group-odd/timeline:-translate-x-1/2 md:group-even/timeline:translate-x-1/2 shadow-sm z-10">5</div>
+            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] group relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-bold text-foreground group-hover:text-primary transition-colors">Production Cutover & Handoff</h3>
+                  <span class="text-xs text-muted-foreground px-2 py-0.5 rounded bg-white/5 border border-white/10">Weeks 11-12</span>
+                </div>
+                  <p class="text-sm text-muted-foreground leading-relaxed mt-2">Execute live migration, configure automated backups, and provide operational runbooks.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      
+      <!-- CTA -->
+      <div class="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:scale-[1.01] hover:shadow-xl hover:border-white/20 p-8 sm:p-10 text-center mt-16">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-900/10 to-transparent opacity-100 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+        <div class="relative z-10 space-y-4 flex flex-col items-center justify-center">
+          <h3 class="text-xl sm:text-2xl font-bold text-foreground">
+          Build infrastructure that doesn't break under pressure.
+        </h3>
+        <p class="text-sm text-muted-foreground max-w-lg mx-auto">
+          We design distributed systems for trading firms and AI-driven businesses.
+        </p>
+        <a href="/book-a-call" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white text-[#0a0a0a] hover:bg-white/90 text-xs font-bold transition-all">
+          Book an Appointment →
+        </a>
+        </div>
+      </div>
+    </div>
+  </Container>
+</Layout>
