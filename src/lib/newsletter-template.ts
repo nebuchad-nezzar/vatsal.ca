@@ -302,14 +302,20 @@ function formatCommentary(text: string): string {
     // 1. Remove MDX imports
     let cleanText = text.replace(/import\s+[\s\S]+?from\s+['"].+?['"]/g, '');
     
-    // 2. Strip standard MDX comments or frontmatter dividers if leaked
+    // 2. Strip raw JSX/HTML component blocks (like <div className="...">...</div>) from MDX body
+    cleanText = cleanText.replace(/<div[\s\S]*?<\/div>/gi, '');
+
+    // 3. Strip standard MDX comments or frontmatter dividers if leaked
     cleanText = cleanText.replace(/---\s*$/g, '');
 
-    // 3. Simple Markdown conversion (paragraphs, bold, links)
+    // 4. Simple Markdown conversion (paragraphs, bold, links)
     return cleanText.split('\n\n')
         .map(p => p.trim())
         .filter(Boolean)
         .map(p => {
+            if (p.startsWith('<p') || p.startsWith('<hr') || p.startsWith('<h3') || p.startsWith('<div')) {
+                return p;
+            }
             // Replace single newlines with line breaks to support signature placement
             let formatted = p.replace(/\n/g, '<br />');
             // Replace bold **text** with <strong>text</strong>
