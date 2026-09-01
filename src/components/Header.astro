@@ -1,6 +1,5 @@
 ---
 import Link from '@/components/Link.astro'
-import { Image } from 'astro:assets'
 import logo from '../assets/logo.webp'
 import WorkDropdown from '@/components/react/WorkDropdown'
 ---
@@ -10,7 +9,7 @@ import WorkDropdown from '@/components/react/WorkDropdown'
     class="mx-auto flex max-w-3xl items-center justify-between gap-4 px-4 py-3"
   >
     <Link href="/" class="flex shrink-0">
-      <Image src={logo} alt="Logo" class="size-14 sm:size-14" />
+      <img src={logo.src} width={logo.width} height={logo.height} alt="Logo" class="size-14 sm:size-14" />
     </Link>
     <div class="flex items-center gap-4">
       <nav class="flex items-center gap-6 text-sm">

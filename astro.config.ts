@@ -20,7 +20,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   site: 'https://vatsal.ca',
   output: 'server',
-  adapter: cloudflare({ imageService: 'compile' }),
+  adapter: cloudflare({ imageService: 'passthrough' }),
   integrations: [expressiveCode(), mdx(), react(), sitemap(), icon()],
   vite: {
     plugins: [tailwindcss()],

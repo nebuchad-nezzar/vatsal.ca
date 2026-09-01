@@ -3,7 +3,6 @@ import { SOCIAL_LINKS, NAV_LINKS } from '@/consts'
 import Link from '@/components/Link.astro'
 import Newsletter from './react/Newsletter'
 import { Icon } from 'astro-icon/components'
-import { Image } from 'astro:assets'
 import logo from '../assets/logo.webp'
 ---
 
@@ -104,7 +103,7 @@ import logo from '../assets/logo.webp'
 
       <div class="pt-8 text-[10px] text-muted-foreground/30 font-mono uppercase tracking-[0.3em] flex justify-between items-center">
         <span>Vatsal Sharma &copy; {new Date().getFullYear()}</span>
-        <Image src={logo} alt="Logo" class="size-6 opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all" />
+        <img src={logo.src} width={logo.width} height={logo.height} alt="Logo" class="size-6 opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all" />
       </div>
     </div>
   </div>
