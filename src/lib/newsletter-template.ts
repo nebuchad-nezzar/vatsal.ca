@@ -42,8 +42,9 @@ export function generateDigestEmail(posts: DigestPost[], siteUrl: string, newsle
     };
     const formattedDate = `${month} ${day}${getOrdinal(day)}, ${year}`;
 
+    const cleanDesc = newsletterData ? newsletterData.description.replace(/<[^>]+>/g, '').replace(/\{\/\*[\s\S]*?\*\/\}/g, '').replace(/\s+/g, ' ').trim() : '';
     const preheaderText = newsletterData 
-        ? `${newsletterData.description.slice(0, 120)}...`
+        ? `${cleanDesc.slice(0, 120)}...`
         : `Here's what I published this week on System Design, Quant, AI, and Markets.`;
 
     // Generate invisible spacing block to block inbox text leakage
@@ -208,7 +209,7 @@ export function generateDigestEmail(posts: DigestPost[], siteUrl: string, newsle
         ${newsletterData ? (newsletterData.isDaily ? 'What Moved Today' : 'What Moved This Week') : 'Overview'}
       </h2>
       <div class="text-main" style="font-size:15px; line-height:1.7; color:#333333;">
-        ${newsletterData ? formatCommentary(newsletterData.description) : `<p>Here's a digest of what I published this week on System Design, Quant, AI, and Markets.</p>`}
+        ${newsletterData ? formatCommentary(newsletterData.description, siteUrl) : `<p>Here's a digest of what I published this week on System Design, Quant, AI, and Markets.</p>`}
       </div>
     </td>
   </tr>
@@ -298,33 +299,98 @@ export function generateDigestEmail(posts: DigestPost[], siteUrl: string, newsle
 // HTML Rendering Helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
-function formatCommentary(text: string): string {
+function formatCommentary(text: string, siteUrl: string = 'https://vatsal.ca'): string {
     // 1. Remove MDX imports
     let cleanText = text.replace(/import\s+[\s\S]+?from\s+['"].+?['"]/g, '');
     
-    // 2. Strip raw JSX/HTML component blocks (like <div className="...">...</div>) from MDX body
-    cleanText = cleanText.replace(/<div[\s\S]*?<\/div>/gi, '');
+    // 2. Strip JSX comments
+    cleanText = cleanText.replace(/\{\/\*[\s\S]*?\*\/\}/g, '');
 
-    // 3. Strip standard MDX comments or frontmatter dividers if leaked
+    // 3. Strip JSX component blocks line by line without regex backtracking
+    const lines = cleanText.split('\n');
+    const filteredLines: string[] = [];
+    let insideDiv = 0;
+
+    for (const line of lines) {
+        const trimmed = line.trim();
+        const openDivs = (line.match(/<div/gi) || []).length;
+        const closeDivs = (line.match(/<\/div>/gi) || []).length;
+        
+        if (openDivs > 0 || closeDivs > 0 || insideDiv > 0) {
+            insideDiv += (openDivs - closeDivs);
+            if (insideDiv < 0) insideDiv = 0;
+            continue;
+        }
+
+        if (trimmed.startsWith('<') && !trimmed.startsWith('<http')) {
+            continue;
+        }
+
+        filteredLines.push(line);
+    }
+
+    cleanText = filteredLines.join('\n');
+    cleanText = cleanText.replace(/<[^>]+>/g, '');
     cleanText = cleanText.replace(/---\s*$/g, '');
 
-    // 4. Simple Markdown conversion (paragraphs, bold, links)
-    return cleanText.split('\n\n')
+    // Check if there is a callout / footer section separated by ***
+    const parts = cleanText.split(/\n\s*\*\*\*\s*\n/);
+    const mainBody = parts[0] || '';
+    const footerBody = parts.slice(1).join('\n').trim();
+
+    // 4. Simple Markdown conversion for main commentary body
+    const mainHtml = mainBody.split('\n\n')
         .map(p => p.trim())
         .filter(Boolean)
         .map(p => {
-            if (p.startsWith('<p') || p.startsWith('<hr') || p.startsWith('<h3') || p.startsWith('<div')) {
+            if (p.startsWith('<p') || p.startsWith('<hr') || p.startsWith('<h3')) {
                 return p;
             }
-            // Replace single newlines with line breaks to support signature placement
             let formatted = p.replace(/\n/g, '<br />');
-            // Replace bold **text** with <strong>text</strong>
             formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong style="color:#0a0a0a;">$1</strong>');
-            // Replace links [text](url) with <a href="$2" style="color:#b8960c; text-decoration:underline;">$1</a>
             formatted = formatted.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" style="color:#b8960c; text-decoration:underline;">$1</a>');
             return `<p class="text-main" style="margin:0 0 16px 0; font-size:15px; line-height:1.7; color:#333333;">${formatted}</p>`;
         })
         .join('');
+
+    if (!footerBody) {
+        return mainHtml;
+    }
+
+    // Render footer callout box nicely for *** sections
+    const footerItems = footerBody.split('\n\n').filter(Boolean).map((block, idx) => {
+        let formatted = block;
+        // Strip 👉 emoji if present anywhere
+        formatted = formatted.replace(/👉\s*/g, '');
+        // Bold title
+        formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong class="text-main" style="color:#0a0a0a; display:block; font-size:15px; margin-bottom:4px;">$1</strong>');
+        // Format markdown link cleanly
+        formatted = formatted.replace(/\[(.*?)\]\((.*?)\)/g, '<span style="display:inline-block; margin-top:6px;"><a href="$2" class="gold-accent" style="color:#b8960c; font-weight:600; text-decoration:underline;">$1 &rarr;</a></span>');
+        formatted = formatted.replace(/\n/g, '<br />');
+        const divider = idx > 0 ? '<div class="divider" style="height:1px; background-color:#eeeeee; margin:16px 0;"></div>' : '';
+        return `${divider}<div class="text-sub" style="font-size:14px; color:#555555; line-height:1.6;">${formatted}</div>`;
+    }).join('');
+
+    const footerCardHtml = `
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="card-bg border-block" style="background-color:#fcfbf8; border:1px solid #e8e3d8; border-left:3px solid #b8960c; border-radius:4px; margin-top:28px; margin-bottom:12px;">
+      <tr>
+        <td style="padding:20px 24px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:16px;">
+            <tr>
+              <td style="vertical-align:middle;">
+                <div class="gold-accent" style="font-size:12px; letter-spacing:2px; color:#b8960c; text-transform:uppercase; font-weight:600;">Offerings:</div>
+              </td>
+              <td style="text-align:right; vertical-align:middle;">
+                <img src="${siteUrl}/logo.png" alt="Logo" width="28" style="display:inline-block; border:none; max-width:28px; height:auto; opacity:0.9;">
+              </td>
+            </tr>
+          </table>
+          ${footerItems}
+        </td>
+      </tr>
+    </table>`;
+
+    return mainHtml + footerCardHtml;
 }
 
 function renderTopThree(topThree?: { title: string; description: string }[]): string {

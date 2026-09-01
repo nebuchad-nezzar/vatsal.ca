@@ -52,7 +52,7 @@ import Layout from '@/layouts/Layout.astro';
           </button>
         </div>
         <div class="border-t border-white/10 bg-white">
-          <iframe id="preview-frame" class="w-full h-[850px] border-0" src="about:blank"></iframe>
+          <iframe id="preview-frame" class="w-full h-[850px] border-0 bg-white" src="about:blank"></iframe>
         </div>
       </div>
     </div>
@@ -88,7 +88,7 @@ import Layout from '@/layouts/Layout.astro';
     
     // Load the preview in the iframe
     if (previewFrame && previewSection) {
-      previewFrame.src = `/api/newsletter/send-digest?test=true&secret=${encodeURIComponent(currentSecret)}`;
+      previewFrame.src = `/api/newsletter/send-digest?test=true&secret=${encodeURIComponent(currentSecret)}&t=${Date.now()}`;
       previewSection.classList.remove('hidden');
       
       // Hide any previous status
