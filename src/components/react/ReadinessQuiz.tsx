@@ -127,6 +127,9 @@ export default function ReadinessQuiz() {
     setFormError(null)
 
     try {
+      const acqSource = typeof window !== 'undefined' ? localStorage.getItem('v_acq_source') || 'Direct' : 'Direct';
+      const currentPath = typeof window !== 'undefined' ? window.location.pathname : '/';
+
       // Submit to backend newsletter/subscribe route
       await fetch('/api/newsletter/subscribe', {
         method: 'POST',
@@ -138,6 +141,8 @@ export default function ReadinessQuiz() {
           role: roleTitle || roleTrack,
           readinessScore: `${scorePercent}%`,
           answers,
+          source: acqSource,
+          path: currentPath
         }),
       })
 

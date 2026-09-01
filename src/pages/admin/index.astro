@@ -2,11 +2,20 @@
 export const prerender = false;
 import Layout from '@/layouts/Layout.astro';
 import { getAllPostsIncludingNewsletters } from '@/lib/data-utils';
+import { verifySessionCookie } from '@/lib/totp';
+import AdminDashboardVisuals from '@/components/react/AdminDashboardVisuals';
+
+const runtimeEnv = (Astro.locals as any).runtime?.env || (Astro.locals as any).env || {};
+const secretBase32 = runtimeEnv.ADMIN_2FA_SECRET || import.meta.env.ADMIN_2FA_SECRET || 'H7K2MAN4PAREWVYT';
+
+const cookieHeader = Astro.request.headers.get('cookie');
+const isAuthenticated = await verifySessionCookie(cookieHeader, secretBase32);
 
 // Fetch server-side post stats
 const allPosts = await getAllPostsIncludingNewsletters();
 const totalPosts = allPosts.length;
 const dailyPosts = allPosts.filter(p => p.data.isDaily);
+const blogPosts = allPosts.filter(p => !p.data.isDaily);
 const latestDaily = dailyPosts[0] || allPosts[0];
 
 const siteUrl = import.meta.env.SITE || 'https://vatsal.ca';
@@ -14,280 +23,566 @@ const siteUrl = import.meta.env.SITE || 'https://vatsal.ca';
 
 <Layout>
   <div class="max-w-5xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-    <!-- Admin Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-white/10">
-      <div>
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-500/30 bg-purple-500/10 text-xs text-purple-300 font-mono mb-2">
-          ⚡ System Operations
-        </div>
-        <h1 class="text-3xl font-bold text-foreground">Admin Console</h1>
-        <p class="text-sm text-muted-foreground mt-1">Manage newsletter broadcasts and monitor performance metrics.</p>
-      </div>
-
-      <!-- Live Site Quick Link -->
-      <a 
-        href="/" 
-        target="_blank"
-        class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 bg-white/5 text-xs text-muted-foreground hover:text-foreground hover:bg-white/10 transition-colors w-fit font-mono"
-      >
-        <span>vatsal.ca</span>
-        <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-      </a>
-    </div>
-
-    <!-- Navigation Tabs -->
-    <div class="flex items-center gap-2 mb-8 bg-white/5 p-1.5 rounded-xl border border-white/10 w-fit">
-      <button 
-        id="tab-btn-analytics" 
-        class="tab-btn px-5 py-2.5 rounded-lg text-sm font-bold transition-all cursor-pointer flex items-center gap-2 bg-white/10 text-foreground border border-white/20 shadow-sm"
-        data-tab="analytics"
-      >
-        <svg class="size-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-        <span>Analytics & KPIs</span>
-      </button>
-
-      <button 
-        id="tab-btn-send" 
-        class="tab-btn px-5 py-2.5 rounded-lg text-sm font-bold transition-all cursor-pointer flex items-center gap-2 text-muted-foreground hover:text-foreground hover:bg-white/5 border border-transparent"
-        data-tab="send"
-      >
-        <svg class="size-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
-        <span>Newsletter Blast</span>
-      </button>
-    </div>
-
-    <!-- TAB 1: ANALYTICS & KPIS -->
-    <div id="tab-content-analytics" class="tab-content space-y-6">
-      
-      <!-- Top Metric Cards Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        
-        <!-- Total Website Views Card -->
-        <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5">
-          <div class="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-blue-900/5 to-transparent pointer-events-none"></div>
-          <div class="relative z-10 space-y-2">
-            <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
-              <span>PAGEVIEWS</span>
-              <span class="size-2 rounded-full bg-purple-500 animate-pulse"></span>
+    
+    {!isAuthenticated ? (
+      <!-- 2FA LOCK SCREEN -->
+      <div id="admin-lock-screen" class="max-w-md mx-auto py-12">
+        <div class="relative overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a] text-foreground p-8 shadow-2xl">
+          <div class="absolute inset-0 bg-gradient-to-br from-purple-600/15 via-blue-900/10 to-transparent pointer-events-none"></div>
+          <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+          
+          <div class="relative z-10 space-y-6 text-center">
+            <div class="inline-flex items-center justify-center size-14 rounded-2xl bg-white/5 border border-white/10 text-purple-400 mx-auto">
+              <svg class="size-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
             </div>
-            <div id="kpi-views-val" class="text-3xl font-bold text-foreground font-mono">
-              --
-            </div>
-            <p class="text-xs text-muted-foreground">Total Page Loads</p>
-          </div>
-        </div>
 
-        <!-- Unique Visits Card -->
-        <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5">
-          <div class="absolute inset-0 bg-gradient-to-br from-cyan-600/10 via-blue-900/5 to-transparent pointer-events-none"></div>
-          <div class="relative z-10 space-y-2">
-            <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
-              <span>UNIQUE VISITS</span>
-              <span class="size-2 rounded-full bg-cyan-400 animate-pulse"></span>
-            </div>
-            <div id="kpi-visits-val" class="text-3xl font-bold text-foreground font-mono">
-              --
-            </div>
-            <p class="text-xs text-muted-foreground">Distinct Sessions</p>
-          </div>
-        </div>
-
-        <!-- Subscriber Card -->
-        <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5">
-          <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/10 via-blue-900/5 to-transparent pointer-events-none"></div>
-          <div class="relative z-10 space-y-2">
-            <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
-              <span>SUBSCRIBERS</span>
-              <span class="size-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            </div>
-            <div id="kpi-subscribers-val" class="text-3xl font-bold text-foreground font-mono">
-              --
-            </div>
-            <p class="text-xs text-muted-foreground">Active Brevo Audience</p>
-          </div>
-        </div>
-
-        <!-- Total Published Card -->
-        <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5">
-          <div class="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-900/5 to-transparent pointer-events-none"></div>
-          <div class="relative z-10 space-y-2">
-            <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
-              <span>POSTS</span>
-              <span class="text-xs text-blue-400 font-bold">Collection</span>
-            </div>
-            <div class="text-3xl font-bold text-foreground font-mono">
-              {totalPosts}
-            </div>
-            <p class="text-xs text-muted-foreground">{dailyPosts.length} Daily Commentaries</p>
-          </div>
-        </div>
-
-        <!-- Latest Issue Card -->
-        <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5">
-          <div class="absolute inset-0 bg-gradient-to-br from-amber-600/10 via-purple-900/5 to-transparent pointer-events-none"></div>
-          <div class="relative z-10 space-y-2">
-            <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
-              <span>LATEST PULSE</span>
-              <span class="text-xs text-amber-400 font-bold">#{latestDaily?.data?.issueNumber || '137'}</span>
-            </div>
-            <div class="text-sm font-bold text-foreground truncate">
-              {latestDaily?.data?.title || 'Daily Commentary'}
-            </div>
-            <p class="text-xs text-muted-foreground">
-              {new Date(latestDaily?.data?.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-            </p>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Top Visited Pages & Telemetry Breakdown -->
-      <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-6">
-        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-900/5 to-transparent pointer-events-none"></div>
-        <div class="relative z-10 space-y-4">
-          <div class="flex items-center justify-between">
             <div>
-              <h3 class="text-base font-bold text-foreground">Top Page Visits & Views</h3>
-              <p class="text-xs text-muted-foreground mt-0.5">Realtime breakdown of user traffic per path</p>
+              <h2 class="text-2xl font-bold text-foreground">Security Gateway</h2>
             </div>
-            <span class="text-xs font-mono text-muted-foreground">Upstash Telemetry</span>
-          </div>
 
-          <div id="top-pages-list" class="space-y-3 pt-2">
-            <div class="text-xs text-muted-foreground font-mono animate-pulse">Loading traffic metrics...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Quick Action Portals & External Dashboards -->
-      <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-6">
-        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-900/5 to-transparent pointer-events-none"></div>
-        <div class="relative z-10 space-y-4">
-          <h3 class="text-base font-bold text-foreground">External Management Dashboards</h3>
-          
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            
-            <a 
-              href="https://dash.cloudflare.com/" 
-              target="_blank" 
-              class="group block p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all"
-            >
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-mono text-amber-400 font-bold">CLOUDFLARE</span>
-                <svg class="size-4 text-muted-foreground group-hover:text-foreground transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            <form id="duo-auth-form" class="space-y-4 text-left">
+              <div>
+                <label for="duo-code" class="block text-xs font-mono text-muted-foreground mb-2 text-center uppercase tracking-wider">Enter your security code</label>
+                <input 
+                  type="text" 
+                  name="duo-code" 
+                  id="duo-code" 
+                  maxlength="8"
+                  inputmode="numeric"
+                  required
+                  autofocus
+                  class="w-full bg-white/5 border border-white/10 text-foreground placeholder:text-muted-foreground rounded-xl py-3 px-4 text-2xl font-bold text-center tracking-[0.3em] focus:outline-none focus:border-purple-500/50 transition-colors font-mono" 
+                  placeholder="000 000"
+                >
               </div>
-              <div class="text-sm font-bold text-foreground">Web Analytics & Pages</div>
-              <p class="text-xs text-muted-foreground mt-1">View realtime traffic graphs, countries, and top referrers.</p>
-            </a>
 
-            <a 
-              href="https://app.brevo.com/campaign/list" 
-              target="_blank" 
-              class="group block p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all"
-            >
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-mono text-blue-400 font-bold">BREVO API</span>
-                <svg class="size-4 text-muted-foreground group-hover:text-foreground transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              <div id="duo-auth-error" class="hidden p-3 rounded-lg bg-red-950/50 border border-red-800/50 text-red-200 text-xs font-mono text-center">
+                Invalid security code. Please check your authenticator and try again.
               </div>
-              <div class="text-sm font-bold text-foreground">Email Campaigns & Lists</div>
-              <p class="text-xs text-muted-foreground mt-1">Manage contact lists, open rates, and click tracking.</p>
-            </a>
 
-            <a 
-              href="https://console.upstash.com/" 
-              target="_blank" 
-              class="group block p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all"
-            >
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-mono text-emerald-400 font-bold">UPSTASH REDIS</span>
-                <svg class="size-4 text-muted-foreground group-hover:text-foreground transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-              </div>
-              <div class="text-sm font-bold text-foreground">Pageviews Database</div>
-              <p class="text-xs text-muted-foreground mt-1">Inspect raw Redis pageview counters and key storage.</p>
-            </a>
-
-          </div>
-        </div>
-      </div>
-
-      <!-- Quick Recent Dispatch Preview Card -->
-      <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-6">
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="text-base font-bold text-foreground">Latest Published Commentary</h3>
-          <a href={`/blog/${latestDaily?.id}`} target="_blank" class="text-xs text-purple-400 hover:text-purple-300 font-mono">View on site &rarr;</a>
-        </div>
-        <div class="p-4 rounded-lg bg-white/5 border border-white/10 space-y-2">
-          <div class="text-sm font-bold text-foreground">{latestDaily?.data?.title}</div>
-          <p class="text-xs text-muted-foreground leading-relaxed">{latestDaily?.data?.description}</p>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- TAB 2: NEWSLETTER BLAST -->
-    <div id="tab-content-send" class="tab-content hidden space-y-6">
-      
-      <!-- Auth Card -->
-      <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] text-foreground p-6 shadow-sm">
-        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-900/5 to-transparent opacity-100 pointer-events-none"></div>
-        <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
-        
-        <div class="relative z-10">
-          <h3 class="text-lg font-bold text-foreground mb-4">Authentication</h3>
-          
-          <form id="auth-form" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 max-w-xl">
-            <div class="w-full sm:max-w-xs">
-              <label for="secret" class="sr-only">Secret</label>
-              <input 
-                type="password" 
-                name="secret" 
-                id="secret" 
-                class="w-full bg-white/5 border border-white/10 text-foreground placeholder:text-muted-foreground rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:border-white/30 transition-colors font-mono" 
-                placeholder="Enter secret key"
+              <button 
+                type="submit" 
+                id="unlock-btn"
+                class="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 border border-transparent font-bold rounded-xl text-sm text-[#0a0a0a] bg-white hover:bg-gray-200 transition-colors cursor-pointer"
               >
-            </div>
-            <button 
-              type="submit" 
-              class="inline-flex items-center justify-center px-5 py-2.5 border border-transparent font-bold rounded-lg text-sm text-[#0a0a0a] bg-white hover:bg-gray-200 transition-colors cursor-pointer shrink-0"
-            >
-              Load Preview
-            </button>
-          </form>
-        </div>
-      </div>
-
-      <!-- Preview Section -->
-      <div id="preview-section" class="hidden">
-        <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] text-foreground shadow-sm">
-          <div class="p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div>
-              <h3 class="text-lg font-bold text-foreground">Email Preview</h3>
-              <p class="text-sm text-muted-foreground mt-0.5">This is exactly what will be blasted to all subscribers.</p>
-            </div>
-            <button 
-              id="send-btn" 
-              class="inline-flex items-center justify-center px-6 py-3 border border-transparent font-bold rounded-lg text-sm text-white bg-red-600 hover:bg-red-700 transition-colors cursor-pointer shrink-0"
-            >
-              BLAST TO READERS
-            </button>
-          </div>
-          <div class="border-t border-white/10 bg-white">
-            <iframe id="preview-frame" class="w-full h-[850px] border-0 bg-white" src="about:blank"></iframe>
+                <span>Verify</span>
+                <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </button>
+            </form>
           </div>
         </div>
       </div>
+    ) : (
+      <!-- PROTECTED DASHBOARD CONTAINER -->
+      <div id="admin-dashboard-container" class="space-y-8">
+        
+        <!-- Admin Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-xs text-emerald-300 font-mono mb-2">
+              <span class="size-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              Authenticated Session
+            </div>
+            <h1 class="text-3xl font-bold text-foreground">Admin Console</h1>
+            <p class="text-sm text-muted-foreground mt-1">Manage newsletter broadcasts and monitor performance metrics.</p>
+          </div>
 
-      <!-- Status Message -->
-      <div id="status-message" class="hidden rounded-xl p-4 border">
-        <p class="text-sm font-medium" id="status-text"></p>
+          <div class="flex items-center gap-3">
+            <!-- Lock Session Button -->
+            <button 
+              id="lock-session-btn"
+              class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-red-500/30 bg-red-500/10 text-xs text-red-300 hover:bg-red-500/20 transition-colors font-mono cursor-pointer"
+            >
+              <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+              <span>Lock Console</span>
+            </button>
+
+            <!-- Live Site Quick Link -->
+            <a 
+              href="/" 
+              target="_blank"
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 bg-white/5 text-xs text-muted-foreground hover:text-foreground hover:bg-white/10 transition-colors w-fit font-mono"
+            >
+              <span>vatsal.ca</span>
+              <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="flex items-center gap-2 bg-white/5 p-1.5 rounded-xl border border-white/10 w-fit">
+          <button 
+            id="tab-btn-analytics" 
+            class="tab-btn px-5 py-2.5 rounded-lg text-sm font-bold transition-all cursor-pointer flex items-center gap-2 bg-white/10 text-foreground border border-white/20 shadow-sm"
+            data-tab="analytics"
+          >
+            <svg class="size-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            <span>Analytics & KPIs</span>
+          </button>
+
+          <button 
+            id="tab-btn-send" 
+            class="tab-btn px-5 py-2.5 rounded-lg text-sm font-bold transition-all cursor-pointer flex items-center gap-2 text-muted-foreground hover:text-foreground hover:bg-white/5 border border-transparent"
+            data-tab="send"
+          >
+            <svg class="size-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+            <span>Newsletter Blast</span>
+          </button>
+        </div>
+
+        <!-- TAB 1: ANALYTICS & KPIS -->
+        <div id="tab-content-analytics" class="tab-content space-y-6">
+          
+          <!-- Global KPI Grid (The Original 5) -->
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            
+            <!-- Total Pageviews Card -->
+            <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5">
+              <div class="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-blue-900/5 to-transparent pointer-events-none"></div>
+              <div class="relative z-10 space-y-2">
+                <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+                  <span>PAGEVIEWS</span>
+                  <span class="size-2 rounded-full bg-purple-500 animate-pulse"></span>
+                </div>
+                <div id="kpi-views-val" class="text-3xl font-bold text-foreground font-mono">
+                  --
+                </div>
+                <p class="text-xs text-muted-foreground">Total Page Loads</p>
+              </div>
+            </div>
+
+            <!-- Unique Visits Card -->
+            <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5">
+              <div class="absolute inset-0 bg-gradient-to-br from-cyan-600/10 via-blue-900/5 to-transparent pointer-events-none"></div>
+              <div class="relative z-10 space-y-2">
+                <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+                  <span>UNIQUE VISITS</span>
+                  <span class="size-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                </div>
+                <div id="kpi-visits-val" class="text-3xl font-bold text-foreground font-mono">
+                  --
+                </div>
+                <p class="text-xs text-muted-foreground">Distinct Sessions</p>
+              </div>
+            </div>
+
+            <!-- Subscriber Card -->
+            <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5">
+              <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/10 via-blue-900/5 to-transparent pointer-events-none"></div>
+              <div class="relative z-10 space-y-2">
+                <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+                  <span>SUBSCRIBERS</span>
+                  <span class="size-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                </div>
+                <div id="kpi-subscribers-val" class="text-3xl font-bold text-foreground font-mono">
+                  --
+                </div>
+                <p class="text-xs text-muted-foreground">Active Brevo Audience</p>
+              </div>
+            </div>
+
+            <!-- Total Published Card -->
+            <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-900/5 to-transparent pointer-events-none"></div>
+              <div class="relative z-10 space-y-2">
+                <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+                  <span>POSTS</span>
+                  <span class="text-xs text-blue-400 font-bold">Collection</span>
+                </div>
+                <div class="text-3xl font-bold text-foreground font-mono">
+                  {totalPosts}
+                </div>
+                <p class="text-[11px] text-muted-foreground">{blogPosts.length} Blogs &bull; {dailyPosts.length} Dailies</p>
+              </div>
+            </div>
+
+            <!-- Latest Issue Card -->
+            <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5">
+              <div class="absolute inset-0 bg-gradient-to-br from-amber-600/10 via-purple-900/5 to-transparent pointer-events-none"></div>
+              <div class="relative z-10 space-y-2">
+                <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+                  <span>LATEST PULSE</span>
+                  <span class="text-xs text-amber-400 font-bold">#{latestDaily?.data?.issueNumber || '137'}</span>
+                </div>
+                <div class="text-sm font-bold text-foreground truncate">
+                  {latestDaily?.data?.title || 'Daily Commentary'}
+                </div>
+                <p class="text-xs text-muted-foreground">
+                  {new Date(latestDaily?.data?.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Deep Content KPIs Grid (The New Row) -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-4">
+            
+            <!-- Published Blogs Card -->
+            <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5">
+              <div class="absolute inset-0 bg-gradient-to-br from-rose-600/10 via-pink-900/5 to-transparent pointer-events-none"></div>
+              <div class="relative z-10 space-y-2">
+                <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+                  <span>PUBLISHED BLOGS</span>
+                  <span class="text-xs text-rose-400 font-bold">Essays</span>
+                </div>
+                <div class="text-3xl font-bold text-foreground font-mono">
+                  {blogPosts.length}
+                </div>
+                <p class="text-[11px] text-muted-foreground">Deep dives & guides</p>
+              </div>
+            </div>
+
+            <!-- Blog Views Card -->
+            <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5">
+              <div class="absolute inset-0 bg-gradient-to-br from-indigo-600/10 via-purple-900/5 to-transparent pointer-events-none"></div>
+              <div class="relative z-10 space-y-2">
+                <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+                  <span>BLOG VIEWS</span>
+                  <span class="size-2 rounded-full bg-indigo-500 animate-pulse"></span>
+                </div>
+                <div id="kpi-blog-views-val" class="text-3xl font-bold text-foreground font-mono">
+                  --
+                </div>
+                <p class="text-[11px] text-muted-foreground">Traffic across all essays</p>
+              </div>
+            </div>
+
+            <!-- Avg Retention Card -->
+            <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5">
+              <div class="absolute inset-0 bg-gradient-to-br from-amber-600/10 via-orange-900/5 to-transparent pointer-events-none"></div>
+              <div class="relative z-10 space-y-2">
+                <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+                  <span>AVG RETENTION</span>
+                  <span class="size-2 rounded-full bg-amber-500"></span>
+                </div>
+                <div id="kpi-avg-retention-val" class="text-3xl font-bold text-foreground font-mono">
+                  --%
+                </div>
+                <p class="text-[11px] text-muted-foreground">Global essay scroll depth</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- NEW: Monetization & Financial Metrics Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <!-- MRR Card -->
+            <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5 border-l-4 border-l-emerald-500">
+              <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/10 via-green-900/5 to-transparent pointer-events-none"></div>
+              <div class="relative z-10 space-y-2">
+                <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+                  <span>GROSS MRR</span>
+                  <span class="text-xs text-emerald-400 font-bold">Stripe</span>
+                </div>
+                <div class="text-3xl font-bold text-foreground font-mono">
+                  $0.00
+                </div>
+                <p class="text-xs text-emerald-400 font-mono">+0.0% vs last month</p>
+              </div>
+            </div>
+
+            <!-- Paid Subscribers -->
+            <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5">
+              <div class="relative z-10 space-y-2">
+                <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+                  <span>PAID SUBS</span>
+                  <span class="text-xs text-blue-400 font-bold">Active</span>
+                </div>
+                <div class="text-3xl font-bold text-foreground font-mono">
+                  0
+                </div>
+                <p class="text-xs text-muted-foreground">0% free-to-paid conversion</p>
+              </div>
+            </div>
+
+            <!-- ARPU -->
+            <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5">
+              <div class="relative z-10 space-y-2">
+                <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+                  <span>UNIT ARPU</span>
+                  <span class="text-xs text-purple-400 font-bold">Economics</span>
+                </div>
+                <div class="text-3xl font-bold text-foreground font-mono">
+                  $0.00
+                </div>
+                <p class="text-xs text-muted-foreground">Average Revenue Per User</p>
+              </div>
+            </div>
+
+            <!-- Churn Rate -->
+            <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5">
+              <div class="relative z-10 space-y-2">
+                <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+                  <span>MONTHLY CHURN</span>
+                  <span class="text-xs text-rose-400 font-bold">Risk</span>
+                </div>
+                <div class="text-3xl font-bold text-foreground font-mono">
+                  0.0%
+                </div>
+                <p class="text-xs text-muted-foreground">0 canceled in last 30d</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Time-Range Visitors & Conversion Efficiency Grid -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <!-- Visitor Trends Card (7d, 14d, 30d) -->
+            <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-blue-900/5 to-transparent pointer-events-none"></div>
+              <div class="relative z-10 space-y-4">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h3 class="text-base font-bold text-foreground">Visitor Trends (Time Windows)</h3>
+                    <p class="text-xs text-muted-foreground mt-0.5">Deduplicated unique visitor volume across rolling timeframes</p>
+                  </div>
+                  <span class="text-xs font-mono text-purple-400 font-bold">Rolling Metrics</span>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3">
+                  <div class="p-3 rounded-xl border border-white/10 bg-white/5 space-y-1">
+                    <div class="text-[10px] font-mono text-muted-foreground">LAST 7 DAYS</div>
+                    <div id="kpi-weekly-val" class="text-xl font-bold text-foreground font-mono">--</div>
+                    <p class="text-[10px] text-purple-400 font-mono">Weekly Active</p>
+                  </div>
+
+                  <div class="p-3 rounded-xl border border-white/10 bg-white/5 space-y-1">
+                    <div class="text-[10px] font-mono text-muted-foreground">LAST 14 DAYS</div>
+                    <div id="kpi-biweekly-val" class="text-xl font-bold text-foreground font-mono">--</div>
+                    <p class="text-[10px] text-cyan-400 font-mono">Bi-Weekly</p>
+                  </div>
+
+                  <div class="p-3 rounded-xl border border-white/10 bg-white/5 space-y-1">
+                    <div class="text-[10px] font-mono text-muted-foreground">LAST 30 DAYS</div>
+                    <div id="kpi-monthly-val" class="text-xl font-bold text-foreground font-mono">--</div>
+                    <p class="text-[10px] text-emerald-400 font-mono">Monthly Reach</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Conversion & Engagement Ratios Card -->
+            <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/10 via-purple-900/5 to-transparent pointer-events-none"></div>
+              <div class="relative z-10 space-y-4">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h3 class="text-base font-bold text-foreground">Conversion & Engagement Ratios</h3>
+                    <p class="text-xs text-muted-foreground mt-0.5">Audience capture efficiency metrics</p>
+                  </div>
+                  <span class="text-xs font-mono text-emerald-400 font-bold">Funnel KPIs</span>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3">
+                  <div class="p-3 rounded-xl border border-white/10 bg-white/5 space-y-1">
+                    <div class="text-[10px] font-mono text-muted-foreground">NEWSLETTER CONVERSION</div>
+                    <div id="kpi-conversion-val" class="text-xl font-bold text-foreground font-mono">--%</div>
+                    <p class="text-[10px] text-emerald-400 font-mono">Subs / Visitors</p>
+                  </div>
+
+                  <div class="p-3 rounded-xl border border-white/10 bg-white/5 space-y-1">
+                    <div class="text-[10px] font-mono text-muted-foreground">CLICK-THROUGH RATE</div>
+                    <div id="kpi-ctr-val" class="text-xl font-bold text-foreground font-mono">--%</div>
+                    <p class="text-[10px] text-blue-400 font-mono">Clicks / Pageviews</p>
+                  </div>
+
+                  <div class="p-3 rounded-xl border border-white/10 bg-white/5 space-y-1">
+                    <div class="text-[10px] font-mono text-muted-foreground">DEPTH PER SESSION</div>
+                    <div id="kpi-depth-val" class="text-xl font-bold text-foreground font-mono">--</div>
+                    <p class="text-[10px] text-purple-400 font-mono">Views / Visit</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <AdminDashboardVisuals client:only="react" row="3" />
+
+          <!-- Two-Column Breakdown: Top Pages & User Click Telemetry -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <!-- Top Visited Pages Breakdown -->
+            <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-900/5 to-transparent pointer-events-none"></div>
+              <div class="relative z-10 space-y-4">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h3 class="text-base font-bold text-foreground">Top Page Visits & Views</h3>
+                    <p class="text-xs text-muted-foreground mt-0.5">Most viewed paths across the site</p>
+                  </div>
+                  <span class="text-xs font-mono text-muted-foreground">Upstash</span>
+                </div>
+
+                <div id="top-pages-list" class="space-y-3 pt-2">
+                  <div class="text-xs text-muted-foreground font-mono animate-pulse">Loading page metrics...</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Top User Clicks Telemetry -->
+            <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-6">
+              <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/10 via-purple-900/5 to-transparent pointer-events-none"></div>
+              <div class="relative z-10 space-y-4">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h3 class="text-base font-bold text-foreground">Top User Clicks & Actions</h3>
+                    <p class="text-xs text-muted-foreground mt-0.5">Most clicked links, CTAs, and targets</p>
+                  </div>
+                  <span class="text-xs font-mono text-emerald-400 font-bold">Beacon Telemetry</span>
+                </div>
+
+                <div id="top-clicks-list" class="space-y-3 pt-2">
+                  <div class="text-xs text-muted-foreground font-mono animate-pulse">Loading click telemetry...</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <AdminDashboardVisuals client:only="react" row="5" />
+          <AdminDashboardVisuals client:only="react" row="6" />
+
+          <!-- Quick Action Portals & External Dashboards -->
+          <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-6">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-900/5 to-transparent pointer-events-none"></div>
+            <div class="relative z-10 space-y-4">
+              <h3 class="text-base font-bold text-foreground">External Management Dashboards</h3>
+              
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                
+                <a 
+                  href="https://dash.cloudflare.com/" 
+                  target="_blank" 
+                  class="group block p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all"
+                >
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs font-mono text-amber-400 font-bold">CLOUDFLARE</span>
+                    <svg class="size-4 text-muted-foreground group-hover:text-foreground transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                  </div>
+                  <div class="text-sm font-bold text-foreground">Web Analytics & Pages</div>
+                  <p class="text-xs text-muted-foreground mt-1">View realtime traffic graphs, countries, and top referrers.</p>
+                </a>
+
+                <a 
+                  href="https://app.brevo.com/campaign/list" 
+                  target="_blank" 
+                  class="group block p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all"
+                >
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs font-mono text-blue-400 font-bold">BREVO API</span>
+                    <svg class="size-4 text-muted-foreground group-hover:text-foreground transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                  </div>
+                  <div class="text-sm font-bold text-foreground">Email Campaigns & Lists</div>
+                  <p class="text-xs text-muted-foreground mt-1">Manage contact lists, open rates, and click tracking.</p>
+                </a>
+
+                <a 
+                  href="https://console.upstash.com/" 
+                  target="_blank" 
+                  class="group block p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all"
+                >
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs font-mono text-emerald-400 font-bold">UPSTASH REDIS</span>
+                    <svg class="size-4 text-muted-foreground group-hover:text-foreground transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                  </div>
+                  <div class="text-sm font-bold text-foreground">Pageviews Database</div>
+                  <p class="text-xs text-muted-foreground mt-1">Inspect raw Redis pageview counters and key storage.</p>
+                </a>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Recent Dispatch Preview Card -->
+          <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-base font-bold text-foreground">Latest Published Commentary</h3>
+              <a href={`/blog/${latestDaily?.id}`} target="_blank" class="text-xs text-purple-400 hover:text-purple-300 font-mono">View on site &rarr;</a>
+            </div>
+            <div class="p-4 rounded-lg bg-white/5 border border-white/10 space-y-2">
+              <div class="text-sm font-bold text-foreground">{latestDaily?.data?.title}</div>
+              <p class="text-xs text-muted-foreground leading-relaxed">{latestDaily?.data?.description}</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- TAB 2: NEWSLETTER BLAST -->
+        <div id="tab-content-send" class="tab-content hidden space-y-6">
+          
+          <!-- Preview Section -->
+          <div id="preview-section">
+            <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] text-foreground shadow-sm">
+              <div class="p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                  <h3 class="text-lg font-bold text-foreground">Email Preview</h3>
+                  <p class="text-sm text-muted-foreground mt-0.5">This is exactly what will be blasted to all subscribers.</p>
+                </div>
+                <button 
+                  id="send-btn" 
+                  class="inline-flex items-center justify-center px-6 py-3 border border-transparent font-bold rounded-lg text-sm text-white bg-red-600 hover:bg-red-700 transition-colors cursor-pointer shrink-0"
+                >
+                  BLAST TO READERS
+                </button>
+              </div>
+              <div class="border-t border-white/10 bg-white">
+                <iframe id="preview-frame" class="w-full h-[850px] border-0 bg-white" src="about:blank"></iframe>
+              </div>
+            </div>
+          </div>
+
+          <!-- Status Message -->
+          <div id="status-message" class="hidden rounded-xl p-4 border">
+            <p class="text-sm font-medium" id="status-text"></p>
+          </div>
+
+        </div>
+
       </div>
-
-    </div>
+    )}
 
   </div>
 </Layout>
 
 <script>
+  // 2FA Verification Client Handler
+  const duoAuthForm = document.getElementById('duo-auth-form') as HTMLFormElement;
+  const duoCodeInput = document.getElementById('duo-code') as HTMLInputElement;
+  const duoAuthError = document.getElementById('duo-auth-error');
+  const lockSessionBtn = document.getElementById('lock-session-btn');
+
+  duoAuthForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (duoAuthError) duoAuthError.classList.add('hidden');
+    const code = duoCodeInput.value.trim();
+
+    try {
+      const res = await fetch('/api/admin/verify-2fa', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code })
+      });
+
+      if (res.ok) {
+        window.location.reload();
+      } else {
+        if (duoAuthError) duoAuthError.classList.remove('hidden');
+      }
+    } catch {
+      if (duoAuthError) duoAuthError.classList.remove('hidden');
+    }
+  });
+
+  lockSessionBtn?.addEventListener('click', async () => {
+    try {
+      await fetch('/api/admin/verify-2fa', { method: 'DELETE' });
+    } catch {}
+    window.location.href = '/admin';
+  });
+
   // Tab Switching Logic
   const tabBtns = document.querySelectorAll('.tab-btn');
   const tabContents = document.querySelectorAll('.tab-content');
@@ -328,37 +623,114 @@ const siteUrl = import.meta.env.SITE || 'https://vatsal.ca';
     switchTab('send');
   }
 
-  // Fetch Live Pageviews & Visits Metrics
+  // Global State for Ratio Calculation
+  let liveSubscribers = 0;
+  let liveTotalVisits = 0;
+  let liveTotalViews = 0;
+  let liveTotalClicks = 0;
+
+  function updateRatioKPIs() {
+    const convElem = document.getElementById('kpi-conversion-val');
+    const ctrElem = document.getElementById('kpi-ctr-val');
+    const depthElem = document.getElementById('kpi-depth-val');
+
+    if (convElem && liveTotalVisits > 0) {
+      const rate = ((liveSubscribers / liveTotalVisits) * 100).toFixed(1);
+      convElem.textContent = `${rate}%`;
+    }
+    if (ctrElem && liveTotalViews > 0) {
+      const ctr = ((liveTotalClicks / liveTotalViews) * 100).toFixed(1);
+      ctrElem.textContent = `${ctr}%`;
+    }
+    if (depthElem && liveTotalVisits > 0) {
+      const depth = (liveTotalViews / liveTotalVisits).toFixed(1);
+      depthElem.textContent = `${depth}x`;
+    }
+  }
+
+  // Fetch Live Pageviews, Visits & Time-Window Telemetry
   async function loadPageviewsMetrics() {
     const kpiViewsElem = document.getElementById('kpi-views-val');
     const kpiVisitsElem = document.getElementById('kpi-visits-val');
+    const kpiWeeklyElem = document.getElementById('kpi-weekly-val');
+    const kpiBiweeklyElem = document.getElementById('kpi-biweekly-val');
+    const kpiMonthlyElem = document.getElementById('kpi-monthly-val');
     const listElem = document.getElementById('top-pages-list');
+    const clicksElem = document.getElementById('top-clicks-list');
 
     try {
       const res = await fetch('/api/pageviews?summary=true');
       if (res.ok) {
         const data = await res.json();
-        if (kpiViewsElem) {
-          kpiViewsElem.textContent = Number(data.totalViews || 0).toLocaleString();
-        }
-        if (kpiVisitsElem) {
-          kpiVisitsElem.textContent = Number(data.totalVisits || 0).toLocaleString();
-        }
+        const kpiBlogViewsElem = document.getElementById('kpi-blog-views-val');
+        const kpiAvgRetentionElem = document.getElementById('kpi-avg-retention-val');
 
+        liveTotalViews = Number(data.totalViews || 0);
+        liveTotalVisits = Number(data.totalVisits || 0);
+        liveTotalClicks = Number(data.totalClicks || 0);
+
+        // Calculate Blog-Specific Metrics
+        let blogViews = 0, totalScroll50 = 0;
+        if (data.topPages && data.topPages.length > 0) {
+          data.topPages.forEach((p: any) => {
+            if (p.path.startsWith('/blog/')) {
+              blogViews += (p.views || 0);
+              totalScroll50 += (p.scroll50 || 0); // Using 50% scroll depth as standard retention benchmark
+            }
+          });
+        }
+        const avgRetentionPct = blogViews > 0 ? ((totalScroll50 / blogViews) * 100).toFixed(1) : '0.0';
+
+        if (kpiViewsElem) kpiViewsElem.textContent = liveTotalViews.toLocaleString();
+        if (kpiVisitsElem) kpiVisitsElem.textContent = liveTotalVisits.toLocaleString();
+        if (kpiWeeklyElem) kpiWeeklyElem.textContent = Number(data.weeklyVisitors || 0).toLocaleString();
+        if (kpiBiweeklyElem) kpiBiweeklyElem.textContent = Number(data.biWeeklyVisitors || 0).toLocaleString();
+        if (kpiMonthlyElem) kpiMonthlyElem.textContent = Number(data.monthlyVisitors || 0).toLocaleString();
+        
+        if (kpiBlogViewsElem) kpiBlogViewsElem.textContent = blogViews.toLocaleString();
+        if (kpiAvgRetentionElem) kpiAvgRetentionElem.textContent = `${avgRetentionPct}%`;
+
+        updateRatioKPIs();
+
+        // Render Top Pages
         if (listElem && data.topPages && data.topPages.length > 0) {
           const maxViews = Math.max(...data.topPages.map((p: any) => p.views), 1);
           listElem.innerHTML = data.topPages.map((p: any) => {
             const pct = Math.round((p.views / maxViews) * 100);
+            const timeStr = p.avgDuration > 0 ? `${Math.floor(p.avgDuration / 60)}m ${p.avgDuration % 60}s` : '--';
+            
+            let scoreColor = "text-emerald-400";
+            if (p.attentionScore < 65) scoreColor = "text-amber-400";
+            if (p.attentionScore < 45) scoreColor = "text-rose-400";
+
             return `
-              <div class="p-3 rounded-lg bg-white/5 border border-white/10 space-y-2">
-                <div class="flex items-center justify-between text-xs font-mono">
-                  <span class="text-foreground font-bold truncate max-w-[280px] sm:max-w-[380px]">${p.path}</span>
-                  <div class="flex items-center gap-3">
-                    <span class="text-cyan-400 font-bold">${p.visits.toLocaleString()} visits</span>
-                    <span class="text-purple-400 font-bold">${p.views.toLocaleString()} views</span>
+              <div class="p-4 rounded-lg bg-white/5 border border-white/10 space-y-3 relative overflow-hidden">
+                <div class="flex flex-col gap-2">
+                  <div class="flex items-center justify-between">
+                    <span class="text-foreground font-bold truncate max-w-[80%]">${p.path}</span>
+                    ${p.isOpportunity ? '<span class="bg-rose-500/20 text-rose-400 text-[10px] font-bold px-2 py-0.5 rounded shadow-lg border border-rose-500/30 animate-pulse">⚠️ FIX HOOK</span>' : ''}
+                  </div>
+                  
+                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono">
+                    <div class="flex flex-col bg-black/20 p-2 rounded border border-white/5">
+                      <span class="text-muted-foreground text-[10px] uppercase mb-1">Attention</span>
+                      <span class="${scoreColor} font-bold">${p.attentionScore} <span class="text-muted-foreground/50 text-[10px]">/ 100</span></span>
+                    </div>
+                    <div class="flex flex-col bg-black/20 p-2 rounded border border-white/5">
+                      <span class="text-muted-foreground text-[10px] uppercase mb-1">Avg Dwell</span>
+                      <span class="text-emerald-400 font-semibold">${timeStr}</span>
+                    </div>
+                    <div class="flex flex-col bg-black/20 p-2 rounded border border-white/5">
+                      <span class="text-muted-foreground text-[10px] uppercase mb-1">Visits</span>
+                      <span class="text-cyan-400 font-bold">${p.visits.toLocaleString()}</span>
+                    </div>
+                    <div class="flex flex-col bg-black/20 p-2 rounded border border-white/5">
+                      <span class="text-muted-foreground text-[10px] uppercase mb-1">Views</span>
+                      <span class="text-purple-400 font-bold">${p.views.toLocaleString()}</span>
+                    </div>
                   </div>
                 </div>
-                <div class="w-full bg-white/5 rounded-full h-1.5 overflow-hidden border border-white/5">
+                <div class="w-full bg-black/40 rounded-full h-1.5 overflow-hidden border border-white/5 mt-1">
                   <div class="bg-gradient-to-r from-cyan-500 via-purple-500 to-blue-500 h-1.5 rounded-full" style="width: ${pct}%"></div>
                 </div>
               </div>
@@ -367,15 +739,30 @@ const siteUrl = import.meta.env.SITE || 'https://vatsal.ca';
         } else if (listElem) {
           listElem.innerHTML = '<div class="text-xs text-muted-foreground font-mono">No pageview logs recorded yet.</div>';
         }
-      } else {
-        if (kpiViewsElem) kpiViewsElem.textContent = '0';
-        if (kpiVisitsElem) kpiVisitsElem.textContent = '0';
-        if (listElem) listElem.innerHTML = '<div class="text-xs text-muted-foreground font-mono">Telemetry database offline.</div>';
+
+        // Render Top Clicks
+        if (clicksElem && data.topClicks && data.topClicks.length > 0) {
+          const maxClicks = Math.max(...data.topClicks.map((c: any) => c.clicks), 1);
+          clicksElem.innerHTML = data.topClicks.map((c: any) => {
+            const pct = Math.round((c.clicks / maxClicks) * 100);
+            return `
+              <div class="p-3 rounded-lg bg-white/5 border border-white/10 space-y-2">
+                <div class="flex items-center justify-between text-xs font-mono">
+                  <span class="text-foreground font-bold truncate max-w-[200px] sm:max-w-[280px]">${c.target}</span>
+                  <span class="text-emerald-400 font-bold">${c.clicks.toLocaleString()} clicks</span>
+                </div>
+                <div class="w-full bg-white/5 rounded-full h-1.5 overflow-hidden border border-white/5">
+                  <div class="bg-gradient-to-r from-emerald-500 to-blue-500 h-1.5 rounded-full" style="width: ${pct}%"></div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        } else if (clicksElem) {
+          clicksElem.innerHTML = '<div class="text-xs text-muted-foreground font-mono">Click telemetry active. Recording clicks as users navigate.</div>';
+        }
       }
     } catch {
-      if (kpiViewsElem) kpiViewsElem.textContent = '0';
-      if (kpiVisitsElem) kpiVisitsElem.textContent = '0';
-      if (listElem) listElem.innerHTML = '<div class="text-xs text-muted-foreground font-mono">Failed to connect to pageview telemetry.</div>';
+      if (listElem) listElem.innerHTML = '<div class="text-xs text-muted-foreground font-mono">Telemetry database offline.</div>';
     }
   }
 
@@ -391,7 +778,9 @@ const siteUrl = import.meta.env.SITE || 'https://vatsal.ca';
       if (res.ok) {
         const data = await res.json();
         if (data.totalSubscribers !== undefined) {
-          kpiElem.textContent = Number(data.totalSubscribers).toLocaleString();
+          liveSubscribers = Number(data.totalSubscribers);
+          kpiElem.textContent = liveSubscribers.toLocaleString();
+          updateRatioKPIs();
           return;
         }
       }
@@ -403,12 +792,17 @@ const siteUrl = import.meta.env.SITE || 'https://vatsal.ca';
 
   loadSubscriberCount();
 
+  // Newsletter Preview Loader
+  function loadNewsletterPreview() {
+    const previewFrame = document.getElementById('preview-frame') as HTMLIFrameElement;
+    if (previewFrame) {
+      previewFrame.src = `/api/newsletter/send-digest?test=true&t=${Date.now()}`;
+    }
+  }
+
+  loadNewsletterPreview();
+
   // Blast Control Logic
-  let currentSecret = '';
-  const authForm = document.getElementById('auth-form') as HTMLFormElement;
-  const secretInput = document.getElementById('secret') as HTMLInputElement;
-  const previewSection = document.getElementById('preview-section');
-  const previewFrame = document.getElementById('preview-frame') as HTMLIFrameElement;
   const sendBtn = document.getElementById('send-btn') as HTMLButtonElement;
   const statusMessage = document.getElementById('status-message');
   const statusText = document.getElementById('status-text');
@@ -420,20 +814,7 @@ const siteUrl = import.meta.env.SITE || 'https://vatsal.ca';
     statusMessage.classList.remove('hidden');
   }
 
-  authForm?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    currentSecret = secretInput.value;
-    
-    if (previewFrame && previewSection) {
-      previewFrame.src = `/api/newsletter/send-digest?test=true&secret=${encodeURIComponent(currentSecret)}&t=${Date.now()}`;
-      previewSection.classList.remove('hidden');
-      if (statusMessage) statusMessage.classList.add('hidden');
-    }
-  });
-
   sendBtn?.addEventListener('click', async () => {
-    if (!currentSecret) return;
-    
     const confirmBlast = confirm("Are you absolutely sure you want to blast this email to all subscribers? Please verify the preview below first.");
     if (!confirmBlast) return;
 
@@ -441,7 +822,7 @@ const siteUrl = import.meta.env.SITE || 'https://vatsal.ca';
     sendBtn.textContent = 'Sending...';
 
     try {
-      const response = await fetch(`/api/newsletter/send-digest?confirm=yes&secret=${encodeURIComponent(currentSecret)}`, {
+      const response = await fetch(`/api/newsletter/send-digest?confirm=yes`, {
         method: 'POST'
       });
       

@@ -7,12 +7,13 @@ export const prerender = false
 export const GET: APIRoute = async (context) => {
     const url = new URL(context.request.url)
     const testMode = url.searchParams.get('test') === 'true' || url.searchParams.get('testMode') === 'true'
+    const getSubscribers = url.searchParams.get('subscribers') === 'true'
     
-    // Only allow GET requests for the iframe preview. Actual sends MUST be POST.
-    if (!testMode) {
+    // Only allow GET requests for the iframe preview or subscriber fetch. Actual sends MUST be POST.
+    if (!testMode && !getSubscribers) {
         return new Response(JSON.stringify({ 
             error: 'Method Not Allowed',
-            message: 'You can only preview the newsletter via GET. To actually blast it, you must use a POST request via the Admin Dashboard.' 
+            message: 'You can only preview the newsletter or fetch metrics via GET. To actually blast it, you must use a POST request via the Admin Dashboard.' 
         }), { status: 405, headers: { 'Content-Type': 'application/json' } })
     }
     
@@ -38,9 +39,9 @@ export const POST: APIRoute = async (context) => {
         })
     }
 
-    // Auth check (skipped in test mode or local dev sendTest/subscribers mode)
+    // Auth check (only bypassable in local dev mode)
     const isDev = import.meta.env.DEV || url.hostname === 'localhost' || url.hostname === '127.0.0.1'
-    const bypassAuth = testMode || ((sendTest || getSubscribers) && isDev)
+    const bypassAuth = isDev && (testMode || sendTest || getSubscribers)
 
     // Broad lookup for NEWSLETTER_SECRET across all Cloudflare binding patterns
     const platformEnv = (locals as any).runtime?.env || (locals as any).env || {}
@@ -60,7 +61,14 @@ export const POST: APIRoute = async (context) => {
         }), { status: 200, headers: { 'Content-Type': 'application/json' } })
     }
 
-    if (!bypassAuth) {
+    // Session cookie verification
+    const cookieHeader = request.headers.get('cookie');
+    const secretBase32 = platformEnv.ADMIN_2FA_SECRET || import.meta.env.ADMIN_2FA_SECRET || 'H7K2MAN4PAREWVYT';
+    
+    const { verifySessionCookie: checkCookie } = await import('@/lib/totp');
+    const hasValidSession = await checkCookie(cookieHeader, secretBase32);
+
+    if (!bypassAuth && !hasValidSession) {
         if (!secret || authHeader !== secret) {
             return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 })
         }

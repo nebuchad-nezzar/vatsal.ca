@@ -67,12 +67,134 @@ import Favicons from './Favicons.astro'
     },
   })} />
 
-  <!-- Cloudflare Web Analytics -->
-   {
-    import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN && (
-      <script is:inline defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon={`{"token": "${import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN}"}`}></script>
-    )
-   }
+  <!-- Comprehensive Telemetry Tracker (Clicks, Views, Scroll, Attribution) -->
+  <script is:inline>
+    (function() {
+      // 1. New vs Returning (Client ID)
+      let clientId = localStorage.getItem('v_client_id');
+      let isNew = false;
+      if (!clientId) {
+        clientId = 'u_' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+        localStorage.setItem('v_client_id', clientId);
+        isNew = true;
+      }
+
+      // 2. Attribution (Referrer & UTMs)
+      // Attribution Tracking - Persist original source for Subscription attribution
+      const params = new URLSearchParams(window.location.search);
+      const utmSource = params.get('utm_source') || '';
+      const referrer = document.referrer;
+      
+      let acquisitionSource = localStorage.getItem('v_acq_source');
+      if (!acquisitionSource) {
+        if (utmSource) {
+          acquisitionSource = utmSource;
+        } else if (referrer && !referrer.includes(window.location.hostname)) {
+          try {
+            const refUrl = new URL(referrer);
+            acquisitionSource = refUrl.hostname.replace('www.', '');
+          } catch(e) {
+            acquisitionSource = 'Direct';
+          }
+        } else {
+          acquisitionSource = 'Direct';
+        }
+        localStorage.setItem('v_acq_source', acquisitionSource);
+      }
+
+      // 3. Track Pageview on Load
+      function recordPageview() {
+        if (window.location.pathname.startsWith('/admin')) return;
+        const payloadUrl = new URL(window.location.origin + '/api/pageviews');
+        payloadUrl.searchParams.set('action', 'view');
+        payloadUrl.searchParams.set('path', window.location.pathname);
+        if (isNew) payloadUrl.searchParams.set('is_new', 'true');
+        if (referrer) payloadUrl.searchParams.set('referrer', referrer);
+        if (utmSource) payloadUrl.searchParams.set('utm_source', utmSource);
+        
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon(payloadUrl.toString());
+        } else {
+          fetch(payloadUrl.toString(), { method: 'POST', keepalive: true }).catch(() => {});
+        }
+      }
+      // Delay pageview slightly to not block render
+      setTimeout(recordPageview, 100);
+
+      // 4. Click Telemetry
+      document.addEventListener('click', (e) => {
+        if (window.location.pathname.startsWith('/admin')) return;
+        
+        const link = e.target.closest('a, button, [data-track-click]');
+        if (!link) return;
+
+        const target = link.getAttribute('data-track-click') || link.getAttribute('href') || link.innerText?.trim();
+        if (!target || target.startsWith('javascript:') || target.startsWith('#')) return;
+
+        try {
+          const payloadUrl = '/api/pageviews?action=click&target=' + encodeURIComponent(target.slice(0, 100));
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon(payloadUrl);
+          } else {
+            fetch(payloadUrl, { method: 'POST', keepalive: true }).catch(() => {});
+          }
+        } catch (err) {}
+      }, { passive: true });
+
+      // 5. Dwell Time (Time on Page) Telemetry
+      const startTime = Date.now();
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden' && !window.location.pathname.startsWith('/admin')) {
+          const duration = Math.round((Date.now() - startTime) / 1000);
+          // Only track if they spent more than 2 seconds and less than 4 hours (sanity check)
+          if (duration > 2 && duration < 14400) {
+            const payloadUrl = '/api/pageviews?action=duration&path=' + encodeURIComponent(window.location.pathname) + '&duration=' + duration;
+            if (navigator.sendBeacon) {
+              navigator.sendBeacon(payloadUrl);
+            }
+          }
+        }
+      });
+
+      // 6. Scroll Depth Telemetry
+      let maxScroll = 0;
+      const scrollMarkers = new Set([25, 50, 75, 100]);
+      
+      function checkScroll() {
+        if (window.location.pathname.startsWith('/admin')) return;
+        // Only track scroll on blog posts
+        if (!window.location.pathname.startsWith('/blog/')) return;
+        
+        const h = document.documentElement;
+        const b = document.body;
+        const scrollTop = h.scrollTop || b.scrollTop;
+        const scrollHeight = h.scrollHeight || b.scrollHeight;
+        const clientHeight = h.clientHeight;
+        
+        const scrollPercent = Math.round((scrollTop / (scrollHeight - clientHeight)) * 100);
+        
+        if (scrollPercent > maxScroll) {
+          maxScroll = scrollPercent;
+          scrollMarkers.forEach(marker => {
+            if (maxScroll >= marker) {
+              scrollMarkers.delete(marker);
+              const payloadUrl = `/api/pageviews?action=scroll&path=${encodeURIComponent(window.location.pathname)}&depth=${marker}`;
+              if (navigator.sendBeacon) {
+                navigator.sendBeacon(payloadUrl);
+              } else {
+                fetch(payloadUrl, { method: 'POST', keepalive: true }).catch(() => {});
+              }
+            }
+          });
+        }
+      }
+
+      window.addEventListener('scroll', () => {
+        requestAnimationFrame(checkScroll);
+      }, { passive: true });
+
+    })();
+  </script>
 
   <slot />
 </head>

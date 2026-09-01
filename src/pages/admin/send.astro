@@ -1,3 +1,16 @@
 ---
+export const prerender = false;
+import { verifySessionCookie } from '@/lib/totp';
+
+const runtimeEnv = (Astro.locals as any).runtime?.env || (Astro.locals as any).env || {};
+const secretBase32 = runtimeEnv.ADMIN_2FA_SECRET || import.meta.env.ADMIN_2FA_SECRET || 'H7K2MAN4PAREWVYT';
+
+const cookieHeader = Astro.request.headers.get('cookie');
+const isAuthenticated = await verifySessionCookie(cookieHeader, secretBase32);
+
+if (!isAuthenticated) {
+  return Astro.redirect('/admin');
+}
+
 return Astro.redirect('/admin?tab=send');
 ---

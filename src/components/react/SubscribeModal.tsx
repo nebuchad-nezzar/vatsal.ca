@@ -80,10 +80,18 @@ const SubscribeModal = () => {
         setMessage('')
 
         try {
+            const acqSource = typeof window !== 'undefined' ? localStorage.getItem('v_acq_source') || 'Direct' : 'Direct';
+            const currentPath = typeof window !== 'undefined' ? window.location.pathname : '/';
+
             const response = await fetch('/api/newsletter/subscribe', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, fullName }),
+                body: JSON.stringify({ 
+                    email, 
+                    fullName,
+                    source: acqSource,
+                    path: currentPath
+                }),
             })
 
             const data = await response.json()

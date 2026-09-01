@@ -62,13 +62,13 @@ const SERVICES = [
   },
 ]
 
-// Industries We Work With
 const INDUSTRIES = [
   {
     id: '01',
     name: 'Quantitative & Hedge Funds',
     subtitle: 'High-speed execution & signal infrastructure',
     icon: TrendingUp,
+    href: '/services/quant-trading',
     description:
       'Building custom trading engines, tick-level backtesters, automated execution algorithms, and gateway kill switches for quantitative desks.',
     deliverables: [
@@ -82,6 +82,7 @@ const INDUSTRIES = [
     name: 'Enterprise AI & SaaS',
     subtitle: 'Agentic workflows & production LLM systems',
     icon: Cpu,
+    href: '/services/ai-agents',
     description:
       'Replacing legacy manual processes with production AI agents, structured database retrieval (RAG), and Model Context Protocol (MCP) tooling.',
     deliverables: [
@@ -95,6 +96,7 @@ const INDUSTRIES = [
     name: 'FinTech & Trading Platforms',
     subtitle: 'Real-time telemetry & exchange connectivity',
     icon: Zap,
+    href: '/services/quant-trading',
     description:
       'Scaling streaming WebSocket feeds, FIX protocol exchange gateways, and high-throughput order management systems for active trading platforms.',
     deliverables: [
@@ -221,7 +223,7 @@ export default function ServicesAndIndustries() {
             const IndIcon = ind.icon
 
             return (
-              <div key={ind.id} className={cardClass}>
+              <a key={ind.id} href={ind.href} className={cardClass + " block cursor-pointer"}>
                 <div className={gradientClass} />
                 <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none" />
 
@@ -255,7 +257,7 @@ export default function ServicesAndIndustries() {
                     ))}
                   </div>
                 </div>
-                </div>
+                </a>
               )
             })}
         </div>

@@ -1,11 +1,21 @@
 import type { APIRoute } from 'astro';
 import { generateWelcomeEmail } from '../../../lib/newsletter-template';
+import { Redis } from '@upstash/redis';
 
 export const prerender = false;
 
 export const POST: APIRoute = async (context) => {
     const { request, locals } = context;
     const runtimeEnv = (locals as any).runtime?.env || (locals as any).env || {};
+    
+    let redis: Redis | null = null;
+    try {
+      const upstashUrl = runtimeEnv.UPSTASH_REDIS_REST_URL || import.meta.env.UPSTASH_REDIS_REST_URL;
+      const upstashToken = runtimeEnv.UPSTASH_REDIS_REST_TOKEN || import.meta.env.UPSTASH_REDIS_REST_TOKEN;
+      if (upstashUrl && upstashToken) {
+        redis = new Redis({ url: upstashUrl, token: upstashToken });
+      }
+    } catch(e) {}
 
     const BREVO_API_KEY = runtimeEnv.BREVO_API_KEY || import.meta.env.BREVO_API_KEY;
     const LIST_ID = Number(runtimeEnv.BREVO_LIST_ID || import.meta.env.BREVO_LIST_ID) || 2;
@@ -20,7 +30,7 @@ export const POST: APIRoute = async (context) => {
 
     try {
         const body = await request.json();
-        const { email, fullName, honeypot } = body;
+        const { email, fullName, honeypot, source = 'Direct', path = '/' } = body;
 
         // 1. Honeypot check
         if (honeypot) {
@@ -33,6 +43,17 @@ export const POST: APIRoute = async (context) => {
             return new Response(JSON.stringify({ error: 'Email is required' }), {
                 status: 400,
             });
+        }
+
+        // Log Subscription attribution to Redis
+        if (redis) {
+            try {
+                await Promise.all([
+                    redis.incr('subs:total'),
+                    redis.incr(`subs:source:${source.substring(0, 50)}`),
+                    redis.incr(`subs:page:${path.substring(0, 100)}`)
+                ]);
+            } catch(e) {}
         }
 
         // 2. Extra disposable email check (Server-side)
