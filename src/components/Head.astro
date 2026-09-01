@@ -121,18 +121,41 @@ import Favicons from './Favicons.astro'
       // Delay pageview slightly to not block render
       setTimeout(recordPageview, 100);
 
-      // 4. Click Telemetry
+      // 4. Public Website Click Telemetry
       document.addEventListener('click', (e) => {
         if (window.location.pathname.startsWith('/admin')) return;
         
-        const link = e.target.closest('a, button, [data-track-click]');
-        if (!link) return;
+        const el = e.target.closest('a, button, [data-track-click]');
+        if (!el) return;
 
-        const target = link.getAttribute('data-track-click') || link.getAttribute('href') || link.innerText?.trim();
-        if (!target || target.startsWith('javascript:') || target.startsWith('#')) return;
+        let target = el.getAttribute('data-track-click') || '';
+        if (!target) {
+          const aria = el.getAttribute('aria-label') || el.getAttribute('title');
+          const text = (el.innerText || el.textContent || '').trim().replace(/\s+/g, ' ');
+          const href = el.getAttribute('href') || '';
+
+          if (aria) {
+            target = aria;
+          } else if (text && text.length > 0 && text.length <= 40) {
+            target = text;
+          } else if (href && !href.startsWith('javascript:') && !href.startsWith('#')) {
+            try {
+              if (href.startsWith('http')) {
+                const u = new URL(href);
+                target = u.hostname.replace('www.', '') + u.pathname;
+              } else {
+                target = href;
+              }
+            } catch {
+              target = href;
+            }
+          }
+        }
+
+        if (!target || target.startsWith('javascript:') || target === '#') return;
 
         try {
-          const payloadUrl = '/api/pageviews?action=click&target=' + encodeURIComponent(target.slice(0, 100));
+          const payloadUrl = '/api/pageviews?action=click&target=' + encodeURIComponent(target.slice(0, 80));
           if (navigator.sendBeacon) {
             navigator.sendBeacon(payloadUrl);
           } else {

@@ -707,8 +707,7 @@ const siteUrl = import.meta.env.SITE || 'https://vatsal.ca';
               <div class="p-4 rounded-lg bg-white/5 border border-white/10 space-y-3 relative overflow-hidden">
                 <div class="flex flex-col gap-2">
                   <div class="flex items-center justify-between">
-                    <span class="text-foreground font-bold truncate max-w-[80%]">${p.path}</span>
-                    ${p.isOpportunity ? '<span class="bg-rose-500/20 text-rose-400 text-[10px] font-bold px-2 py-0.5 rounded shadow-lg border border-rose-500/30 animate-pulse">⚠️ FIX HOOK</span>' : ''}
+                    <span class="text-foreground font-bold truncate max-w-full">${p.path}</span>
                   </div>
                   
                   <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono">

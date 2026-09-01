@@ -116,9 +116,6 @@ export const GET: APIRoute = async (context) => {
            const timeScore = Math.min(avgDuration / 240, 1) * 100;
            const attentionScore = Math.round((timeScore * 0.6) + (scroll50Pct * 0.4));
            
-           // Opportunity Detector
-           const isOpportunity = page.views > 50 && attentionScore < 45;
-
            topPages.push({
              ...page,
              scroll25: Number(telemetryVals[0] || page.views * 0.8), // Failsafe mockup if no data
@@ -126,18 +123,27 @@ export const GET: APIRoute = async (context) => {
              scroll75: Number(telemetryVals[2] || page.views * 0.3),
              scroll100: Number(telemetryVals[3] || page.views * 0.1),
              avgDuration,
-             attentionScore,
-             isOpportunity
+             attentionScore
            });
         }
       }
 
-      // 3. Top Clicks Telemetry
+      // 3. Top Clicks Telemetry (Filter out admin internal buttons)
       const clickKeys = await redis.keys('clicks:*');
       let topClicks: { target: string; clicks: number }[] = [];
       const totalClicksVal = await redis.get<number>('clicks:total');
 
-      const filteredClickKeys = clickKeys.filter(k => k !== 'clicks:total');
+      const IGNORED_CLICK_TARGETS = new Set([
+        'Verify', 'Newsletter Blast', 'Analytics & KPIs', 'Lock Console', 
+        'Unlock Admin Console', 'admin_session', 'Send Test', 'Confirm & Send'
+      ]);
+
+      const filteredClickKeys = clickKeys.filter(k => {
+        if (k === 'clicks:total') return false;
+        const target = k.replace('clicks:', '');
+        return !IGNORED_CLICK_TARGETS.has(target);
+      });
+
       if (filteredClickKeys.length > 0) {
         const clickVals = await redis.mget<number[]>(...filteredClickKeys);
         topClicks = filteredClickKeys.map((k, i) => ({
@@ -147,20 +153,42 @@ export const GET: APIRoute = async (context) => {
       }
 
       // 4. Traffic Sources (Referrers & UTMs)
-      const refKeys = await redis.keys('referrers:*');
+      const [refKeys, utmKeys] = await Promise.all([
+        redis.keys('referrers:*'),
+        redis.keys('utms:*')
+      ]);
       const refData: Record<string, number> = {};
+
       if (refKeys.length > 0) {
          const refVals = await redis.mget<number[]>(...refKeys);
          refKeys.forEach((k, i) => {
             const parts = k.split(':');
             const source = parts.slice(2).join(':'); // handle colons in hostnames
-            refData[source] = (refData[source] || 0) + Number(refVals[i] || 0);
+            if (source && source !== 'localhost') {
+              refData[source] = (refData[source] || 0) + Number(refVals[i] || 0);
+            }
          });
       }
+      if (utmKeys.length > 0) {
+         const utmVals = await redis.mget<number[]>(...utmKeys);
+         utmKeys.forEach((k, i) => {
+            const parts = k.split(':');
+            const source = parts.slice(2).join(':');
+            if (source) {
+              refData[source] = (refData[source] || 0) + Number(utmVals[i] || 0);
+            }
+         });
+      }
+
+      // Fallback: If no external referrers yet, show Direct
+      if (Object.keys(refData).length === 0) {
+        refData['Direct / Search'] = totalVisitsVal || 1;
+      }
+
       const topReferrers = Object.entries(refData)
          .map(([source, visits]) => ({ source, visits }))
          .sort((a, b) => b.visits - a.visits)
-         .slice(0, 5);
+         .slice(0, 6);
 
       // 5. Subscriber Attribution Data
       const [subSourceKeys, subPageKeys, totalSubsVal] = await Promise.all([
