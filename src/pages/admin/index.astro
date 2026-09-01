@@ -1,0 +1,466 @@
+---
+export const prerender = false;
+import Layout from '@/layouts/Layout.astro';
+import { getAllPostsIncludingNewsletters } from '@/lib/data-utils';
+
+// Fetch server-side post stats
+const allPosts = await getAllPostsIncludingNewsletters();
+const totalPosts = allPosts.length;
+const dailyPosts = allPosts.filter(p => p.data.isDaily);
+const latestDaily = dailyPosts[0] || allPosts[0];
+
+const siteUrl = import.meta.env.SITE || 'https://vatsal.ca';
+---
+
+<Layout>
+  <div class="max-w-5xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+    <!-- Admin Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-white/10">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-500/30 bg-purple-500/10 text-xs text-purple-300 font-mono mb-2">
+          ⚡ System Operations
+        </div>
+        <h1 class="text-3xl font-bold text-foreground">Admin Console</h1>
+        <p class="text-sm text-muted-foreground mt-1">Manage newsletter broadcasts and monitor performance metrics.</p>
+      </div>
+
+      <!-- Live Site Quick Link -->
+      <a 
+        href="/" 
+        target="_blank"
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 bg-white/5 text-xs text-muted-foreground hover:text-foreground hover:bg-white/10 transition-colors w-fit font-mono"
+      >
+        <span>vatsal.ca</span>
+        <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+      </a>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="flex items-center gap-2 mb-8 bg-white/5 p-1.5 rounded-xl border border-white/10 w-fit">
+      <button 
+        id="tab-btn-analytics" 
+        class="tab-btn px-5 py-2.5 rounded-lg text-sm font-bold transition-all cursor-pointer flex items-center gap-2 bg-white/10 text-foreground border border-white/20 shadow-sm"
+        data-tab="analytics"
+      >
+        <svg class="size-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        <span>Analytics & KPIs</span>
+      </button>
+
+      <button 
+        id="tab-btn-send" 
+        class="tab-btn px-5 py-2.5 rounded-lg text-sm font-bold transition-all cursor-pointer flex items-center gap-2 text-muted-foreground hover:text-foreground hover:bg-white/5 border border-transparent"
+        data-tab="send"
+      >
+        <svg class="size-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+        <span>Newsletter Blast</span>
+      </button>
+    </div>
+
+    <!-- TAB 1: ANALYTICS & KPIS -->
+    <div id="tab-content-analytics" class="tab-content space-y-6">
+      
+      <!-- Top Metric Cards Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        
+        <!-- Total Website Views Card -->
+        <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5">
+          <div class="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-blue-900/5 to-transparent pointer-events-none"></div>
+          <div class="relative z-10 space-y-2">
+            <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+              <span>PAGEVIEWS</span>
+              <span class="size-2 rounded-full bg-purple-500 animate-pulse"></span>
+            </div>
+            <div id="kpi-views-val" class="text-3xl font-bold text-foreground font-mono">
+              --
+            </div>
+            <p class="text-xs text-muted-foreground">Total Page Loads</p>
+          </div>
+        </div>
+
+        <!-- Unique Visits Card -->
+        <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5">
+          <div class="absolute inset-0 bg-gradient-to-br from-cyan-600/10 via-blue-900/5 to-transparent pointer-events-none"></div>
+          <div class="relative z-10 space-y-2">
+            <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+              <span>UNIQUE VISITS</span>
+              <span class="size-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            </div>
+            <div id="kpi-visits-val" class="text-3xl font-bold text-foreground font-mono">
+              --
+            </div>
+            <p class="text-xs text-muted-foreground">Distinct Sessions</p>
+          </div>
+        </div>
+
+        <!-- Subscriber Card -->
+        <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5">
+          <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/10 via-blue-900/5 to-transparent pointer-events-none"></div>
+          <div class="relative z-10 space-y-2">
+            <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+              <span>SUBSCRIBERS</span>
+              <span class="size-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            </div>
+            <div id="kpi-subscribers-val" class="text-3xl font-bold text-foreground font-mono">
+              --
+            </div>
+            <p class="text-xs text-muted-foreground">Active Brevo Audience</p>
+          </div>
+        </div>
+
+        <!-- Total Published Card -->
+        <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-900/5 to-transparent pointer-events-none"></div>
+          <div class="relative z-10 space-y-2">
+            <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+              <span>POSTS</span>
+              <span class="text-xs text-blue-400 font-bold">Collection</span>
+            </div>
+            <div class="text-3xl font-bold text-foreground font-mono">
+              {totalPosts}
+            </div>
+            <p class="text-xs text-muted-foreground">{dailyPosts.length} Daily Commentaries</p>
+          </div>
+        </div>
+
+        <!-- Latest Issue Card -->
+        <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-5">
+          <div class="absolute inset-0 bg-gradient-to-br from-amber-600/10 via-purple-900/5 to-transparent pointer-events-none"></div>
+          <div class="relative z-10 space-y-2">
+            <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+              <span>LATEST PULSE</span>
+              <span class="text-xs text-amber-400 font-bold">#{latestDaily?.data?.issueNumber || '137'}</span>
+            </div>
+            <div class="text-sm font-bold text-foreground truncate">
+              {latestDaily?.data?.title || 'Daily Commentary'}
+            </div>
+            <p class="text-xs text-muted-foreground">
+              {new Date(latestDaily?.data?.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Top Visited Pages & Telemetry Breakdown -->
+      <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-6">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-900/5 to-transparent pointer-events-none"></div>
+        <div class="relative z-10 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-base font-bold text-foreground">Top Page Visits & Views</h3>
+              <p class="text-xs text-muted-foreground mt-0.5">Realtime breakdown of user traffic per path</p>
+            </div>
+            <span class="text-xs font-mono text-muted-foreground">Upstash Telemetry</span>
+          </div>
+
+          <div id="top-pages-list" class="space-y-3 pt-2">
+            <div class="text-xs text-muted-foreground font-mono animate-pulse">Loading traffic metrics...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Action Portals & External Dashboards -->
+      <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-6">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-900/5 to-transparent pointer-events-none"></div>
+        <div class="relative z-10 space-y-4">
+          <h3 class="text-base font-bold text-foreground">External Management Dashboards</h3>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            
+            <a 
+              href="https://dash.cloudflare.com/" 
+              target="_blank" 
+              class="group block p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all"
+            >
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-mono text-amber-400 font-bold">CLOUDFLARE</span>
+                <svg class="size-4 text-muted-foreground group-hover:text-foreground transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              </div>
+              <div class="text-sm font-bold text-foreground">Web Analytics & Pages</div>
+              <p class="text-xs text-muted-foreground mt-1">View realtime traffic graphs, countries, and top referrers.</p>
+            </a>
+
+            <a 
+              href="https://app.brevo.com/campaign/list" 
+              target="_blank" 
+              class="group block p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all"
+            >
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-mono text-blue-400 font-bold">BREVO API</span>
+                <svg class="size-4 text-muted-foreground group-hover:text-foreground transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              </div>
+              <div class="text-sm font-bold text-foreground">Email Campaigns & Lists</div>
+              <p class="text-xs text-muted-foreground mt-1">Manage contact lists, open rates, and click tracking.</p>
+            </a>
+
+            <a 
+              href="https://console.upstash.com/" 
+              target="_blank" 
+              class="group block p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all"
+            >
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-mono text-emerald-400 font-bold">UPSTASH REDIS</span>
+                <svg class="size-4 text-muted-foreground group-hover:text-foreground transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              </div>
+              <div class="text-sm font-bold text-foreground">Pageviews Database</div>
+              <p class="text-xs text-muted-foreground mt-1">Inspect raw Redis pageview counters and key storage.</p>
+            </a>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Recent Dispatch Preview Card -->
+      <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-base font-bold text-foreground">Latest Published Commentary</h3>
+          <a href={`/blog/${latestDaily?.id}`} target="_blank" class="text-xs text-purple-400 hover:text-purple-300 font-mono">View on site &rarr;</a>
+        </div>
+        <div class="p-4 rounded-lg bg-white/5 border border-white/10 space-y-2">
+          <div class="text-sm font-bold text-foreground">{latestDaily?.data?.title}</div>
+          <p class="text-xs text-muted-foreground leading-relaxed">{latestDaily?.data?.description}</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB 2: NEWSLETTER BLAST -->
+    <div id="tab-content-send" class="tab-content hidden space-y-6">
+      
+      <!-- Auth Card -->
+      <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] text-foreground p-6 shadow-sm">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-900/5 to-transparent opacity-100 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+        
+        <div class="relative z-10">
+          <h3 class="text-lg font-bold text-foreground mb-4">Authentication</h3>
+          
+          <form id="auth-form" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 max-w-xl">
+            <div class="w-full sm:max-w-xs">
+              <label for="secret" class="sr-only">Secret</label>
+              <input 
+                type="password" 
+                name="secret" 
+                id="secret" 
+                class="w-full bg-white/5 border border-white/10 text-foreground placeholder:text-muted-foreground rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:border-white/30 transition-colors font-mono" 
+                placeholder="Enter secret key"
+              >
+            </div>
+            <button 
+              type="submit" 
+              class="inline-flex items-center justify-center px-5 py-2.5 border border-transparent font-bold rounded-lg text-sm text-[#0a0a0a] bg-white hover:bg-gray-200 transition-colors cursor-pointer shrink-0"
+            >
+              Load Preview
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Preview Section -->
+      <div id="preview-section" class="hidden">
+        <div class="relative overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] text-foreground shadow-sm">
+          <div class="p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+              <h3 class="text-lg font-bold text-foreground">Email Preview</h3>
+              <p class="text-sm text-muted-foreground mt-0.5">This is exactly what will be blasted to all subscribers.</p>
+            </div>
+            <button 
+              id="send-btn" 
+              class="inline-flex items-center justify-center px-6 py-3 border border-transparent font-bold rounded-lg text-sm text-white bg-red-600 hover:bg-red-700 transition-colors cursor-pointer shrink-0"
+            >
+              BLAST TO READERS
+            </button>
+          </div>
+          <div class="border-t border-white/10 bg-white">
+            <iframe id="preview-frame" class="w-full h-[850px] border-0 bg-white" src="about:blank"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status Message -->
+      <div id="status-message" class="hidden rounded-xl p-4 border">
+        <p class="text-sm font-medium" id="status-text"></p>
+      </div>
+
+    </div>
+
+  </div>
+</Layout>
+
+<script>
+  // Tab Switching Logic
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  function switchTab(targetTab: string) {
+    tabBtns.forEach(btn => {
+      const isTarget = btn.getAttribute('data-tab') === targetTab;
+      if (isTarget) {
+        btn.className = 'tab-btn px-5 py-2.5 rounded-lg text-sm font-bold transition-all cursor-pointer flex items-center gap-2 bg-white/10 text-foreground border border-white/20 shadow-sm';
+      } else {
+        btn.className = 'tab-btn px-5 py-2.5 rounded-lg text-sm font-bold transition-all cursor-pointer flex items-center gap-2 text-muted-foreground hover:text-foreground hover:bg-white/5 border border-transparent';
+      }
+    });
+
+    tabContents.forEach(content => {
+      if (content.id === `tab-content-${targetTab}`) {
+        content.classList.remove('hidden');
+      } else {
+        content.classList.add('hidden');
+      }
+    });
+
+    const url = new URL(window.location.href);
+    url.searchParams.set('tab', targetTab);
+    window.history.replaceState({}, '', url.toString());
+  }
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetTab = btn.getAttribute('data-tab');
+      if (targetTab) switchTab(targetTab);
+    });
+  });
+
+  const initialUrlParams = new URLSearchParams(window.location.search);
+  const initialTab = initialUrlParams.get('tab');
+  if (initialTab === 'send') {
+    switchTab('send');
+  }
+
+  // Fetch Live Pageviews & Visits Metrics
+  async function loadPageviewsMetrics() {
+    const kpiViewsElem = document.getElementById('kpi-views-val');
+    const kpiVisitsElem = document.getElementById('kpi-visits-val');
+    const listElem = document.getElementById('top-pages-list');
+
+    try {
+      const res = await fetch('/api/pageviews?summary=true');
+      if (res.ok) {
+        const data = await res.json();
+        if (kpiViewsElem) {
+          kpiViewsElem.textContent = Number(data.totalViews || 0).toLocaleString();
+        }
+        if (kpiVisitsElem) {
+          kpiVisitsElem.textContent = Number(data.totalVisits || 0).toLocaleString();
+        }
+
+        if (listElem && data.topPages && data.topPages.length > 0) {
+          const maxViews = Math.max(...data.topPages.map((p: any) => p.views), 1);
+          listElem.innerHTML = data.topPages.map((p: any) => {
+            const pct = Math.round((p.views / maxViews) * 100);
+            return `
+              <div class="p-3 rounded-lg bg-white/5 border border-white/10 space-y-2">
+                <div class="flex items-center justify-between text-xs font-mono">
+                  <span class="text-foreground font-bold truncate max-w-[280px] sm:max-w-[380px]">${p.path}</span>
+                  <div class="flex items-center gap-3">
+                    <span class="text-cyan-400 font-bold">${p.visits.toLocaleString()} visits</span>
+                    <span class="text-purple-400 font-bold">${p.views.toLocaleString()} views</span>
+                  </div>
+                </div>
+                <div class="w-full bg-white/5 rounded-full h-1.5 overflow-hidden border border-white/5">
+                  <div class="bg-gradient-to-r from-cyan-500 via-purple-500 to-blue-500 h-1.5 rounded-full" style="width: ${pct}%"></div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        } else if (listElem) {
+          listElem.innerHTML = '<div class="text-xs text-muted-foreground font-mono">No pageview logs recorded yet.</div>';
+        }
+      } else {
+        if (kpiViewsElem) kpiViewsElem.textContent = '0';
+        if (kpiVisitsElem) kpiVisitsElem.textContent = '0';
+        if (listElem) listElem.innerHTML = '<div class="text-xs text-muted-foreground font-mono">Telemetry database offline.</div>';
+      }
+    } catch {
+      if (kpiViewsElem) kpiViewsElem.textContent = '0';
+      if (kpiVisitsElem) kpiVisitsElem.textContent = '0';
+      if (listElem) listElem.innerHTML = '<div class="text-xs text-muted-foreground font-mono">Failed to connect to pageview telemetry.</div>';
+    }
+  }
+
+  loadPageviewsMetrics();
+
+  // Fetch Live Subscribers from Brevo API if available
+  async function loadSubscriberCount() {
+    const kpiElem = document.getElementById('kpi-subscribers-val');
+    if (!kpiElem) return;
+
+    try {
+      const res = await fetch('/api/newsletter/send-digest?subscribers=true');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.totalSubscribers !== undefined) {
+          kpiElem.textContent = Number(data.totalSubscribers).toLocaleString();
+          return;
+        }
+      }
+      kpiElem.textContent = 'Active';
+    } catch {
+      kpiElem.textContent = 'Active';
+    }
+  }
+
+  loadSubscriberCount();
+
+  // Blast Control Logic
+  let currentSecret = '';
+  const authForm = document.getElementById('auth-form') as HTMLFormElement;
+  const secretInput = document.getElementById('secret') as HTMLInputElement;
+  const previewSection = document.getElementById('preview-section');
+  const previewFrame = document.getElementById('preview-frame') as HTMLIFrameElement;
+  const sendBtn = document.getElementById('send-btn') as HTMLButtonElement;
+  const statusMessage = document.getElementById('status-message');
+  const statusText = document.getElementById('status-text');
+
+  function showStatus(message: string, isError = false) {
+    if (!statusMessage || !statusText) return;
+    statusMessage.className = `rounded-xl p-4 border ${isError ? 'bg-red-950/40 border-red-800/50 text-red-200' : 'bg-emerald-950/40 border-emerald-800/50 text-emerald-200'}`;
+    statusText.textContent = message;
+    statusMessage.classList.remove('hidden');
+  }
+
+  authForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    currentSecret = secretInput.value;
+    
+    if (previewFrame && previewSection) {
+      previewFrame.src = `/api/newsletter/send-digest?test=true&secret=${encodeURIComponent(currentSecret)}&t=${Date.now()}`;
+      previewSection.classList.remove('hidden');
+      if (statusMessage) statusMessage.classList.add('hidden');
+    }
+  });
+
+  sendBtn?.addEventListener('click', async () => {
+    if (!currentSecret) return;
+    
+    const confirmBlast = confirm("Are you absolutely sure you want to blast this email to all subscribers? Please verify the preview below first.");
+    if (!confirmBlast) return;
+
+    sendBtn.disabled = true;
+    sendBtn.textContent = 'Sending...';
+
+    try {
+      const response = await fetch(`/api/newsletter/send-digest?confirm=yes&secret=${encodeURIComponent(currentSecret)}`, {
+        method: 'POST'
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        showStatus(`Success! ${data.message || 'Newsletter sent to all subscribers.'}`);
+        sendBtn.textContent = 'SENT';
+        sendBtn.classList.replace('bg-red-600', 'bg-gray-600');
+        sendBtn.classList.replace('hover:bg-red-700', 'hover:bg-gray-600');
+      } else {
+        showStatus(`Error: ${data.error || 'Failed to send'}. ${data.message || ''}`, true);
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'BLAST TO READERS';
+      }
+    } catch (err: any) {
+      showStatus(`Network Error: ${err.message}`, true);
+      sendBtn.disabled = false;
+      sendBtn.textContent = 'BLAST TO READERS';
+    }
+  });
+</script>
