@@ -19,7 +19,6 @@ import ShareButtons from '@/components/react/ShareButtons'
 import TextSelectionSharer from '@/components/react/TextSelectionSharer'
 import FollowButtons from '@/components/react/FollowButtons'
 import SubscribeModal from '@/components/react/SubscribeModal'
-import AISummarizer from '@/components/react/AISummarizer'
 import {
   getAdjacentPosts,
   getAllPostsAndSubposts,
@@ -341,13 +340,11 @@ const isPremium = post.data.premium === true
         </style>
       </div>
     ) : (
-      <hr class="col-start-2 border-border/40 my-0" />
-      <div class="col-start-2 not-prose -mb-4">
-        <AISummarizer client:load />
+      <div class="col-start-2 flex flex-col gap-y-6">
+        <article class="prose max-w-none relative [&>hr:first-of-type]:hidden [&>h2:first-of-type]:mt-2">
+          <Content />
+        </article>
       </div>
-      <article class="prose col-start-2 max-w-none relative [&>hr:first-of-type]:hidden [&>h2:first-of-type]:mt-2">
-        <Content />
-      </article>
     )}
 
     <!-- Right sidebar: Premium Promo Card + Subposts -->

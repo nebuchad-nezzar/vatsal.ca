@@ -26,10 +26,11 @@ export default function AISummarizer() {
         return
       }
 
+      const path = window.location.pathname
       const res = await fetch('/api/summarize', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content }),
+        body: JSON.stringify({ content, path }),
       })
 
       const data = await res.json()
@@ -40,7 +41,7 @@ export default function AISummarizer() {
         setSummary(data.summary)
       }
     } catch {
-      setError('Network error. Please try again.')
+      setError('Network request failed. Please check your connection and try again.')
     } finally {
       setLoading(false)
     }
@@ -80,7 +81,19 @@ export default function AISummarizer() {
       {(summary || error) && (
         <div className="px-4 py-3">
           {error ? (
-            <p className="text-xs text-red-400">{error}</p>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 text-xs text-amber-200">
+              <div className="flex items-center gap-2">
+                <span className="size-2 rounded-full bg-amber-400 animate-pulse shrink-0"></span>
+                <span>{error}</span>
+              </div>
+              <button
+                onClick={handleSummarize}
+                disabled={loading}
+                className="px-3 py-1.5 rounded-md bg-amber-500/20 hover:bg-amber-500/30 text-amber-100 font-semibold text-xs transition-colors shrink-0 cursor-pointer text-center"
+              >
+                ↻ Try Again
+              </button>
+            </div>
           ) : (
             <div className="text-sm text-foreground/90 leading-relaxed whitespace-pre-line">
               {summary}
