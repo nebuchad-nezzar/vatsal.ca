@@ -4,6 +4,7 @@ import Layout from '@/layouts/Layout.astro';
 import { getAllPostsIncludingNewsletters } from '@/lib/data-utils';
 import { verifySessionCookie } from '@/lib/totp';
 import AdminDashboardVisuals from '@/components/react/AdminDashboardVisuals';
+import CloudflareEdgeDashboard from '@/components/react/CloudflareEdgeDashboard';
 
 const runtimeEnv = (Astro.locals as any).runtime?.env || (Astro.locals as any).env || {};
 const secretBase32 = runtimeEnv.ADMIN_2FA_SECRET || import.meta.env.ADMIN_2FA_SECRET || 'H7K2MAN4PAREWVYT';
@@ -127,6 +128,15 @@ const siteUrl = import.meta.env.SITE || 'https://vatsal.ca';
           >
             <svg class="size-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
             <span>Newsletter Blast</span>
+          </button>
+
+          <button 
+            id="tab-btn-cloudflare" 
+            class="tab-btn px-5 py-2.5 rounded-lg text-sm font-bold transition-all cursor-pointer flex items-center gap-2 text-muted-foreground hover:text-foreground hover:bg-white/5 border border-transparent"
+            data-tab="cloudflare"
+          >
+            <svg class="size-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+            <span>Cloudflare Edge</span>
           </button>
         </div>
 
@@ -541,6 +551,11 @@ const siteUrl = import.meta.env.SITE || 'https://vatsal.ca';
 
         </div>
 
+        <!-- TAB 3: CLOUDFLARE EDGE -->
+        <div id="tab-content-cloudflare" class="tab-content hidden space-y-6">
+          <CloudflareEdgeDashboard client:only="react" />
+        </div>
+
       </div>
     )}
 
@@ -619,9 +634,10 @@ const siteUrl = import.meta.env.SITE || 'https://vatsal.ca';
 
   const initialUrlParams = new URLSearchParams(window.location.search);
   const initialTab = initialUrlParams.get('tab');
-  if (initialTab === 'send') {
-    switchTab('send');
+  if (initialTab && ['analytics', 'send', 'cloudflare'].includes(initialTab)) {
+    switchTab(initialTab);
   }
+
 
   // Global State for Ratio Calculation
   let liveSubscribers = 0;
