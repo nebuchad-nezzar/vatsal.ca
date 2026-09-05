@@ -21,6 +21,7 @@ export interface NewsletterData {
     conceptCornerTitle?: string
     conceptCornerText?: string
     onMyDesk?: { title: string; description: string; link?: string }[]
+    markets?: { symbol: string; price: string; change: string }[]
 }
 
 /**
@@ -54,6 +55,7 @@ export function generateDigestEmail(posts: DigestPost[], siteUrl: string, newsle
     const topThreeBlock = renderTopThree(newsletterData?.topThree);
     const eventsBlock = renderEvents(newsletterData?.events);
     const takeawaysBlock = renderKeyTakeaways(newsletterData?.keyTakeaways);
+    const marketsBlock = renderMarketData(newsletterData?.markets);
     const conceptCornerBlock = renderConceptCorner(newsletterData?.conceptCornerTitle, newsletterData?.conceptCornerText);
     const onMyDeskBlock = renderOnMyDesk(newsletterData?.onMyDesk);
     const latestResearchBlock = newsletterData?.isDaily ? '' : renderLatestResearch(posts);
@@ -113,7 +115,7 @@ export function generateDigestEmail(posts: DigestPost[], siteUrl: string, newsle
     .inner-bg { background-color: #1a1a1a !important; box-shadow: none !important; }
     .masthead-bg { background-color: #000000 !important; }
     h1, h2, .text-main { color: #f4f1ea !important; }
-    .text-sub { color: #aaaaaa !important; }
+    .text-sub { color: #cccccc !important; }
     .divider { background-color: #333333 !important; }
     .border-block { border-color: #333333 !important; }
     .card-bg { background-color: #222222 !important; }
@@ -189,7 +191,7 @@ export function generateDigestEmail(posts: DigestPost[], siteUrl: string, newsle
         ${newsletterData ? (newsletterData.isDaily ? 'Daily Market Commentary' : 'Weekly Market Outlook') : 'Weekly Digest'}
       </h1>
       
-      <div class="text-sub" style="font-size:14px; color:#666666; font-weight:500; text-align:right;">
+      <div class="text-sub" style="font-size:14px; color:#777777; font-weight:500; text-align:right;">
         ${formattedDate}
       </div>
     </td>
@@ -199,6 +201,7 @@ export function generateDigestEmail(posts: DigestPost[], siteUrl: string, newsle
   <tr><td class="divider-pad" style="padding:0 40px;"><div class="divider" style="height:1px; background-color:#eeeeee;"></div></td></tr>
 
   ${takeawaysBlock}
+  ${marketsBlock}
 
   <!-- ═══════════════════════════════════════════════════════════ -->
   <!-- WHAT MOVED THIS WEEK / MAIN INTRO                           -->
@@ -332,6 +335,8 @@ function formatCommentary(text: string, siteUrl: string = 'https://vatsal.ca'): 
     cleanText = filteredLines.join('\n');
     cleanText = cleanText.replace(/<[^>]+>/g, '');
     cleanText = cleanText.replace(/---\s*$/g, '');
+    // Strip redundant leading date lines (e.g. "September 4, 2026")
+    cleanText = cleanText.replace(/^\s*(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(st|nd|rd|th)?,?\s+\d{4}\s*/gi, '');
 
     // Check if there is a callout / footer section separated by ***
     const parts = cleanText.split(/\n\s*\*\*\*\s*\n/);
@@ -455,6 +460,45 @@ function renderEvents(events?: { badge: string; description: string }[]): string
       <h2 class="gold-accent" style="margin:0 0 20px 0; font-size:14px; font-weight:600; color:#b8960c; text-transform:uppercase; letter-spacing:1.5px;">Events &amp; Earnings</h2>
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
         ${items}
+      </table>
+    </td>
+  </tr>`;
+}
+
+function renderMarketData(markets?: { symbol: string; price: string; change: string }[]): string {
+    if (!markets || markets.length === 0) return '';
+    const items = markets.map((item) => {
+        const isPositive = item.change.startsWith('+') || item.change.includes('▲') || item.change.includes('&#9650;');
+        const color = isPositive ? '#00875a' : '#de350b';
+        const arrow = isPositive ? '&#9650;' : '&#9660;';
+        const cleanChange = item.change.replace(/^[▲▼&#9650;&#9660;\s]+/, '');
+
+        return `
+          <td style="width:33.33%; padding:4px; vertical-align:top;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="card-bg border-block" style="background-color:#fcfbf8; border:1px solid #e8e3d8; border-radius:4px; padding:10px 12px;">
+              <tr><td>
+                <div class="gold-accent" style="font-size:11px; font-weight:700; color:#b8960c; letter-spacing:0.5px; margin-bottom:3px; text-transform:uppercase;">${item.symbol}</div>
+                <div class="text-main" style="font-size:14px; font-weight:700; color:#0a0a0a; margin-bottom:3px;">${item.price}</div>
+                <div style="font-size:11px; font-weight:700; color:${color};">${arrow} ${cleanChange}</div>
+              </td></tr>
+            </table>
+          </td>`;
+    });
+
+    const rows = [];
+    for (let i = 0; i < items.length; i += 3) {
+        const rowItems = items.slice(i, i + 3).join('');
+        rows.push(`<tr>${rowItems}</tr>`);
+    }
+
+    return `
+  <!-- Divider -->
+  <tr><td class="divider-pad" style="padding:0 40px;"><div class="divider" style="height:1px; background-color:#eeeeee;"></div></td></tr>
+  <tr>
+    <td class="content-pad" style="padding:24px 40px 16px 40px;">
+      <div class="gold-accent" style="font-size:12px; letter-spacing:2px; color:#b8960c; text-transform:uppercase; font-weight:600; margin-bottom:12px;">Markets</div>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+        ${rows.join('')}
       </table>
     </td>
   </tr>`;

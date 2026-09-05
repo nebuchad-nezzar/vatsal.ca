@@ -24,6 +24,7 @@ const blog = defineCollection({
       conceptCornerTitle: z.string().optional(),
       conceptCornerText: z.string().optional(),
       onMyDesk: z.array(z.object({ title: z.string(), description: z.string(), link: z.string().optional() })).optional(),
+      markets: z.array(z.object({ symbol: z.string(), price: z.string(), change: z.string() })).optional(),
     }),
 })
 

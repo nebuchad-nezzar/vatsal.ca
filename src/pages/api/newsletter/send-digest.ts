@@ -151,6 +151,7 @@ export const POST: APIRoute = async (context) => {
                 conceptCornerTitle: latestPost.data.conceptCornerTitle,
                 conceptCornerText: latestPost.data.conceptCornerText,
                 onMyDesk: latestPost.data.onMyDesk,
+                markets: latestPost.data.markets,
             }
         }
 
