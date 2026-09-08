@@ -1,0 +1,292 @@
+---
+---
+<script>
+  function setupSidenotes() {
+    const article = document.querySelector('article.prose');
+    if (!article) return;
+
+    // Clean up old layer if any
+    let layer = document.getElementById('sidenote-layer');
+    if (layer) layer.remove();
+
+    // Only run layout on desktop
+    if (window.innerWidth < 1024) return;
+
+    // Create the layer
+    layer = document.createElement('div');
+    layer.id = 'sidenote-layer';
+    article.appendChild(layer);
+
+    const markers = Array.from(article.querySelectorAll('.sidenote-marker')) as HTMLElement[];
+    if (markers.length === 0) return;
+
+    type SidenoteBox = {
+      id: string;
+      marker: HTMLElement;
+      box: HTMLElement;
+      height: number;
+      wantedTop: number;
+      actualTop: number;
+    };
+
+    const notes: SidenoteBox[] = [];
+
+    // Extract and build boxes
+    markers.forEach(marker => {
+      const id = marker.getAttribute('data-sidenote-ref');
+      const template = document.getElementById(`template-${id}`) as HTMLTemplateElement;
+      if (!id || !template) return;
+
+      const box = document.createElement('div');
+      box.className = 'sidenote-box';
+      box.setAttribute('data-for', id);
+      box.appendChild(template.content.cloneNode(true));
+      layer.appendChild(box);
+
+      notes.push({
+        id,
+        marker,
+        box,
+        height: 0,
+        wantedTop: 0,
+        actualTop: 0
+      });
+    });
+
+    let hoveredId: string | null = null;
+    let expandedId: string | null = null;
+
+    const paint = () => {
+      const hasHover = hoveredId !== null;
+      layer.setAttribute('data-has-hover', hasHover ? 'true' : 'false');
+      layer.setAttribute('data-has-expanded', expandedId !== null ? 'true' : 'false');
+
+      notes.forEach(note => {
+        const isHovered = hoveredId === note.id;
+        const isExpanded = expandedId === note.id;
+        
+        note.box.classList.toggle('lit', isHovered);
+        note.box.classList.toggle('expanded', isExpanded);
+        
+        note.marker.classList.toggle('lit', isHovered);
+        note.marker.classList.toggle('pinned', isExpanded);
+      });
+    };
+
+    const layout = () => {
+      if (window.innerWidth < 1024) {
+        layer.style.display = 'none';
+        return;
+      }
+      layer.style.display = 'block';
+
+      const articleRect = article.getBoundingClientRect();
+      const pad = 10;
+      const lead = 24; // line height gap
+
+      let flow: number | undefined;
+
+      notes.forEach(note => {
+        const markerRect = note.marker.getBoundingClientRect();
+        // Calculate relative to article
+        note.wantedTop = markerRect.top - articleRect.top;
+        note.height = note.box.offsetHeight;
+
+        const wanted = note.wantedTop;
+        const top = (flow === undefined || wanted - flow >= lead) ? wanted : flow + lead;
+        
+        note.actualTop = top;
+        flow = top + note.height;
+
+        note.box.style.top = `${note.actualTop}px`;
+      });
+    };
+
+    // Events
+    const handleOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const marker = target.closest('.sidenote-marker');
+      const box = target.closest('.sidenote-box');
+
+      if (marker) {
+        hoveredId = marker.getAttribute('data-sidenote-ref');
+        paint();
+      } else if (box) {
+        hoveredId = box.getAttribute('data-for');
+        paint();
+      }
+    };
+
+    const handleOut = () => {
+      hoveredId = null;
+      paint();
+    };
+
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      
+      // If clicking inside a box, let it expand/collapse
+      const box = target.closest('.sidenote-box');
+      if (box) {
+        // if they clicked an image/gif inside, they can see it big
+        // but if they click a link, let it happen
+        if (target.tagName.toLowerCase() === 'a') return;
+        
+        const id = box.getAttribute('data-for');
+        if (expandedId === id) expandedId = null;
+        else expandedId = id;
+        paint();
+        // Relayout after expand animation
+        setTimeout(layout, 300);
+        return;
+      }
+
+      // If clicking a marker
+      const marker = target.closest('.sidenote-marker');
+      if (marker) {
+        e.preventDefault();
+        const id = marker.getAttribute('data-sidenote-ref');
+        if (expandedId === id) expandedId = null;
+        else expandedId = id;
+        paint();
+        setTimeout(layout, 300);
+        return;
+      }
+
+      // Click outside
+      expandedId = null;
+      paint();
+      setTimeout(layout, 300);
+    };
+
+    document.addEventListener('mouseover', handleOver);
+    document.addEventListener('mouseout', handleOut);
+    document.addEventListener('click', handleClick);
+    window.addEventListener('resize', layout);
+
+    // Initial layout
+    // Need a slight delay to ensure fonts/images loaded
+    setTimeout(layout, 100);
+    setTimeout(layout, 500);
+
+    // Cleanup
+    document.addEventListener('astro:before-swap', () => {
+      document.removeEventListener('mouseover', handleOver);
+      document.removeEventListener('mouseout', handleOut);
+      document.removeEventListener('click', handleClick);
+      window.removeEventListener('resize', layout);
+    }, { once: true });
+  }
+
+  // Run on first load and view transitions
+  document.addEventListener('astro:page-load', setupSidenotes);
+</script>
+
+<style is:global>
+  #sidenote-layer {
+    position: absolute;
+    top: 0;
+    right: -16rem;
+    width: 14rem;
+    height: 100%;
+    pointer-events: none;
+    z-index: 20;
+  }
+  @media (min-width: 1280px) {
+    #sidenote-layer {
+      right: -20rem;
+      width: 17rem;
+    }
+  }
+
+  .sidenote-box {
+    position: absolute;
+    /* top is set by JS */
+    left: 0;
+    width: 100%;
+    transition: top 0.3s cubic-bezier(0.22, 1, 0.36, 1), transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s, color 0.2s, background 0.2s;
+    pointer-events: auto;
+    cursor: pointer;
+    
+    font-size: 0.8rem;
+    line-height: 1.55;
+    font-family: inherit;
+    font-style: italic;
+    color: hsl(var(--muted-foreground));
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    /* Subtle fade edges like enscribe */
+    position: absolute;
+  }
+
+  /* Fade out others on hover */
+  #sidenote-layer[data-has-hover="true"] .sidenote-box:not(.lit):not(.expanded) {
+    opacity: 0.4;
+  }
+  
+  /* Dim others when one is expanded */
+  #sidenote-layer[data-has-expanded="true"] .sidenote-box:not(.expanded) {
+    opacity: 0.2;
+    pointer-events: none;
+  }
+
+  .sidenote-box.lit {
+    color: hsl(var(--foreground));
+    /* Enscribe hover effect */
+  }
+
+  .sidenote-box.expanded {
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    z-index: 30;
+    cursor: auto;
+    border: 1px solid hsl(var(--border));
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    /* Remove width constraint so images can grow if needed */
+    width: 120%;
+    transform: translateX(-10%) !important; 
+    /* The transform will be overridden by inline styles, so we need a child wrapper to grow */
+  }
+
+  .sidenote-content-inner {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .sidenote-box.expanded .sidenote-content-inner {
+    transform: scale(1.05);
+  }
+
+  .sidenote-box img, .sidenote-box video {
+    max-width: 100%;
+    border-radius: 0.25rem;
+    margin-top: 0.5rem;
+    transition: transform 0.3s ease;
+  }
+
+  /* Enscribe fade gradients */
+  .sidenote-box::before,
+  .sidenote-box::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1.5rem;
+    pointer-events: none;
+  }
+  .sidenote-box::before {
+    top: -1.5rem;
+    background: linear-gradient(to top, hsl(var(--background)), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .sidenote-box::after {
+    bottom: -1.5rem;
+    background: linear-gradient(to bottom, hsl(var(--background)), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .sidenote-box.expanded::before,
+  .sidenote-box.expanded::after {
+    opacity: 1;
+  }
+</style>

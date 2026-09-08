@@ -7,65 +7,117 @@ interface Props {
 }
 
 const { number = "1", class: className } = Astro.props
+
+// Generate a unique ID for this sidenote so the JS engine can link the marker to the content
+const id = `sidenote-${Math.random().toString(36).substr(2, 9)}`
 ---
 
-<span class="sidenote-wrapper group relative inline-block lg:static">
-  {/* The inline marker/trigger */}
-  <span 
-    class="not-prose inline-flex items-center justify-center size-5 bg-purple-500/20 border border-purple-500/40 rounded text-[10px] font-mono font-bold text-purple-400 cursor-help transition-all hover:bg-purple-500/40"
-    aria-describedby={`sidenote-${number}`}
+<span class={cn("sidenote-wrapper", className)}>
+  {/* Inline marker for desktop/JS engine */}
+  <button
+    class="sidenote-marker"
+    data-sidenote-ref={id}
+    aria-label={`Sidenote ${number}`}
   >
     {number}
-  </span>
-
-  {/* The actual note content */}
-  <aside 
-    id={`sidenote-${number}`}
-    class={cn(
-      "sidenote",
-      "lg:absolute lg:right-[-320px] lg:w-[280px] lg:mt-[-20px]",
-      "hidden lg:block group-hover:block lg:group-hover:block", // Simplified for now, can be improved with JS for mobile
-      "z-40 p-4 rounded-xl",
-      "bg-black/80 backdrop-blur-sm border border-purple-500/30",
-      "shadow-[0_0_20px_rgba(168,85,247,0.15)]",
-      "transition-all duration-300",
-      className
-    )}
-  >
-    <div class="flex items-start gap-3">
-      <span class="not-prose flex-shrink-0 flex items-center justify-center size-5 bg-purple-500 border border-purple-500/50 rounded text-[10px] font-mono font-bold text-white shadow-[0_0_10px_rgba(168,85,247,0.5)]">
-        {number}
-      </span>
-      <div class="text-xs leading-relaxed text-foreground/90 font-sans italic">
-        <slot />
-      </div>
+  </button>
+  
+  {/* Template holding the rich content (images/gifs/text) for the JS engine to extract */}
+  <template id={`template-${id}`}>
+    <div class="sidenote-content-inner">
+      <span class="sidenote-number">{number}</span>
+      <slot />
     </div>
-    
-    {/* Glow effect */}
-    <div class="absolute inset-0 -z-10 bg-purple-500/5 blur-2xl rounded-xl pointer-events-none"></div>
-  </aside>
+  </template>
 
-  {/* Mobile inline version - shown below trigger on tap/hover if needed, but for now let's use standard marginalia logic */}
+  {/* Mobile fallback (CSS only inline toggle) */}
+  <input type="checkbox" id={`mobile-sidenote-${id}`} class="mobile-sidenote-checkbox sr-only" />
+  <label for={`mobile-sidenote-${id}`} class="mobile-sidenote-toggle sr-only">Toggle Sidenote {number}</label>
+  <aside class="mobile-sidenote-content">
+    <span class="sidenote-number">{number}</span>
+    <slot />
+  </aside>
 </span>
 
 <style>
   .sidenote-wrapper {
-    /* Ensure the wrapper doesn't break line flow too much */
-    vertical-align: baseline;
-    margin: 0 0.2em;
+    display: inline;
   }
 
-  /* Prevent sidenotes from overlapping too much if multiple exist */
-  @media (min-width: 1024px) {
-    .sidenote {
-      /* This allows the note to be seen even if the parent has overflow issues, 
-         though we hope the layout is wide enough */
+  /* Inline marker */
+  .sidenote-marker {
+    display: inline;
+    cursor: pointer;
+    font-size: 0.65em;
+    font-weight: 700;
+    font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
+    font-variant-numeric: oldstyle-nums;
+    vertical-align: super;
+    line-height: 0;
+    color: hsl(var(--muted-foreground));
+    background: transparent;
+    border: none;
+    padding: 0 0.2em;
+    margin: 0 0.1em;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease;
+  }
+
+  .sidenote-marker:hover, .sidenote-marker.lit {
+    color: hsl(var(--foreground));
+    background-color: hsl(var(--muted) / 0.5);
+  }
+
+  .sidenote-marker.pinned {
+    color: hsl(var(--primary-foreground));
+    background-color: hsl(var(--primary));
+  }
+
+  .sidenote-number {
+    font-size: 0.7em;
+    font-weight: 700;
+    font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
+    font-variant-numeric: oldstyle-nums;
+    vertical-align: super;
+    line-height: 0;
+    margin-right: 0.35em;
+    color: inherit;
+  }
+
+  /* Mobile Inline Toggle */
+  .mobile-sidenote-content {
+    display: none;
+  }
+
+  @media (max-width: 1023px) {
+    .sidenote-marker {
+      pointer-events: none; /* Let the label handle clicks on mobile */
     }
-  }
+    
+    .mobile-sidenote-toggle {
+      display: inline-block;
+      position: absolute;
+      width: 1.5em;
+      height: 1.5em;
+      margin-left: -1.5em;
+      cursor: pointer;
+      z-index: 10;
+    }
+    .mobile-sidenote-toggle:not(.sr-only) {
+      position: absolute; /* fallback */
+    }
 
-  /* Add a small transition for the glow */
-  .sidenote:hover {
-    border-color: rgba(168, 85, 247, 0.5);
-    shadow: 0 0 30px rgba(168, 85, 247, 0.25);
+    .mobile-sidenote-checkbox:checked ~ .mobile-sidenote-content {
+      display: block;
+      margin: 0.75rem 0;
+      padding: 0.75rem 1rem;
+      border-left: 2px solid hsl(var(--muted));
+      background: transparent;
+      font-size: 0.8rem;
+      line-height: 1.55;
+      font-family: inherit;
+      font-style: italic;
+      color: hsl(var(--muted-foreground));
+    }
   }
 </style>

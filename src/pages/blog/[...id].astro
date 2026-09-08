@@ -12,6 +12,7 @@ import ViewCounter from '@/components/VisitorCount.tsx'
 import TOCSidebar from '@/components/TOCSidebar.astro'
 import PremiumBadge from '@/components/PremiumBadge.astro'
 import PremiumPaywall from '@/components/PremiumPaywall.astro'
+import SidenoteEngine from '@/components/mdx/SidenoteEngine.astro'
 import { Button } from '@/components/ui/button'
 import Layout from '@/layouts/Layout.astro'
 
@@ -244,6 +245,7 @@ const isPremium = post.data.premium === true
     }
     {isPremium ? (
       <div class="col-start-2 relative premium-gate">
+        <SidenoteEngine />
         <article class="prose max-w-none relative premium-article">
           <Content />
         </article>
@@ -361,9 +363,12 @@ const isPremium = post.data.premium === true
             </div>
           </div>
         )}
-        <article class="prose max-w-none relative [&>hr:first-of-type]:hidden [&>h2:first-of-type]:mt-2">
-          <Content />
-        </article>
+        <div class="col-start-2 relative">
+          <SidenoteEngine />
+          <article class="prose max-w-none relative [&>hr:first-of-type]:hidden [&>h2:first-of-type]:mt-2">
+            <Content />
+          </article>
+        </div>
       </div>
     )}
 
