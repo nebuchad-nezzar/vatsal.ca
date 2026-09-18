@@ -8,7 +8,21 @@ export async function getAllAuthors(): Promise<CollectionEntry<'authors'>[]> {
 export async function getAllPosts(): Promise<CollectionEntry<'blog'>[]> {
   const posts = await getCollection('blog')
   return posts
-    .filter((post) => !post.data.draft && !isSubpost(post.id) && !post.data.isNewsletter && !post.data.isDaily)
+    .filter((post) => !post.data.draft && !isSubpost(post.id) && !post.data.isNewsletter && !post.data.isDaily && !post.id.startsWith('weekly-'))
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+}
+
+export async function getDailyPosts(): Promise<CollectionEntry<'blog'>[]> {
+  const posts = await getCollection('blog')
+  return posts
+    .filter((post) => post.data.isDaily || post.id.startsWith('daily-'))
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+}
+
+export async function getWeeklyPosts(): Promise<CollectionEntry<'blog'>[]> {
+  const posts = await getCollection('blog')
+  return posts
+    .filter((post) => post.id.startsWith('weekly-'))
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 }
 
@@ -22,7 +36,7 @@ export async function getAllPostsAndSubposts(): Promise<
 > {
   const posts = await getCollection('blog')
   return posts
-    .filter((post) => !post.data.draft && !post.data.isNewsletter && !post.data.isDaily)
+    .filter((post) => !post.data.draft && !post.data.isNewsletter)
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 }
 

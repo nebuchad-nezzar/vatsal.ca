@@ -139,7 +139,7 @@ export const NAV_LINKS: SocialLink[] = [
     label: 'About',
   },
   {
-    href: '/markets',
+    href: '/newsletter',
     label: 'Newsletter',
   },
 ]

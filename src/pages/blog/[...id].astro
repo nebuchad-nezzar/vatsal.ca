@@ -10,6 +10,7 @@ import SubpostsSidebar from '@/components/SubpostsSidebar.astro'
 import TOCHeader from '@/components/TOCHeader.astro'
 import ViewCounter from '@/components/VisitorCount.tsx' 
 import TOCSidebar from '@/components/TOCSidebar.astro'
+import { generateDigestEmail } from '@/lib/newsletter-template'
 import PremiumBadge from '@/components/PremiumBadge.astro'
 import PremiumPaywall from '@/components/PremiumPaywall.astro'
 import SidenoteEngine from '@/components/mdx/SidenoteEngine.astro'
@@ -68,6 +69,17 @@ const combinedReadingTime =
     : null
 const tocSections = await getTOCSections(currentPostId)
 const isPremium = post.data.premium === true
+
+const isNewsletter = post.data.isDaily || post.id.startsWith('weekly-')
+const newsletterHtml = isNewsletter ? generateDigestEmail([], Astro.url.origin, {
+    title: post.data.title,
+    description: post.body || '',
+    date: post.data.date,
+    isDaily: post.data.isDaily,
+    issueNumber: post.data.issueNumber || post.id.match(/\d+/)?.[0] || '1',
+    keyTakeaways: post.data.keyTakeaways,
+    markets: post.data.markets,
+}) : null;
 ---
 <Layout>
   <PostHead slot="head" post={post} />
@@ -92,31 +104,48 @@ const isPremium = post.data.premium === true
   >
     <div class="col-start-2">
       <Breadcrumbs
-        items={[
-          { href: '/blog', label: 'Blog', icon: 'lucide:library-big' },
-          ...(isCurrentSubpost && parentPost
-            ? [
-                {
-                  href: `/blog/${parentPost.id}`,
-                  label: parentPost.data.title,
-                  icon: 'lucide:book-open',
-                },
-                {
-                  href: `/blog/${currentPostId}`,
-                  label: post.data.title,
-                  icon: 'lucide:file-text',
-                },
-              ]
-            : [
-                {
-                  href: `/blog/${currentPostId}`,
-                  label: post.data.title,
-                  icon: 'lucide:book-open-text',
-                },
-              ]),
-        ]}
+        items={
+          isNewsletter ? [
+            { href: '/markets', label: 'Markets', icon: 'lucide:line-chart' },
+            { href: '/markets', label: post.data.isDaily ? 'Daily Commentary' : 'Weekly Commentary', icon: 'lucide:calendar' },
+            { label: post.data.title, icon: 'lucide:file-text' }
+          ] : [
+            { href: '/blog', label: 'Blog', icon: 'lucide:library-big' },
+            ...(isCurrentSubpost && parentPost
+              ? [
+                  {
+                    href: `/blog/${parentPost.id}`,
+                    label: parentPost.data.title,
+                    icon: 'lucide:book-open',
+                  },
+                  {
+                    href: `/blog/${currentPostId}`,
+                    label: post.data.title,
+                    icon: 'lucide:file-text',
+                  },
+                ]
+              : [
+                  {
+                    href: `/blog/${currentPostId}`,
+                    label: post.data.title,
+                    icon: 'lucide:book-open-text',
+                  },
+                ]),
+          ]
+        }
       />
     </div>
+    {isNewsletter && (
+      <div class="col-span-full mx-auto w-full max-w-4xl my-8 flex justify-center">
+        <iframe 
+          srcdoc={newsletterHtml} 
+          class="w-full max-w-[640px] h-[1200px] border-0 bg-transparent rounded-lg"
+          onload="this.style.height = (this.contentWindow.document.body.scrollHeight + 50) + 'px';"
+        />
+      </div>
+    )}
+    <div style={{ display: isNewsletter ? 'none' : 'contents' }}>
+
     {
       post.data.image && (
         <Image
@@ -220,7 +249,6 @@ const isPremium = post.data.premium === true
           }
         </div>
 
-      </div>
       <PostNavigation
         newerPost={navigation.newer}
         olderPost={navigation.older}
@@ -247,7 +275,7 @@ const isPremium = post.data.premium === true
       <div class="col-start-2 relative premium-gate">
         <SidenoteEngine />
         <article class="prose max-w-none relative premium-article">
-          <Content />
+          {!isNewsletter && <Content />}
         </article>
 
         {/* 5-layer cascading blur — each layer adds more blur progressively */}
@@ -366,7 +394,7 @@ const isPremium = post.data.premium === true
         <div class="col-start-2 relative">
           <SidenoteEngine />
           <article class="prose max-w-none relative [&>hr:first-of-type]:hidden [&>h2:first-of-type]:mt-2">
-            <Content />
+            {!isNewsletter && <Content />}
           </article>
         </div>
       </div>
@@ -403,7 +431,8 @@ const isPremium = post.data.premium === true
         />
       </div>
     </div>
-  </section>
+      </div>
+</section>
   <Button
     variant="outline"
     size="icon"

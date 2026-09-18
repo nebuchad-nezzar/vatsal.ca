@@ -28,14 +28,28 @@ import CryptoHeatmap from '@/components/react/CryptoHeatmap'
       </p>
     </div>
 
-    <!-- Quick Analysis Section -->
-    <div class="bg-card border border-border p-4 rounded-xl flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
-      <span class="text-sm font-medium">Please find quick analysis for:</span>
-      <div class="flex gap-4">
-        <a href="#" class="text-sm text-primary hover:underline font-semibold">Forex</a>
-        <a href="#" class="text-sm text-primary hover:underline font-semibold">Stocks</a>
-        <a href="#" class="text-sm text-primary hover:underline font-semibold">Crypto</a>
-      </div>
+    <!-- Market Commentary Archives -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <a href="/markets/daily" class="bg-card border border-border p-6 rounded-xl hover:border-primary/50 transition-colors group flex items-center justify-between">
+        <div class="text-left space-y-1.5">
+          <h3 class="text-lg font-bold group-hover:text-primary transition-colors flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary/80"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg>
+            Daily Market Commentary
+          </h3>
+          <p class="text-sm text-muted-foreground">Read the daily macro analysis and market recap archive.</p>
+        </div>
+        <span class="text-primary group-hover:translate-x-1 transition-transform">→</span>
+      </a>
+      <a href="/markets/weekly" class="bg-card border border-border p-6 rounded-xl hover:border-primary/50 transition-colors group flex items-center justify-between">
+        <div class="text-left space-y-1.5">
+          <h3 class="text-lg font-bold group-hover:text-primary transition-colors flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary/80"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            Weekly Macro Briefing
+          </h3>
+          <p class="text-sm text-muted-foreground">Deep dives into weekly trends and structural alpha.</p>
+        </div>
+        <span class="text-primary group-hover:translate-x-1 transition-transform">→</span>
+      </a>
     </div>
 
     <!-- Economic Map Section -->

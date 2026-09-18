@@ -1,0 +1,63 @@
+---
+export const prerender = true
+import PageHead from '@/components/PageHead.astro'
+import Layout from '@/layouts/Layout.astro'
+import { Icon } from 'astro-icon/components'
+---
+
+<Layout class="px-2">
+  <PageHead slot="head" title="Newsletter Archives" />
+
+  <div class="max-w-4xl mx-auto pt-8 pb-12 space-y-12">
+    <!-- Page Header -->
+    <div class="text-center space-y-4">
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight">
+        Newsletter Archives
+      </h1>
+      <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+        Read past issues of The Daily Alpha Pulse and the Weekly Market Commentary.
+      </p>
+    </div>
+
+    <!-- Archive Links -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
+      <a href="/markets/daily" class="bg-card border border-border p-8 rounded-xl hover:border-primary/50 transition-colors group flex flex-col items-center text-center space-y-4 relative overflow-hidden">
+        <div class="p-4 bg-primary/10 rounded-full text-primary group-hover:scale-110 transition-transform">
+          <Icon name="lucide:sun" class="size-8" />
+        </div>
+        <div class="space-y-2 relative z-10">
+          <h3 class="text-xl font-bold group-hover:text-primary transition-colors">Daily Market Commentary</h3>
+          <p class="text-sm text-muted-foreground">Every weekday after the closing bell. Macro analysis, key levels, and top catalysts.</p>
+        </div>
+        <div class="absolute bottom-4 right-4 text-primary opacity-0 group-hover:opacity-100 group-hover:-translate-y-1 transition-all">
+          <Icon name="lucide:arrow-right" class="size-5" />
+        </div>
+      </a>
+
+      <a href="/markets/weekly" class="bg-card border border-border p-8 rounded-xl hover:border-primary/50 transition-colors group flex flex-col items-center text-center space-y-4 relative overflow-hidden">
+        <div class="p-4 bg-primary/10 rounded-full text-primary group-hover:scale-110 transition-transform">
+          <Icon name="lucide:calendar" class="size-8" />
+        </div>
+        <div class="space-y-2 relative z-10">
+          <h3 class="text-xl font-bold group-hover:text-primary transition-colors">Weekly Market Commentary</h3>
+          <p class="text-sm text-muted-foreground">Sunday evening prep. The macro week in review, plus forward-looking thesis.</p>
+        </div>
+        <div class="absolute bottom-4 right-4 text-primary opacity-0 group-hover:opacity-100 group-hover:-translate-y-1 transition-all">
+          <Icon name="lucide:arrow-right" class="size-5" />
+        </div>
+      </a>
+    </div>
+
+    <!-- Subscribe CTA -->
+    <div class="mt-12 bg-neutral-900/50 border border-border/50 rounded-xl p-8 text-center max-w-2xl mx-auto space-y-6">
+      <div class="space-y-2">
+        <h3 class="text-xl font-bold">Want these in your inbox?</h3>
+        <p class="text-sm text-muted-foreground">Get the latest macro insights delivered directly to you as soon as they are published.</p>
+      </div>
+      <a href="/subscribe" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 px-8 py-2">
+        Subscribe Now
+      </a>
+    </div>
+
+  </div>
+</Layout>
