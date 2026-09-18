@@ -138,6 +138,10 @@ export const NAV_LINKS: SocialLink[] = [
     href: '/about',
     label: 'About',
   },
+  {
+    href: '/markets',
+    label: 'Newsletter',
+  },
 ]
 
 export const SOCIAL_LINKS: SocialLink[] = [
@@ -150,8 +154,8 @@ export const SOCIAL_LINKS: SocialLink[] = [
     label: 'X',
   },
   {
-    href: 'mailto:vatswork10@gmail.com',
-    label: 'Email',
+    href: 'https://www.linkedin.com/in/vats1910/',
+    label: 'LinkedIn',
   },
 
 ]
