@@ -1,4 +1,6 @@
 import type { CollectionEntry } from 'astro:content'
+import fs from 'node:fs'
+import path from 'node:path'
 
 export interface DigestPost {
     title: string
@@ -58,7 +60,7 @@ export function generateDigestEmail(posts: DigestPost[], siteUrl: string, newsle
     const marketsBlock = renderMarketData(newsletterData?.markets);
     const conceptCornerBlock = renderConceptCorner(newsletterData?.conceptCornerTitle, newsletterData?.conceptCornerText);
     const onMyDeskBlock = renderOnMyDesk(newsletterData?.onMyDesk);
-    const latestResearchBlock = newsletterData?.isDaily ? '' : renderLatestResearch(posts);
+    const latestResearchBlock = newsletterData ? '' : renderLatestResearch(posts);
 
     const emailTitle = newsletterData 
         ? (newsletterData.isDaily ? `The Daily Alpha Pulse — ${newsletterData.title}` : `Weekly Market Outlook — ${newsletterData.title}`)
@@ -343,20 +345,129 @@ function formatCommentary(text: string, siteUrl: string = 'https://vatsal.ca'): 
     const mainBody = parts[0] || '';
     const footerBody = parts.slice(1).join('\n').trim();
 
-    // 4. Simple Markdown conversion for main commentary body
-    const mainHtml = mainBody.split('\n\n')
-        .map(p => p.trim())
-        .filter(Boolean)
-        .map(p => {
-            if (p.startsWith('<p') || p.startsWith('<hr') || p.startsWith('<h3')) {
-                return p;
+    // Helper to format inline markdown (bold, italic, links, images)
+    const formatInline = (str: string) => {
+        let res = str.replace(/\\(\$)/g, '$1');
+        // 1. Images must be processed before standard links
+        res = res.replace(/!\[(.*?)\]\((.*?)\)/g, (_match, alt, src) => {
+            let fullSrc = src;
+            if (fullSrc.startsWith('/')) {
+                try {
+                    const localPath = path.join(process.cwd(), 'public', fullSrc.replace(/^\//, ''));
+                    if (fs.existsSync(localPath)) {
+                        const fileBuffer = fs.readFileSync(localPath);
+                        const ext = path.extname(localPath).slice(1) || 'png';
+                        fullSrc = `data:image/${ext};base64,${fileBuffer.toString('base64')}`;
+                    } else {
+                        fullSrc = `${siteUrl}${fullSrc}`;
+                    }
+                } catch {
+                    fullSrc = `${siteUrl}${fullSrc}`;
+                }
             }
-            let formatted = p.replace(/\n/g, '<br />');
-            formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong style="color:#0a0a0a;">$1</strong>');
-            formatted = formatted.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" style="color:#b8960c; text-decoration:underline;">$1</a>');
-            return `<p class="text-main" style="margin:0 0 16px 0; font-size:15px; line-height:1.7; color:#333333;">${formatted}</p>`;
-        })
-        .join('');
+            return `<div style="margin:20px 0; text-align:center;"><img src="${fullSrc}" alt="${alt}" style="max-width:100%; max-height:480px; height:auto; border-radius:6px; display:inline-block; border:1px solid #e8e3d8;" /></div>`;
+        });
+        res = res.replace(/\*\*(.*?)\*\*/g, '<strong class="text-main" style="font-weight:700;">$1</strong>');
+        res = res.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
+        res = res.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" style="color:#b8960c; text-decoration:underline;">$1</a>');
+        return res;
+    };
+
+    // 4. Block and line Markdown conversion for main commentary body
+    const rawBlocks = mainBody.split(/\n{2,}/).map(b => b.trim()).filter(Boolean);
+    const htmlBlocks: string[] = [];
+
+    for (const block of rawBlocks) {
+        if (block === '---') {
+            htmlBlocks.push('<div class="divider" style="height:1px; background-color:#eeeeee; margin:24px 0;"></div>');
+            continue;
+        }
+
+        // Check if block starts with a major heading
+        if (block.startsWith('## ')) {
+            const lines = block.split('\n');
+            const h2Text = lines[0].replace(/^##\s*/, '').trim();
+            htmlBlocks.push(`<h2 class="gold-accent" style="margin:28px 0 14px 0; font-size:14px; font-weight:600; color:#b8960c; text-transform:uppercase; letter-spacing:1.5px;">${h2Text}</h2>`);
+            
+            // Process any remaining lines in this block
+            if (lines.length > 1) {
+                const rest = lines.slice(1).join('\n').trim();
+                if (rest) {
+                    htmlBlocks.push(`<p class="text-main" style="margin:0 0 16px 0; font-size:15px; line-height:1.7; color:#333333;">${formatInline(rest.replace(/\n/g, '<br />'))}</p>`);
+                }
+            }
+            continue;
+        }
+
+        // Subheading
+        if (block.startsWith('### ')) {
+            const lines = block.split('\n');
+            const h3Text = lines[0].replace(/^###\s*/, '').trim();
+            htmlBlocks.push(`<div class="text-main" style="margin:20px 0 8px 0; font-size:15px; font-weight:700; color:#0a0a0a;">${formatInline(h3Text)}</div>`);
+            
+            if (lines.length > 1) {
+                const listItems = lines.slice(1).map(l => l.trim()).filter(Boolean);
+                for (const item of listItems) {
+                    const cleanItem = item.replace(/^[\*\-]\s*/, '');
+                    htmlBlocks.push(`<div class="text-main" style="margin:4px 0 6px 12px; font-size:15px; line-height:1.7; color:#333333;">&bull; ${formatInline(cleanItem)}</div>`);
+                }
+            }
+            continue;
+        }
+
+        // Blockquote
+        if (block.startsWith('>')) {
+            const quoteContent = block.replace(/^>\s*/gm, '').trim();
+            htmlBlocks.push(`<div class="card-bg border-block text-main" style="margin:16px 0; padding:12px 18px; border-left:3px solid #b8960c; background-color:#fcfbf8; font-style:italic; font-size:15px; line-height:1.7; color:#333333;">${formatInline(quoteContent.replace(/\n/g, '<br />'))}</div>`);
+            continue;
+        }
+
+        // Bulleted list block
+        if (block.startsWith('* ') || block.startsWith('- ')) {
+            const rawLines = block.split('\n');
+            const entries: string[] = [];
+            let currentEntry = '';
+
+            for (const line of rawLines) {
+                if (/^[\*\-]\s+/.test(line.trim())) {
+                    if (currentEntry) entries.push(currentEntry);
+                    currentEntry = line.trim().replace(/^[\*\-]\s+/, '');
+                } else {
+                    if (currentEntry) {
+                        currentEntry += '<br />' + line.trim();
+                    } else {
+                        currentEntry = line.trim();
+                    }
+                }
+            }
+            if (currentEntry) entries.push(currentEntry);
+
+            for (const entry of entries) {
+                htmlBlocks.push(`<div class="text-main" style="margin:8px 0 12px 12px; font-size:15px; line-height:1.7; color:#333333;">&bull; ${formatInline(entry)}</div>`);
+            }
+            continue;
+        }
+
+        // Image block
+        if (block.startsWith('![')) {
+            const match = block.match(/!\[(.*?)\]\((.*?)\)/);
+            if (match) {
+                const alt = match[1];
+                let src = match[2];
+                if (src.startsWith('/')) {
+                    src = `${siteUrl}${src}`;
+                }
+                htmlBlocks.push(`<div style="margin:20px 0; text-align:center;"><img src="${src}" alt="${alt}" style="max-width:100%; height:auto; border-radius:6px; display:inline-block; border:1px solid #e8e3d8;" /></div>`);
+                continue;
+            }
+        }
+
+        // Normal paragraph
+        const formatted = formatInline(block.replace(/\n/g, '<br />'));
+        htmlBlocks.push(`<p class="text-main" style="margin:0 0 16px 0; font-size:15px; line-height:1.7; color:#333333;">${formatted}</p>`);
+    }
+
+    const mainHtml = htmlBlocks.join('');
 
     if (!footerBody) {
         return mainHtml;

@@ -167,7 +167,7 @@ export const POST: APIRoute = async (context) => {
         // Cap at the latest 3 regular blog posts
         const postsForDigest = regularBlogs.slice(0, 3)
 
-        const siteUrl = import.meta.env.SITE || 'https://vatsal.ca'
+        const siteUrl = (isDev || testMode) ? url.origin : (import.meta.env.SITE || 'https://vatsal.ca')
         const digestPosts = postsForDigest.map((post) => postToDigest(post, siteUrl))
         const htmlContent = generateDigestEmail(digestPosts, siteUrl, newsletterData)
 
