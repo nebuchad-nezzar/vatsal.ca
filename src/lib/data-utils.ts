@@ -36,7 +36,7 @@ export async function getAllPostsAndSubposts(): Promise<
 > {
   const posts = await getCollection('blog')
   return posts
-    .filter((post) => !post.data.draft && !post.data.isNewsletter)
+    .filter((post) => !post.data.draft)
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 }
 
