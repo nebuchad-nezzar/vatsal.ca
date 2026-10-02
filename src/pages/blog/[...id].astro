@@ -71,15 +71,23 @@ const tocSections = await getTOCSections(currentPostId)
 const isPremium = post.data.premium === true
 
 const isNewsletter = post.data.isDaily || post.id.startsWith('weekly-')
-const newsletterHtml = isNewsletter ? generateDigestEmail([], Astro.url.origin, {
-    title: post.data.title,
-    description: post.body || '',
-    date: post.data.date,
-    isDaily: post.data.isDaily,
-    issueNumber: post.data.issueNumber || post.id.match(/\d+/)?.[0] || '1',
-    keyTakeaways: post.data.keyTakeaways,
-    markets: post.data.markets,
-}) : null;
+let newsletterHtml: string | null = null
+if (isNewsletter) {
+  try {
+    const origin = (Astro.site ? Astro.site.toString() : 'https://vatsal.ca').replace(/\/$/, '')
+    newsletterHtml = generateDigestEmail([], origin, {
+      title: post.data.title,
+      description: post.body || '',
+      date: post.data.date,
+      isDaily: post.data.isDaily,
+      issueNumber: post.data.issueNumber || post.id.match(/\d+/)?.[0] || '1',
+      keyTakeaways: post.data.keyTakeaways,
+      markets: post.data.markets,
+    })
+  } catch (e) {
+    console.error('Failed to generate newsletter HTML:', e)
+  }
+}
 ---
 <Layout>
   <PostHead slot="head" post={post} />
