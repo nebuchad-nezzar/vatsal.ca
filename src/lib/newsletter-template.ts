@@ -350,18 +350,7 @@ function formatCommentary(text: string, siteUrl: string = 'https://vatsal.ca'): 
         res = res.replace(/!\[(.*?)\]\((.*?)\)/g, (_match, alt, src) => {
             let fullSrc = src;
             if (fullSrc.startsWith('/')) {
-                try {
-                    const localPath = path.join(process.cwd(), 'public', fullSrc.replace(/^\//, ''));
-                    if (fs.existsSync(localPath)) {
-                        const fileBuffer = fs.readFileSync(localPath);
-                        const ext = path.extname(localPath).slice(1) || 'png';
-                        fullSrc = `data:image/${ext};base64,${fileBuffer.toString('base64')}`;
-                    } else {
-                        fullSrc = `${siteUrl}${fullSrc}`;
-                    }
-                } catch {
-                    fullSrc = `${siteUrl}${fullSrc}`;
-                }
+                fullSrc = `${siteUrl}${fullSrc}`;
             }
             return `<div style="margin:20px 0; text-align:center;"><img src="${fullSrc}" alt="${alt}" style="max-width:100%; max-height:480px; height:auto; border-radius:6px; display:inline-block; border:1px solid #e8e3d8;" /></div>`;
         });
