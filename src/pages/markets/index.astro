@@ -1,27 +1,46 @@
 ---
-import Layout from '@/layouts/Layout.astro'
+export const prerender = true
 import PageHead from '@/components/PageHead.astro'
+import Layout from '@/layouts/Layout.astro'
 import Breadcrumbs from '@/components/Breadcrumbs.astro'
 import { Icon } from 'astro-icon/components'
+
+// React TradingView Components
+import MarketTreemap from '@/components/react/MarketTreemap'
+import AdvancedChart from '@/components/react/AdvancedChart'
+import TopMovers from '@/components/react/TopMovers'
+import VolumeLeaders from '@/components/react/VolumeLeaders'
+import HighsLows from '@/components/react/HighsLows'
+import EconomicCalendar from '@/components/react/EconomicCalendar'
+import MarketDataTable from '@/components/react/MarketDataTable'
+import EconomicMap from '@/components/react/EconomicMap'
+import ForexHeatmap from '@/components/react/ForexHeatmap'
+import CryptoHeatmap from '@/components/react/CryptoHeatmap'
 ---
 
-<Layout class="max-w-3xl">
-  <PageHead slot="head" title="Market Commentary" />
-  <Breadcrumbs
-    items={[
-      { label: 'Markets', href: '/markets', icon: 'lucide:line-chart' },
-    ]}
-  />
+<Layout class="px-2">
+  <PageHead slot="head" title="Markets" />
+  
+  <div class="max-w-7xl mx-auto pt-4 pb-6 space-y-16">
+    <!-- Breadcrumbs -->
+    <Breadcrumbs
+      items={[
+        { label: 'Markets', href: '/markets', icon: 'lucide:line-chart' },
+      ]}
+    />
 
-  <div class="mt-8 flex flex-col gap-8">
-    <div class="space-y-4">
-      <h1 class="text-4xl font-bold">Market Research</h1>
-      <p class="text-lg text-muted-foreground">
-        Select an archive below to read my macro analysis, trading insights, and economic breakdowns.
+    <!-- Page Header -->
+    <div class="text-center space-y-4">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
+        Financial Markets
+      </h1>
+      <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+        Read my market research or analyze real-time data using the interactive charts below.
       </p>
     </div>
 
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <!-- Market Research Section (Daily/Weekly Archives) -->
+    <section class="max-w-3xl mx-auto grid grid-cols-1 gap-6 sm:grid-cols-2">
       <!-- Daily Card -->
       <a href="/markets/daily" class="group flex flex-col justify-between gap-4 rounded-xl border border-border bg-card p-6 transition-all hover:bg-accent hover:shadow-sm">
         <div class="space-y-3">
@@ -30,7 +49,7 @@ import { Icon } from 'astro-icon/components'
             <span>Daily Briefings</span>
           </div>
           <p class="text-sm text-muted-foreground leading-relaxed">
-            Fast, tactical updates covering equities, yields, and breaking geopolitical events affecting the markets day-to-day.
+            Fast, tactical updates covering equities, yields, and breaking geopolitical events.
           </p>
         </div>
         <div class="text-sm font-medium text-primary group-hover:underline mt-4 flex items-center gap-1">
@@ -46,13 +65,79 @@ import { Icon } from 'astro-icon/components'
             <span>Weekly Deep Dives</span>
           </div>
           <p class="text-sm text-muted-foreground leading-relaxed">
-            Comprehensive structural analysis, longer-term trend identification, and strategic portfolio positioning for the week ahead.
+            Comprehensive structural analysis and strategic portfolio positioning.
           </p>
         </div>
         <div class="text-sm font-medium text-primary group-hover:underline mt-4 flex items-center gap-1">
           Read Weekly Archive <Icon name="lucide:arrow-right" class="size-4" />
         </div>
       </a>
+    </section>
+
+    <!-- Quick Analysis Section -->
+    <div class="bg-card border border-border p-4 rounded-xl flex flex-col sm:flex-row items-center justify-center gap-4 text-center mt-12">
+      <span class="text-sm font-medium">Please find quick analysis for:</span>
+      <div class="flex gap-4">
+        <a href="#forex" class="text-sm text-primary hover:underline font-semibold">Forex</a>
+        <a href="#stocks" class="text-sm text-primary hover:underline font-semibold">Stocks</a>
+        <a href="#crypto" class="text-sm text-primary hover:underline font-semibold">Crypto</a>
+      </div>
     </div>
+
+    <!-- Economic Map Section -->
+    <section>
+      <EconomicMap client:load />
+    </section>
+
+    <!-- Market Data Tables Section (Stacked) -->
+    <section class="space-y-16" id="stocks">
+      <MarketDataTable category="indices" client:load />
+      <MarketDataTable category="stocks" client:load />
+      <MarketDataTable category="currencies" client:load />
+      <MarketDataTable category="crypto" client:load />
+    </section>
+
+    <!-- Top Movers Section -->
+    <section>
+      <TopMovers client:load />
+    </section>
+
+    <!-- Volume & Highs/Lows Grid -->
+    <section class="grid lg:grid-cols-2 gap-8">
+      <VolumeLeaders client:load />
+      <div class="space-y-8">
+        <HighsLows type="highs" client:load />
+      </div>
+    </section>
+
+    <!-- Market Heatmap Section (Stacked) -->
+    <section class="space-y-16" id="forex">
+      <MarketTreemap market="sp500" client:load />
+      <MarketTreemap market="nasdaq" client:load />
+      <ForexHeatmap client:load />
+      <CryptoHeatmap client:load />
+    </section>
+
+    <!-- Advanced Chart Section -->
+    <section>
+      <AdvancedChart client:load />
+    </section>
+
+    <!-- Economic Calendar Section -->
+    <section>
+      <EconomicCalendar client:load />
+    </section>
+
   </div>
 </Layout>
+
+<style>
+  /* Ensure TradingView widgets render properly */
+  :global(.tradingview-widget-container) {
+    position: relative;
+  }
+  
+  :global(.tradingview-widget-container iframe) {
+    border-radius: inherit;
+  }
+</style>
