@@ -409,28 +409,72 @@ function formatCommentary(text: string, siteUrl: string = 'https://vatsal.ca'): 
             continue;
         }
 
+        // Markdown Table block
+        if (block.startsWith('|') && block.includes('\n|')) {
+            const tableLines = block.split('\n').map(l => l.trim()).filter(l => l.startsWith('|'));
+            if (tableLines.length >= 2) {
+                const parseCells = (row: string) =>
+                    row.replace(/^\|/, '').replace(/\|$/, '').split('|').map(c => c.trim());
+
+                const headers = parseCells(tableLines[0]);
+                const dataRows = tableLines.slice(1).filter(r => !/^\|?[\s\-:|]+\|?$/.test(r));
+
+                const headerHtml = headers.map((h, i) =>
+                    `<th class="gold-accent border-block" style="padding:10px 12px; text-align:${i === 0 ? 'left' : 'left'}; font-size:11px; font-weight:700; color:#b8960c; text-transform:uppercase; letter-spacing:1px; border-bottom:2px solid #e8e3d8; background-color:#f4f1ea;">${formatInline(h)}</th>`
+                ).join('');
+
+                const bodyHtml = dataRows.map((row, rIdx) => {
+                    const cells = parseCells(row);
+                    const bg = rIdx % 2 === 0 ? '#ffffff' : '#fcfbf8';
+                    const cellsHtml = cells.map((c, cIdx) =>
+                        `<td class="text-main border-block" style="padding:10px 12px; font-size:13px; line-height:1.5; color:#222222; border-bottom:1px solid #eeeeee; font-weight:${cIdx === 0 ? '600' : '400'};">${formatInline(c)}</td>`
+                    ).join('');
+                    return `<tr class="card-bg" style="background-color:${bg};">${cellsHtml}</tr>`;
+                }).join('');
+
+                htmlBlocks.push(`
+                <div style="margin:20px 0; overflow-x:auto;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="card-bg border-block" style="width:100%; border-collapse:collapse; border:1px solid #e8e3d8; border-radius:4px; overflow:hidden;">
+                    <thead><tr>${headerHtml}</tr></thead>
+                    <tbody>${bodyHtml}</tbody>
+                  </table>
+                </div>`);
+                continue;
+            }
+        }
+
         // Bulleted list block
         if (block.startsWith('* ') || block.startsWith('- ')) {
             const rawLines = block.split('\n');
-            const entries: string[] = [];
-            let currentEntry = '';
+            const entries: { text: string; isSub: boolean }[] = [];
+            let currentEntry: { text: string; isSub: boolean } | null = null;
 
             for (const line of rawLines) {
-                if (/^[\*\-]\s+/.test(line.trim())) {
+                const isSubBullet = /^\s{2,}[\*\-]\s+/.test(line);
+                const isMainBullet = /^[\*\-]\s+/.test(line.trim());
+
+                if (isMainBullet) {
                     if (currentEntry) entries.push(currentEntry);
-                    currentEntry = line.trim().replace(/^[\*\-]\s+/, '');
+                    currentEntry = {
+                        text: line.trim().replace(/^[\*\-]\s+/, ''),
+                        isSub: isSubBullet
+                    };
                 } else {
                     if (currentEntry) {
-                        currentEntry += '<br />' + line.trim();
+                        currentEntry.text += '<br />' + line.trim();
                     } else {
-                        currentEntry = line.trim();
+                        currentEntry = { text: line.trim(), isSub: false };
                     }
                 }
             }
             if (currentEntry) entries.push(currentEntry);
 
             for (const entry of entries) {
-                htmlBlocks.push(`<div class="text-main" style="margin:8px 0 12px 12px; font-size:15px; line-height:1.7; color:#333333;">&bull; ${formatInline(entry)}</div>`);
+                if (entry.isSub) {
+                    htmlBlocks.push(`<div class="text-sub" style="margin:4px 0 8px 28px; font-size:14px; line-height:1.6; color:#444444;">&ndash; ${formatInline(entry.text)}</div>`);
+                } else {
+                    htmlBlocks.push(`<div class="text-main" style="margin:6px 0 10px 12px; font-size:15px; line-height:1.7; color:#333333;">&bull; ${formatInline(entry.text)}</div>`);
+                }
             }
             continue;
         }
