@@ -364,7 +364,47 @@ function formatCommentary(text: string, siteUrl: string = 'https://vatsal.ca'): 
     const rawBlocks = mainBody.split(/\n{2,}/).map(b => b.trim()).filter(Boolean);
     const htmlBlocks: string[] = [];
 
-    for (const block of rawBlocks) {
+    // Helper to parse bullet lines (supports indented sub-bullets and auto-bolding Metric: labels inside cards)
+    const renderBulletsHtml = (bulletBlock: string, autoBoldLabels: boolean = false): string => {
+        const rawLines = bulletBlock.split('\n');
+        const entries: { text: string; isSub: boolean }[] = [];
+        let currentEntry: { text: string; isSub: boolean } | null = null;
+
+        for (const line of rawLines) {
+            const isSubBullet = /^\s{2,}[\*\-]\s+/.test(line);
+            const isMainBullet = /^[\*\-]\s+/.test(line.trim());
+
+            if (isMainBullet) {
+                if (currentEntry) entries.push(currentEntry);
+                currentEntry = {
+                    text: line.trim().replace(/^[\*\-]\s+/, ''),
+                    isSub: isSubBullet
+                };
+            } else {
+                if (currentEntry) {
+                    currentEntry.text += '<br />' + line.trim();
+                } else {
+                    currentEntry = { text: line.trim(), isSub: false };
+                }
+            }
+        }
+        if (currentEntry) entries.push(currentEntry);
+
+        return entries.map((entry) => {
+            let formattedText = formatInline(entry.text);
+            if (autoBoldLabels && !formattedText.startsWith('<strong')) {
+                formattedText = formattedText.replace(/^([^:<]{2,38}:)(\s*)/, '<strong class="text-main" style="font-weight:600; color:#0a0a0a;">$1</strong>$2');
+            }
+            if (entry.isSub) {
+                return `<div class="text-sub" style="margin:3px 0 6px 22px; font-size:13.5px; line-height:1.55; color:#444444;">&ndash; ${formattedText}</div>`;
+            }
+            return `<div class="text-main" style="margin:5px 0 8px 6px; font-size:14px; line-height:1.6; color:#2b2b2b;"><span class="gold-accent" style="color:#b8960c; font-weight:bold; margin-right:6px;">&bull;</span>${formattedText}</div>`;
+        }).join('');
+    };
+
+    for (let i = 0; i < rawBlocks.length; i++) {
+        const block = rawBlocks[i];
+
         if (block === '---') {
             htmlBlocks.push('<div class="divider" style="height:1px; background-color:#eeeeee; margin:24px 0;"></div>');
             continue;
@@ -386,11 +426,73 @@ function formatCommentary(text: string, siteUrl: string = 'https://vatsal.ca'): 
             continue;
         }
 
-        // Subheading
+        // Company Earnings Card Box: ### [TICKER] Company Title
+        if (/^###\s+\[[A-Z0-9\.\-]+\]/i.test(block)) {
+            const lines = block.split('\n');
+            const headerLine = lines[0].replace(/^###\s*/, '').trim();
+            const tickerMatch = headerLine.match(/^\[([A-Z0-9\.\-]+)\]\s*(.*)$/i);
+            const ticker = tickerMatch ? tickerMatch[1].toUpperCase() : '';
+            const companyTitle = tickerMatch ? tickerMatch[2].trim() : headerLine;
+
+            const cardInnerHtml: string[] = [];
+
+            // If there were extra lines inside the ### [TICKER] block itself
+            if (lines.length > 1) {
+                const rest = lines.slice(1).join('\n').trim();
+                if (rest.startsWith('* ') || rest.startsWith('- ')) {
+                    cardInnerHtml.push(renderBulletsHtml(rest, true));
+                } else if (rest) {
+                    cardInnerHtml.push(`<div class="text-sub" style="margin:0 0 12px 0; font-size:14px; line-height:1.6; color:#444444; font-style:italic;">${formatInline(rest)}</div>`);
+                }
+            }
+
+            // Look ahead and absorb contiguous summary paragraph(s) and bullet list(s) belonging to this company card
+            while (i + 1 < rawBlocks.length) {
+                const nextBlock = rawBlocks[i + 1];
+                const isBulletNext = nextBlock.startsWith('* ') || nextBlock.startsWith('- ');
+                const isPlainSummaryNext =
+                    cardInnerHtml.length === 0 &&
+                    !nextBlock.startsWith('#') &&
+                    !nextBlock.startsWith('>') &&
+                    !nextBlock.startsWith('|') &&
+                    !nextBlock.startsWith('![') &&
+                    nextBlock !== '---' &&
+                    i + 2 < rawBlocks.length &&
+                    (rawBlocks[i + 2].startsWith('* ') || rawBlocks[i + 2].startsWith('- '));
+
+                if (isPlainSummaryNext) {
+                    cardInnerHtml.push(`<div class="text-sub" style="margin:0 0 12px 0; padding-bottom:10px; border-bottom:1px dashed #e8e3d8; font-size:14px; line-height:1.6; color:#444444;">${formatInline(nextBlock.replace(/\n/g, '<br />'))}</div>`);
+                    i++;
+                } else if (isBulletNext) {
+                    cardInnerHtml.push(renderBulletsHtml(nextBlock, true));
+                    i++;
+                } else {
+                    break;
+                }
+            }
+
+            htmlBlocks.push(`
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="card-bg border-block" style="margin:16px 0 20px 0; background-color:#fcfbf8; border:1px solid #e8e3d8; border-left:3px solid #b8960c; border-radius:4px; border-collapse:collapse;">
+              <tr>
+                <td style="padding:16px 20px 12px 20px; border-bottom:1px solid #ece7dc;" class="border-block">
+                  <span class="badge-bg gold-accent" style="display:inline-block; background-color:#0a0a0a; color:#d4a94e; font-size:11px; font-weight:700; letter-spacing:1px; padding:3px 8px; border-radius:3px; margin-right:8px; vertical-align:middle;">${ticker}</span>
+                  <span class="text-main" style="font-size:15px; font-weight:700; color:#0a0a0a; vertical-align:middle;">${formatInline(companyTitle)}</span>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:14px 20px 16px 20px;">
+                  ${cardInnerHtml.join('')}
+                </td>
+              </tr>
+            </table>`);
+            continue;
+        }
+
+        // Standard Subheading
         if (block.startsWith('### ')) {
             const lines = block.split('\n');
             const h3Text = lines[0].replace(/^###\s*/, '').trim();
-            htmlBlocks.push(`<div class="text-main" style="margin:20px 0 8px 0; font-size:15px; font-weight:700; color:#0a0a0a;">${formatInline(h3Text)}</div>`);
+            htmlBlocks.push(`<div class="text-main" style="margin:24px 0 10px 0; font-size:15px; font-weight:700; color:#0a0a0a; letter-spacing:0.2px;">${formatInline(h3Text)}</div>`);
             
             if (lines.length > 1) {
                 const listItems = lines.slice(1).map(l => l.trim()).filter(Boolean);
