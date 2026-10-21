@@ -461,7 +461,7 @@ function formatCommentary(text: string, siteUrl: string = 'https://vatsal.ca'): 
                     (rawBlocks[i + 2].startsWith('* ') || rawBlocks[i + 2].startsWith('- '));
 
                 if (isPlainSummaryNext) {
-                    cardInnerHtml.push(`<div class="text-sub" style="margin:0 0 12px 0; padding-bottom:10px; border-bottom:1px dashed #e8e3d8; font-size:14px; line-height:1.6; color:#444444;">${formatInline(nextBlock.replace(/\n/g, '<br />'))}</div>`);
+                    cardInnerHtml.push(`<div class="text-sub" style="margin:0 0 10px 0; font-size:14px; line-height:1.6; color:#444444;">${formatInline(nextBlock.replace(/\n/g, '<br />'))}</div>`);
                     i++;
                 } else if (isBulletNext) {
                     cardInnerHtml.push(renderBulletsHtml(nextBlock, true));
