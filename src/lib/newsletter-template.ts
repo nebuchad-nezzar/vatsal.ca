@@ -474,19 +474,9 @@ function formatCommentary(text: string, siteUrl: string = 'https://vatsal.ca'): 
             htmlBlocks.push(`
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="card-bg border-block" style="margin:16px 0 20px 0; background-color:#fcfbf8; border:1px solid #e8e3d8; border-left:3px solid #b8960c; border-radius:4px; border-collapse:collapse;">
               <tr>
-                <td style="padding:14px 20px 12px 20px; border-bottom:1px solid #ece7dc;" class="border-block">
-                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-                    <tr>
-                      <td style="vertical-align:middle;">
-                        <span class="badge-bg gold-accent" style="display:inline-block; background-color:#0a0a0a; color:#d4a94e; font-size:11px; font-weight:700; letter-spacing:1px; padding:3px 8px; border-radius:3px; margin-right:8px; vertical-align:middle;">${ticker}</span>
-                        <span class="text-main" style="font-size:15px; font-weight:700; color:#0a0a0a; vertical-align:middle;">${formatInline(companyTitle)}</span>
-                      </td>
-                      <td style="text-align:right; vertical-align:middle; white-space:nowrap; padding-left:12px;">
-                        <span class="text-sub" style="font-size:10px; font-weight:600; color:#888888; letter-spacing:1.2px; text-transform:uppercase; vertical-align:middle; margin-right:6px;">vatsal.ca</span>
-                        <img src="${siteUrl}/logo.png" alt="Vatsal.ca" width="24" style="display:inline-block; border:none; max-width:24px; height:auto; opacity:0.9; vertical-align:middle;">
-                      </td>
-                    </tr>
-                  </table>
+                <td style="padding:16px 20px 12px 20px; border-bottom:1px solid #ece7dc;" class="border-block">
+                  <span class="badge-bg gold-accent" style="display:inline-block; background-color:#0a0a0a; color:#d4a94e; font-size:11px; font-weight:700; letter-spacing:1px; padding:3px 8px; border-radius:3px; margin-right:8px; vertical-align:middle;">${ticker}</span>
+                  <span class="text-main" style="font-size:15px; font-weight:700; color:#0a0a0a; vertical-align:middle;">${formatInline(companyTitle)}</span>
                 </td>
               </tr>
               <tr>
