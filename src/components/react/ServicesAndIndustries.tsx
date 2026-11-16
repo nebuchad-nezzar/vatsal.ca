@@ -29,52 +29,56 @@ const SERVICES = [
     title: 'Quant Work & Algorithmic Trading',
     category: 'Quantitative Engineering',
     icon: TrendingUp,
+    href: '/services/quant-trading',
     description:
-      'End-to-end development of proprietary trading algorithms, high-speed execution engines, tick-level backtesting frameworks, smart order routing (SOR), and automated risk control switches.',
-    tags: ['Python', 'C++', 'FIX Protocol', 'Options Pricing', 'Backtesting', 'Execution Bots'],
+      'End-to-end development of multi-account execution systems, Interactive Brokers & exchange API integrations, options Greek risk monitors, scenario backtesting frameworks, and automated portfolio rebalancing.',
+    tags: ['Python (asyncio)', 'IBKR TWS/Web API', 'TimescaleDB', 'Options Greeks', 'Backtesting', 'TypeScript'],
   },
   {
     id: '02',
     title: 'AI Integrations & Agentic Workflows',
     category: 'LLM & Agent Architecture',
     icon: Cpu,
+    href: '/services/ai-integrations',
     description:
       'Replacing manual operational workflows with production-grade AI agents. Building RAG retrieval pipelines, Model Context Protocol (MCP) integrations, and autonomous market research tools.',
-    tags: ['Claude 3.5', 'Gemini Flash', 'LangChain', 'RAG Architecture', 'Vector DB', 'MCP Tools'],
+    tags: ['Claude / Gemini', 'Python', 'LangChain', 'RAG Architecture', 'Vector DB', 'MCP Tools'],
   },
   {
     id: '03',
     title: 'Data Science & Machine Learning',
     category: 'Predictive Financial Analytics',
     icon: Brain,
+    href: '/services/data-science-ml',
     description:
-      'Designing predictive financial models, microstructure feature engineering, volatility clustering, NLP sentiment extraction from earnings calls, and custom CUDA-accelerated ML pipelines.',
-    tags: ['PyTorch', 'Scikit-Learn', 'Pandas', 'Feature Engineering', 'CUDA', 'Financial NLP'],
+      'Designing quantitative screening pipelines, volatility surface modeling, earnings-drift and factor analysis, NLP sentiment extraction from filings, and production ML inference pipelines.',
+    tags: ['PyTorch', 'Scikit-Learn', 'Pandas & Polars', 'SciPy', 'Volatility Modeling', 'Financial NLP'],
   },
   {
     id: '04',
     title: 'System Design & Architecture',
     category: 'Distributed Infrastructure',
     icon: Network,
+    href: '/services/system-architecture',
     description:
-      'Architecting fault-tolerant microservice backbones, low-latency WebSocket market telemetry, high-throughput database schemas, and microsecond-optimized cloud/hybrid infrastructure.',
-    tags: ['Distributed Systems', 'WebSockets', 'Redis', 'Docker', 'PostgreSQL', 'Microservices'],
+      'Architecting fault-tolerant producer-consumer pipelines, real-time WebSocket & MQTT telemetry feeds, high-concurrency transaction ledgers, and time-series database schemas.',
+    tags: ['Distributed Systems', 'Concurrency Control', 'TimescaleDB', 'WebSockets & MQTT', 'Docker', 'PostgreSQL'],
   },
 ]
 
 const INDUSTRIES = [
   {
     id: '01',
-    name: 'Quantitative & Hedge Funds',
-    subtitle: 'High-speed execution & signal infrastructure',
+    name: 'Quantitative & Investment Desks',
+    subtitle: 'Execution, PMS & risk infrastructure',
     icon: TrendingUp,
     href: '/services/quant-trading',
     description:
-      'Building custom trading engines, tick-level backtesters, automated execution algorithms, and gateway kill switches for quantitative desks.',
+      'Migrating lean investment desks off manual spreadsheets into automated multi-account execution, live Greek risk monitoring, and historical scenario simulation.',
     deliverables: [
-      'Smart Order Routing (SOR) & Microsecond Execution',
-      'Historical Order-Book Tick Backtesting Engines',
-      'Real-Time Pre-Trade Risk & Drawdown Monitors',
+      'Multi-Account SMA Execution & Rebalancing',
+      'Historical Equity & Options Chain Backtesters',
+      'Real-Time Portfolio Greek & P&L Dashboards',
     ],
   },
   {
@@ -82,7 +86,7 @@ const INDUSTRIES = [
     name: 'Enterprise AI & SaaS',
     subtitle: 'Agentic workflows & production LLM systems',
     icon: Cpu,
-    href: '/services/ai-agents',
+    href: '/services/ai-integrations',
     description:
       'Replacing legacy manual processes with production AI agents, structured database retrieval (RAG), and Model Context Protocol (MCP) tooling.',
     deliverables: [
@@ -93,16 +97,16 @@ const INDUSTRIES = [
   },
   {
     id: '03',
-    name: 'FinTech & Trading Platforms',
-    subtitle: 'Real-time telemetry & exchange connectivity',
+    name: 'FinTech & Digital Asset Platforms',
+    subtitle: 'High-concurrency ledgers & streaming telemetry',
     icon: Zap,
-    href: '/services/quant-trading',
+    href: '/services/system-architecture',
     description:
-      'Scaling streaming WebSocket feeds, FIX protocol exchange gateways, and high-throughput order management systems for active trading platforms.',
+      'Scaling streaming WebSocket/MQTT feeds, multi-currency wallet infrastructure, and high-throughput ACID transaction ledgers.',
     deliverables: [
-      'Low-Latency VWAP & Order Depth WebSockets',
-      'Native FIX Protocol & Exchange API Gateways',
-      'High-Scale Rate-Limited Backend Architecture',
+      'High-Concurrency Transaction & Wallet Ledgers',
+      'Broker & Exchange API Gateways (IBKR / REST / WS)',
+      'Time-Series Market Data ETL (TimescaleDB)',
     ],
   },
 ]
@@ -141,7 +145,7 @@ const PRINCIPLES = [
 
 export default function ServicesAndIndustries() {
   return (
-    <section className="w-full max-w-5xl mx-auto py-12 px-2 space-y-16">
+    <section className="w-full max-w-5xl mx-auto py-4 px-2 space-y-12">
       {/* SECTION 1: Services I Provide */}
       <div className="space-y-6">
         <div className="flex flex-col mb-4">
