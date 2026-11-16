@@ -1,13 +1,45 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import PageHead from '../components/PageHead.astro';
+export const prerender = true
+import Layout from '../layouts/Layout.astro'
+import PageHead from '../components/PageHead.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
 ---
 
-<Layout>
-  <PageHead slot="head" title="Now" />
-  <div class="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
-    <h1 class="text-4xl font-bold">Now</h1>
-    <p class="text-muted-foreground">See what I'm doing now...</p>
-    <a href="/" class="text-sm underline hover:text-foreground/80">Back to Home</a>
+<Layout class="px-2">
+  <PageHead slot="head" title="Now | Vatsal Sharma" />
+  <div class="mx-auto w-full max-w-[calc(var(--container-3xl)-2rem)]">
+    <Breadcrumbs items={[{ label: 'Now', icon: 'lucide:loader-2' }]} />
   </div>
+
+  <section class="mx-auto max-w-[calc(var(--container-3xl)-2rem)] py-6 space-y-8">
+    <div class="space-y-2">
+      <h1 class="text-3xl font-bold tracking-tight">What I'm Working On Now</h1>
+      <p class="text-xs text-muted-foreground">
+        Updated October 2026 &bull; Toronto, ON
+      </p>
+    </div>
+
+    <div class="space-y-6 text-sm leading-relaxed text-muted-foreground">
+      <div class="p-5 rounded-xl border border-border bg-card/40 space-y-2">
+        <h2 class="text-base font-semibold text-foreground">1. Quantitative Portfolio & Derivatives Infrastructure</h2>
+        <p>
+          Expanding my real-time <strong>Options Volatility Surface & Greek Exposure Engine</strong> in Python, NumPy/SciPy, WebSockets, and TypeScript—modeling cross-strike implied volatility skew, term-structure dislocations, and multi-account Delta / Gamma / Vega hedging workflows.
+        </p>
+      </div>
+
+      <div class="p-5 rounded-xl border border-border bg-card/40 space-y-2">
+        <h2 class="text-base font-semibold text-foreground">2. M.Sc. in Financial Engineering — WorldQuant University</h2>
+        <p>
+          Completing graduate coursework in stochastic calculus, derivatives pricing, fixed-income modeling, and systematic portfolio construction, building on my M.Sc. in Analytics (AI Specialization) from Northeastern University.
+        </p>
+      </div>
+
+      <div class="p-5 rounded-xl border border-border bg-card/40 space-y-2">
+        <h2 class="text-base font-semibold text-foreground">3. Agentic Financial Research & Low-Latency Data Pipelines</h2>
+        <p>
+          Building production Model Context Protocol (MCP) tools and structured time-series ETL pipelines (TimescaleDB / PostgreSQL / Python <code>asyncio</code>) that automate earnings-revision tracking, filings extraction, and systematic market screening.
+        </p>
+      </div>
+    </div>
+  </section>
 </Layout>

@@ -7,10 +7,7 @@ import {
   Code2,
   Zap,
   Lock,
-  Layers,
-  Building2,
   CheckCircle2,
-  ShieldCheck,
   Wrench,
 } from 'lucide-react'
 
@@ -31,8 +28,8 @@ const SERVICES = [
     icon: TrendingUp,
     href: '/services/quant-trading',
     description:
-      'End-to-end development of multi-account execution systems, Interactive Brokers & exchange API integrations, options Greek risk monitors, scenario backtesting frameworks, and automated portfolio rebalancing.',
-    tags: ['Python (asyncio)', 'IBKR TWS/Web API', 'TimescaleDB', 'Options Greeks', 'Backtesting', 'TypeScript'],
+      'End-to-end development of proprietary trading algorithms, high-speed execution engines, tick-level backtesting frameworks, smart order routing (SOR), and automated risk control switches.',
+    tags: ['Python', 'C++', 'FIX Protocol', 'Options Pricing', 'Backtesting', 'Execution Bots'],
   },
   {
     id: '02',
@@ -42,7 +39,7 @@ const SERVICES = [
     href: '/services/ai-integrations',
     description:
       'Replacing manual operational workflows with production-grade AI agents. Building RAG retrieval pipelines, Model Context Protocol (MCP) integrations, and autonomous market research tools.',
-    tags: ['Claude / Gemini', 'Python', 'LangChain', 'RAG Architecture', 'Vector DB', 'MCP Tools'],
+    tags: ['Claude 3.5', 'Gemini Flash', 'LangChain', 'RAG Architecture', 'Vector DB', 'MCP Tools'],
   },
   {
     id: '03',
@@ -51,8 +48,8 @@ const SERVICES = [
     icon: Brain,
     href: '/services/data-science-ml',
     description:
-      'Designing quantitative screening pipelines, volatility surface modeling, earnings-drift and factor analysis, NLP sentiment extraction from filings, and production ML inference pipelines.',
-    tags: ['PyTorch', 'Scikit-Learn', 'Pandas & Polars', 'SciPy', 'Volatility Modeling', 'Financial NLP'],
+      'Designing predictive financial models, microstructure feature engineering, volatility clustering, NLP sentiment extraction from earnings calls, and custom CUDA-accelerated ML pipelines.',
+    tags: ['PyTorch', 'Scikit-Learn', 'Pandas', 'Feature Engineering', 'CUDA', 'Financial NLP'],
   },
   {
     id: '04',
@@ -61,24 +58,24 @@ const SERVICES = [
     icon: Network,
     href: '/services/system-architecture',
     description:
-      'Architecting fault-tolerant producer-consumer pipelines, real-time WebSocket & MQTT telemetry feeds, high-concurrency transaction ledgers, and time-series database schemas.',
-    tags: ['Distributed Systems', 'Concurrency Control', 'TimescaleDB', 'WebSockets & MQTT', 'Docker', 'PostgreSQL'],
+      'Architecting fault-tolerant microservice backbones, low-latency WebSocket market telemetry, high-throughput database schemas, and microsecond-optimized cloud/hybrid infrastructure.',
+    tags: ['Distributed Systems', 'WebSockets', 'Redis', 'Docker', 'PostgreSQL', 'Microservices'],
   },
 ]
 
 const INDUSTRIES = [
   {
     id: '01',
-    name: 'Quantitative & Investment Desks',
-    subtitle: 'Execution, PMS & risk infrastructure',
+    name: 'Quantitative & Hedge Funds',
+    subtitle: 'High-speed execution & signal infrastructure',
     icon: TrendingUp,
     href: '/services/quant-trading',
     description:
-      'Migrating lean investment desks off manual spreadsheets into automated multi-account execution, live Greek risk monitoring, and historical scenario simulation.',
+      'Building custom trading engines, tick-level backtesters, automated execution algorithms, and gateway kill switches for quantitative desks.',
     deliverables: [
-      'Multi-Account SMA Execution & Rebalancing',
-      'Historical Equity & Options Chain Backtesters',
-      'Real-Time Portfolio Greek & P&L Dashboards',
+      'Smart Order Routing (SOR) & Microsecond Execution',
+      'Historical Order-Book Tick Backtesting Engines',
+      'Real-Time Pre-Trade Risk & Drawdown Monitors',
     ],
   },
   {
@@ -97,16 +94,16 @@ const INDUSTRIES = [
   },
   {
     id: '03',
-    name: 'FinTech & Digital Asset Platforms',
-    subtitle: 'High-concurrency ledgers & streaming telemetry',
+    name: 'FinTech & Trading Platforms',
+    subtitle: 'Real-time telemetry & exchange connectivity',
     icon: Zap,
-    href: '/services/system-architecture',
+    href: '/services/quant-trading',
     description:
-      'Scaling streaming WebSocket/MQTT feeds, multi-currency wallet infrastructure, and high-throughput ACID transaction ledgers.',
+      'Scaling streaming WebSocket feeds, FIX protocol exchange gateways, and high-throughput order management systems for active trading platforms.',
     deliverables: [
-      'High-Concurrency Transaction & Wallet Ledgers',
-      'Broker & Exchange API Gateways (IBKR / REST / WS)',
-      'Time-Series Market Data ETL (TimescaleDB)',
+      'Low-Latency VWAP & Order Depth WebSockets',
+      'Native FIX Protocol & Exchange API Gateways',
+      'High-Scale Rate-Limited Backend Architecture',
     ],
   },
 ]
@@ -145,11 +142,11 @@ const PRINCIPLES = [
 
 export default function ServicesAndIndustries() {
   return (
-    <section className="w-full max-w-5xl mx-auto py-4 px-2 space-y-12">
+    <section className="w-full pt-4 space-y-10">
       {/* SECTION 1: Services I Provide */}
-      <div className="space-y-6">
-        <div className="flex flex-col mb-4">
-          <h2 className="text-3xl font-bold tracking-tight">Services I Provide</h2>
+      <div className="space-y-4">
+        <div className="flex flex-col mb-2">
+          <h2 className="text-2xl font-semibold tracking-tight">Services I Provide</h2>
           <p className="text-sm text-muted-foreground mt-1">
             Production-grade engineering across quantitative finance, AI systems, machine learning pipelines, and distributed architecture.
           </p>
@@ -161,7 +158,7 @@ export default function ServicesAndIndustries() {
             const IconComp = service.icon
 
             return (
-              <a key={service.id} href={(service as any).href || '#'} className={cardClass + " block cursor-pointer"}>
+              <a key={service.id} href={service.href} className={cardClass + ' block cursor-pointer'}>
                 <div className={gradientClass} />
                 <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none" />
 
@@ -197,9 +194,9 @@ export default function ServicesAndIndustries() {
                     ))}
                   </div>
                 </div>
-                </a>
-              )
-            })}
+              </a>
+            )
+          })}
         </div>
 
         {/* Single Discussion CTA */}
@@ -214,9 +211,9 @@ export default function ServicesAndIndustries() {
       </div>
 
       {/* SECTION 2: Industries We Work With */}
-      <div className="space-y-6 pt-4 border-t border-white/10">
-        <div className="flex flex-col mb-4">
-          <h2 className="text-3xl font-bold tracking-tight">Industries We Work With</h2>
+      <div className="space-y-4 pt-6 border-t border-white/10">
+        <div className="flex flex-col mb-2">
+          <h2 className="text-2xl font-semibold tracking-tight">Industries We Work With</h2>
           <p className="text-sm text-muted-foreground mt-1">
             Specialized engineering for high-stakes domains where low latency, financial security, and model accuracy matter most.
           </p>
@@ -227,7 +224,7 @@ export default function ServicesAndIndustries() {
             const IndIcon = ind.icon
 
             return (
-              <a key={ind.id} href={ind.href} className={cardClass + " block cursor-pointer"}>
+              <a key={ind.id} href={ind.href} className={cardClass + ' block cursor-pointer'}>
                 <div className={gradientClass} />
                 <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none" />
 
@@ -261,18 +258,18 @@ export default function ServicesAndIndustries() {
                     ))}
                   </div>
                 </div>
-                </a>
-              )
-            })}
+              </a>
+            )
+          })}
         </div>
       </div>
 
       {/* SECTION 3: Why Work With Me */}
-      <div className="space-y-6 pt-4 border-t border-white/10">
-        <div className="flex flex-col mb-4">
-          <h2 className="text-3xl font-bold tracking-tight">Why Work With Me</h2>
+      <div className="space-y-4 pt-6 border-t border-white/10">
+        <div className="flex flex-col mb-2">
+          <h2 className="text-2xl font-semibold tracking-tight">Why Work With Me</h2>
           <p className="text-sm text-muted-foreground mt-1">
-            Three core principles guaranteed across every system build and technical advisory engagement.
+            Core principles guaranteed across every system build and technical advisory engagement.
           </p>
         </div>
 
@@ -305,9 +302,9 @@ export default function ServicesAndIndustries() {
                     <p className="text-xs text-muted-foreground leading-relaxed">{p.description}</p>
                   </div>
                 </div>
-                </div>
-              )
-            })}
+              </div>
+            )
+          })}
         </div>
       </div>
     </section>
